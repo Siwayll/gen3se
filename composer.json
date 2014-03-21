@@ -1,0 +1,23 @@
+{
+  "name": "siwayll/histoire",
+  "type": "module",
+  "description": "random generator of inspiration",
+  "keywords": ["write", "generator", "php"],
+  "homepage": "",
+  "license": "beerware",
+  "authors": [
+  {
+    "name": "Siwaÿll",
+    "email": "sana.th.labs@gmail.com",
+    "role": "Developer"
+  }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "siwayll/helion": ">=8.0"
+  },
+  "require-dev": {
+    "php": ">=5.5.0",
+    "atoum/atoum" : "dev-master"
+  }
+}

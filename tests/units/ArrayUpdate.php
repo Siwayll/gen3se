@@ -18,6 +18,11 @@ use atoum;
  */
 class ArrayUpdate extends atoum
 {
+    /**
+     * Renvois des données de test
+     * 
+     * @return Array
+     */
     private function getArrayOne()
     {
         return [
@@ -32,7 +37,7 @@ class ArrayUpdate extends atoum
     {
         $this
             ->exception(function () {
-                $foo = new \Siwayll\Histoire\ArrayUpdate([]);
+                new \Siwayll\Histoire\ArrayUpdate([]);
             })
                 ->hasMessage('Un tableau non vide est nécessaire')
                 ->hasCode(400)
@@ -57,7 +62,66 @@ class ArrayUpdate extends atoum
             })
                 ->hasCode(400)
                 ->hasMessage('__blablo__ n\'existe pas')
+        ;
+    }
 
+    /**
+     * Contrôle de l'ajout d'un champ
+     *
+     * @return void
+     */
+    public function testAdd()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->object($array->exec(['_add' => ['textGenial' => 'blabla']]))
+                ->isIdenticalTo($array)
+            ->string($array->get('textGenial'))
+               ->isEqualTo('blabla')
+            ->exception(function () use ($array) {
+                $array->exec(['_add' => ['textGenial' => 'blabla']]);
+            })
+                ->hasCode(400)
+                ->hasMessage('__textGenial__ existe déjà')
+        ;
+    }
+    
+    public function testDelete()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->object($array->exec(['_unset' => 'text']))
+                ->isIdenticalTo($array)
+            ->exception(function () use ($array) {
+                $array->get('text');
+            })
+                ->hasCode(400)
+                ->hasMessage('__text__ n\'existe pas')
+            ->exception(function () use ($array) {
+                $array->exec(['_unset' => ['textGenial' => null]]);
+            })
+                ->hasCode(400)
+                ->hasMessage('__textGenial__ n\'existe pas')
+        ;
+    }
+
+    public function testSet()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->object($array->exec(['_set' => ['text' => 'blabla']]))
+                ->isIdenticalTo($array)
+            ->string($array->get('text'))
+               ->isEqualTo('blabla')
+            ->object($array->exec(['_set' => 'text']))
+                ->isIdenticalTo($array)
+            ->string($array->get('text'))
+               ->isEqualTo('')
+            ->exception(function () use ($array) {
+                $array->exec(['_set' => ['blablo' => 'blabla']]);
+            })
+                ->hasCode(400)
+                ->hasMessage('__blablo__ n\'existe pas')
         ;
     }
 
@@ -70,21 +134,21 @@ class ArrayUpdate extends atoum
     {
         $this
             ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
-            ->object($array->increment('numeric'))
+            ->object($array->exec(['_inc' => 'numeric']))
                 ->isIdenticalTo($array)
             ->integer($array->get('numeric'))
                 ->isEqualTo(16)
-             ->object($array->increment('numeric', 15))
+             ->object($array->exec(['_inc' => ['numeric' => 15]]))
                 ->isIdenticalTo($array)
             ->integer($array->get('numeric'))
             ->isEqualTo(31)
             ->exception(function () use ($array) {
-                $array->increment('text');
+                $array->exec(['_inc' => 'text']);
             })
                 ->hasCode(400)
                 ->hasMessage('__text__ n\'est pas de type numérique')
             ->exception(function () use ($array) {
-                $array->increment('blabla');
+                $array->exec(['_inc' => 'blabla']);
             })
                 ->hasCode(400)
                 ->hasMessage('__blabla__ n\'existe pas')
@@ -100,24 +164,104 @@ class ArrayUpdate extends atoum
     {
         $this
             ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
-            ->object($array->decrement('numeric'))
+            ->object($array->exec(['_dec' => 'numeric']))
                 ->isIdenticalTo($array)
             ->integer($array->get('numeric'))
                 ->isEqualTo(14)
-             ->object($array->decrement('numeric', 15))
+             ->object($array->exec(['_dec' => ['numeric' => 15]]))
                 ->isIdenticalTo($array)
             ->integer($array->get('numeric'))
             ->isEqualTo(-1)
             ->exception(function () use ($array) {
-                $array->decrement('text');
+                $array->exec(['_dec' => 'text']);
             })
                 ->hasCode(400)
                 ->hasMessage('__text__ n\'est pas de type numérique')
             ->exception(function () use ($array) {
-                $array->decrement('blabla');
+                $array->exec(['_dec' => 'blabla']);
             })
                 ->hasCode(400)
                 ->hasMessage('__blabla__ n\'existe pas')
+        ;
+    }
+
+    /**
+     * Contrôle de l'ajout en fin de champ
+     * 
+     * @return void
+     */
+    public function testAppend()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->object($array->exec(['_app' => ['text' => 'tata']]))
+                ->isIdenticalTo($array)
+            ->string($array->get('text'))
+                ->isEqualTo('Lorem ipsum.tata')
+            ->if($array->exec(['_app' => ['numeric' => 'toto']]))
+            ->string($array->get('numeric'))
+                ->isEqualTo('15toto')
+            ->exception(function () use ($array) {
+                $array->exec(['_app' => ['blabla' => 'toto']]);
+            })
+                ->hasCode(400)
+                ->hasMessage('__blabla__ n\'existe pas')
+        ;
+    }
+
+    /**
+     * Contrôle du renomage d'un champ
+     *
+     * @return void
+     */
+    public function testRename()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->object($array->exec(['_rename' => ['text' => 'tata']]))
+            ->string($array->get('tata'))
+                ->isEqualTo('Lorem ipsum.')
+            ->exception(function () use ($array) {
+                $array->get('text');
+            })
+                ->hasCode(400)
+                ->hasMessage('__text__ n\'existe pas')
+            ->exception(function () use ($array) {
+                $array->exec(['_rename' => ['numeric' => ['toto']]]);
+            })
+                ->hasCode(400)
+                ->hasMessage('le nouveau nom de __numeric__ n\'est pas une chaine')
+            ->exception(function () use ($array) {
+                $array->exec(['_rename' => ['numeric' => 8]]);
+            })
+                ->hasCode(400)
+                ->hasMessage('le nouveau nom de __numeric__ n\'est pas une chaine')
+        ;
+
+    }
+
+    /**
+     * Contrôle des retours erreur de exec
+     * 
+     * @return void
+     */
+    public function testExec()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->exception(function () use ($array) {
+                $array->exec(['blabla' => ['text' => 'fin']]);
+            })
+                ->hasCode(600)
+                ->hasMessage('__blabla__ n\'est pas une instruction valide')
+            ->object($array->exec(['_inc' => ['numeric' => 8]]))
+                ->isIdenticalTo($array)
+            ->object($array->exec(['_app' => ['text' => 'tata', 'word' => 'bar']]))
+                ->isIdenticalTo($array)
+            ->string($array->get('text'))
+                ->isEqualTo('Lorem ipsum.tata')
+            ->string($array->get('word'))
+                ->isEqualTo('fuuubar')
         ;
     }
 }

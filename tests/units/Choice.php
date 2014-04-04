@@ -87,6 +87,23 @@ class Choice extends atoum
                 ->hasCode(400)
             ->exception(function () {
                 $data = $this->getChoiceOne();
+                $data['options'][0]['name'] = '';
+                $choice = new \Siwayll\Histoire\Choice($data);
+            })
+                ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
+                ->hasCode(400)
+            ->exception(function () {
+                $data = $this->getChoiceOne();
+                $data['options'][0]['name'] = null;
+                $choice = new \Siwayll\Histoire\Choice($data);
+            })
+                ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
+                ->hasCode(400)
+            ->if ($data = $this->getChoiceOne())
+            ->and($data['options'][0]['name'] = '0')
+            ->object(new \Siwayll\Histoire\Choice($data))
+            ->exception(function () {
+                $data = $this->getChoiceOne();
                 unset($data['options'][1]['weight']);
                 $choice = new \Siwayll\Histoire\Choice($data);
             })

@@ -68,7 +68,7 @@ class Choice
      */
     private function controlOption($option, $key)
     {
-        if (!isset($option['name']) || empty($option['name'])) {
+        if (!isset($option['name']) || $option['name'] == '') {
             throw new Exception(
                 'Dans _' . $this->getName() . '_ l\'option __' . $key . '__ '
                     . 'n\'a pas de nom',
@@ -77,7 +77,7 @@ class Choice
         }
 
         foreach ($this->requiredColumns as $colName) {
-            if (!isset($option[$colName]) || empty($option[$colName])) {
+            if (!isset($option[$colName]) || $option[$colName] == '') {
                 throw new Exception(
                     'Dans _' . $this->getName() . '_ __' . $colName . '__ est '
                         . 'manquant pour _' . $option['name'] . '_',

@@ -108,7 +108,10 @@ class Choice
             }
         }
 
-        throw new Exception('Aucune option n\'a le nom _' . $name . '_', 400);
+        throw new Exception(
+            'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
+            400
+        );
     }
 
     /**
@@ -132,7 +135,10 @@ class Choice
             }
         }
 
-        throw new Exception('Aucune option n\'a le nom _' . $name . '_', 400);
+        throw new Exception(
+            'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
+            400
+        );
     }
 
     /**

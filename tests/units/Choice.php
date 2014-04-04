@@ -132,7 +132,7 @@ class Choice extends atoum
             ->exception(function () use ($choice) {
                 $choice->getOption('skjdgh');
             })
-                ->hasMessage('Aucune option n\'a le nom _skjdgh_')
+                ->hasMessage('Dans _yeux_ l\'option __skjdgh__ n\'existe pas')
                 ->hasCode(400)
         ;
     }
@@ -183,7 +183,7 @@ class Choice extends atoum
             ->exception(function () use ($choice) {
                 $choice->update('sdfgh', ['$inc' => 50]);
             })
-                ->hasMessage('Aucune option n\'a le nom _sdfgh_')
+                ->hasMessage('Dans _yeux_ l\'option __sdfgh__ n\'existe pas')
                 ->hasCode(400)
             ->object($choice->update('y-1', ['_inc' => ['weight' => 8]]))
                 ->isIdenticalTo($choice)

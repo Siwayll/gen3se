@@ -99,6 +99,28 @@ class Choice
     }
 
     /**
+     *
+     * @param type $name
+     * @param type $newValues
+     * @return \Siwayll\Histoire\Choice
+     * @throws Exception
+     */
+    protected function setOption($name, $newValues)
+    {
+        for ($i = 0; $i < count($this->options); $i++) {
+            if (!isset($this->options[$i]['name'])) {
+                continue;
+            }
+            if ($this->options[$i]['name'] === $name) {
+                $this->options[$i] = $newValues;
+                return $this;
+            }
+        }
+
+        throw new Exception('Aucune option n\'a le nom _' . $name . '_', 400);
+    }
+
+    /**
      * Modification d'une option
      *
      * @param string $name      nom de l'option à édtier
@@ -109,6 +131,10 @@ class Choice
     public function update($name, $parameter)
     {
         $option = $this->getOption($name);
+        $updater = new ArrayUpdate($option);
+        $updater->exec($parameter);
+
+        $this->setOption($name, $updater->getAll());
 
         return $this;
     }

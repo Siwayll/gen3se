@@ -7,20 +7,33 @@ use \Exception;
 class Choice
 {
     /**
+     * Nom identifiant le choix
      *
      * @var string
      */
     private $name = '';
 
+    /**
+     * Résultat de la séléction aléatoire parmis les options du choix
+     *
+     * @var array
+     */
     protected $result = null;
 
+    /**
+     * Nom des colonnes obligatoires pour caractériser une option du choix
+     *
+     * @var string[]
+     */
     private $requiredColumns = ['name', 'text', 'weight'];
 
     /**
+     * Choix pondéré
      *
-     * @param array $config
-     * @throws Exception
-     * @todo Utiliser le model d'Helion
+     * @param array $config Liste des options pondérés du choix
+     *
+     * @return void
+     * @throws Exception si les options sont mal formatés
      */
     public function __construct(array $config)
     {
@@ -99,11 +112,13 @@ class Choice
     }
 
     /**
+     * Met à jour une option
      *
-     * @param type $name
-     * @param type $newValues
-     * @return \Siwayll\Histoire\Choice
-     * @throws Exception
+     * @param strin $name      nom de l'option
+     * @param array $newValues nouvelles valeurs
+     *
+     * @return self
+     * @throws Exception si aucune option ne répond au nom demandé
      */
     protected function setOption($name, $newValues)
     {
@@ -163,9 +178,11 @@ class Choice
     }
 
     /**
+     * Choisi une option aléatoirement
      *
      * @return self
-     * @throws Exception
+     * @throws Exception si aucun choix n'est possible
+     * @uses Rand
      */
     public function roll()
     {
@@ -188,11 +205,15 @@ class Choice
         throw new Exception('Aucun choix possible', 400);
     }
 
+    /**
+     * Renvois l'option choisi aléatoirement
+     *
+     * @return array
+     */
     public function getResult()
     {
         return $this->result;
     }
-
 
     /**
      * Renvois le nom du choix

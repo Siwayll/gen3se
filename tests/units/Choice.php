@@ -65,6 +65,11 @@ class Choice extends atoum
                 ->hasMessage('Utilisation d\'un choix sans nom impossible.')
                 ->hasCode(400)
             ->exception(function () {
+                $choice = new \Siwayll\Histoire\Choice([]);
+            })
+                ->hasMessage('L\'architecture du choix doit être un tableau non vide.')
+                ->hasCode(400)
+            ->exception(function () {
                 $data = $this->getChoiceOne();
                 $data['name'] = '';
                 $choice = new \Siwayll\Histoire\Choice($data);

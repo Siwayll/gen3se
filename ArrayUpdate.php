@@ -114,6 +114,16 @@ class ArrayUpdate
     }
 
     /**
+     * Renvois toutes les données du tableau
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->data;
+    }
+
+    /**
      * Test l'existence d'un champ
      *
      * @param string $name nom du champ

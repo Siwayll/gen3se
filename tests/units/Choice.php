@@ -163,10 +163,14 @@ class Choice extends atoum
             })
                 ->hasMessage('Aucune option n\'a le nom _sdfgh_')
                 ->hasCode(400)
-            ->object($choice->update('y-1', ['$inc' => 8]))
+            ->object($choice->update('y-1', ['_inc' => ['weight' => 8]]))
                 ->isIdenticalTo($choice)
             ->array($choice->getOption('y-1'))
                 ->isEqualTo(['name' => 'y-1', 'text' => 'bleu', 'weight' => 58])
+            ->object($choice->update('y-2', ['_add' => ['infoSupp' => 'toto']]))
+                ->isIdenticalTo($choice)
+            ->array($choice->getOption('y-2'))
+                ->isEqualTo(['name' => 'y-2', 'text' => 'marron', 'weight' => 129, 'infoSupp' => 'toto'])
         ;
     }
 }

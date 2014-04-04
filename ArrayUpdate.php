@@ -139,11 +139,11 @@ class ArrayUpdate
         if (!$this->isPresent($name)) {
             throw new Exception('__' . $name . '__ n\'existe pas', 400);
         }
-        
+
         if ($value === null) {
             $value = '';
         }
-        
+
         $this->data[$name] = $value;
 
         return $this;
@@ -162,7 +162,7 @@ class ArrayUpdate
         if ($this->isPresent($name)) {
             throw new Exception('__' . $name . '__ existe déjà', 400);
         }
-        
+
         $this->data[$name] = $value;
 
         return $this;
@@ -245,7 +245,7 @@ class ArrayUpdate
      * @return self
      * @throws Exception si le nouveau nom n'est pas une chaine
      */
-    public function rename($name, $newName)
+    protected function rename($name, $newName)
     {
         if (!is_string($newName)) {
             throw new Exception(
@@ -263,13 +263,13 @@ class ArrayUpdate
 
     /**
      * Ajoute une chaine à la fin du champ
-     * 
+     *
      * @param string $name   nom du champ
      * @param string $string chaine à ajouter à la fin
-     * 
+     *
      * @return self
      */
-    public function append($name, $string)
+    protected function append($name, $string)
     {
         $value = (string) $this->get($name);
         $value .= $string;

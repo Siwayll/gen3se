@@ -103,7 +103,7 @@ class Choice
             if (!isset($option['name'])) {
                 continue;
             }
-            if ($option['name'] === $name) {
+            if ($option['name'] == $name) {
                 return $option;
             }
         }
@@ -129,7 +129,7 @@ class Choice
             if (!isset($this->options[$i]['name'])) {
                 continue;
             }
-            if ($this->options[$i]['name'] === $name) {
+            if ($this->options[$i]['name'] == $name) {
                 $this->options[$i] = $newValues;
                 return $this;
             }

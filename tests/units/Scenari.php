@@ -9,6 +9,7 @@
 namespace tests\unit\Siwayll\Histoire;
 
 use atoum;
+use Siwayll\Histoire\Loader\Simple;
 
 /**
  *
@@ -93,7 +94,7 @@ class Scenari extends atoum
             'choices' => [$this->getChoiceOne(), $this->getChoiceTwo()],
         ];
 
-        return $scenari;
+        return new Simple($scenari);
     }
 
 // -------------------------------------------------------------------------- //

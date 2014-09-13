@@ -21,24 +21,18 @@ class Scenari
 
 
 
-    public function __construct(array $data)
+    public function __construct($data)
     {
         if (empty($data)) {
             throw new Exception('Le scenario doit être un tableau non vide.', 400);
         }
 
         $this->data = $data;
-
-        if (!isset($data['order'])) {
-            throw new Exception('Le scenario doit être un tableau non vide.', 400);
-        }
-
-        $this->order = $data['order'];
+        $this->order = $data->getOrder();
 
         foreach ($this->order as $key => $value) {
             $this->order[$key] = $value . uniqid('[%]');
         }
-
         reset($this->order);
 
         $this->current = current($this->order);
@@ -79,21 +73,8 @@ class Scenari
             return $this->choices[$name];
         }
 
-        $choice = null;
-        foreach ($this->data['choices'] as $choiceData) {
-            $choice = new Choice($choiceData);
-            if ($choice->getName() != $name) {
-                $choice = null;
-                continue;
-            }
-            $this->choices[$choice->getName()] = $choice;
-            break;
-        }
-        if (empty($choice)) {
-            throw new Exception('Aucun choix n\'a le nom _' . $name . '_', 400);
-        }
-
-        return $choice;
+        $this->choices[$name] = $this->data->getChoice($name);
+        return $this->choices[$name];
     }
 
     public function addChoice($name)

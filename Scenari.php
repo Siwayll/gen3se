@@ -6,6 +6,8 @@ use \Exception;
 
 class Scenari
 {
+
+    private $data = [];
     private $order = [];
     private $choices = [];
     private $results = [];
@@ -25,26 +27,18 @@ class Scenari
             throw new Exception('Le scenario doit être un tableau non vide.', 400);
         }
 
-        if (!isset($data['choices'])) {
+        $this->data = $data;
+
+        if (!isset($data['order'])) {
             throw new Exception('Le scenario doit être un tableau non vide.', 400);
         }
 
-        foreach ($data['choices'] as $choiceData) {
-            $choice = new Choice($choiceData);
-            $this->choices[$choice->getName()] = $choice;
-        }
-
-        if (!isset($data['order'])) {
-            $this->order = array_keys($this->choices);
-        } else {
-            $this->order = $data['order'];
-        }
+        $this->order = $data['order'];
 
         foreach ($this->order as $key => $value) {
             $this->order[$key] = $value . uniqid('[%]');
         }
 
-        reset($this->choices);
         reset($this->order);
 
         $this->current = current($this->order);
@@ -60,9 +54,7 @@ class Scenari
      */
     public function setCurrentTo($name)
     {
-        if (!isset($this->choices[$name])) {
-            throw new Exception('Aucun choix n\'a le nom _' . $name . '_', 400);
-        }
+        $this->getChoice($name);
         $name .= uniqid('[%]');
         $position = array_search($this->current, $this->order) + 1;
         $base = array_splice($this->order, 0, $position);
@@ -83,11 +75,25 @@ class Scenari
      */
     public function getChoice($name)
     {
-        if (!isset($this->choices[$name])) {
+        if (isset($this->choices[$name])) {
+            return $this->choices[$name];
+        }
+
+        $choice = null;
+        foreach ($this->data['choices'] as $choiceData) {
+            $choice = new Choice($choiceData);
+            if ($choice->getName() != $name) {
+                $choice = null;
+                continue;
+            }
+            $this->choices[$choice->getName()] = $choice;
+            break;
+        }
+        if (empty($choice)) {
             throw new Exception('Aucun choix n\'a le nom _' . $name . '_', 400);
         }
 
-        return $this->choices[$name];
+        return $choice;
     }
 
     public function addChoice($name)

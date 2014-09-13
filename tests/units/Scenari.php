@@ -89,6 +89,7 @@ class Scenari extends atoum
     {
         $scenari = [
             'name'    => 'test',
+            'order'   => ['yeux', 'cheveux'],
             'choices' => [$this->getChoiceOne(), $this->getChoiceTwo()],
         ];
 
@@ -109,41 +110,6 @@ class Scenari extends atoum
                 $choice = new \Siwayll\Histoire\Scenari([]);
             })
                 ->hasMessage('Le scenario doit être un tableau non vide.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getScenariOne();
-                unset($data['choices'][0]['name']);
-                $choice = new \Siwayll\Histoire\Scenari($data);
-            })
-                ->hasMessage('Utilisation d\'un choix sans nom impossible.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getScenariOne();
-                unset($data['choices'][0]['name']);
-                $choice = new \Siwayll\Histoire\Scenari($data);
-            })
-                ->hasMessage('Utilisation d\'un choix sans nom impossible.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getScenariOne();
-                unset($data['choices'][1]['options']);
-                $choice = new \Siwayll\Histoire\Scenari($data);
-            })
-                ->hasMessage('Le choix _cheveux_ doit avoir des options.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getScenariOne();
-                unset($data['choices'][0]['options'][0]['name']);
-                $choice = new \Siwayll\Histoire\Scenari($data);
-            })
-                ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getScenariOne();
-                unset($data['choices'][0]['options'][1]['weight']);
-                $choice = new \Siwayll\Histoire\Scenari($data);
-            })
-                ->hasMessage('Dans _yeux_ __weight__ est manquant pour _y-2_')
                 ->hasCode(400)
         ;
     }

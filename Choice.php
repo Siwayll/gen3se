@@ -184,6 +184,22 @@ class Choice
     }
 
     /**
+     * Renvoie la répartition des choix en pourcentage
+     *
+     * @return array
+     */
+    public function getPercent()
+    {
+        $total = $this->getTotal(true);
+        $percents = [];
+        foreach ($this->options as $option) {
+            $percents[$option['text']] = ($option['weight'] / $total) * 100;
+        }
+
+        return $percents;
+    }
+
+    /**
      * Choisi une option aléatoirement
      *
      * @return self

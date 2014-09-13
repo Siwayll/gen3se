@@ -195,4 +195,13 @@ class Choice extends atoum
                 ->isEqualTo(['name' => 'y-2', 'text' => 'marron', 'weight' => 129, 'infoSupp' => 'toto'])
         ;
     }
+
+    public function testGetPercent()
+    {
+        $this
+            ->if($choice = new \Siwayll\Histoire\Choice($this->getChoiceOne()))
+            ->array($choice->getPercent())
+                ->isEqualTo(['bleu' => 25, 'marron' => 64.5 , 'vert' => 10, 'hétérochromie' => 0.5 ])
+        ;
+    }
 }

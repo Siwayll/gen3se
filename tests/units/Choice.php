@@ -201,7 +201,7 @@ class Choice extends atoum
         $this
             ->if($choice = new \Siwayll\Histoire\Choice($this->getChoiceOne()))
             ->array($choice->getPercent())
-                ->isEqualTo(['bleu' => 25, 'marron' => 64.5 , 'vert' => 10, 'hétérochromie' => 0.5 ])
+                ->isEqualTo(['y-1' => 25, 'y-2' => 64.5 , 'y-3' => 10, 'y-4' => 0.5 ])
         ;
     }
 }

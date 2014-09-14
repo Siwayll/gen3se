@@ -193,7 +193,7 @@ class Choice
         $total = $this->getTotal(true);
         $percents = [];
         foreach ($this->options as $option) {
-            $percents[$option['text']] = ($option['weight'] / $total) * 100;
+            $percents[$option['name']] = ($option['weight'] / $total) * 100;
         }
 
         return $percents;

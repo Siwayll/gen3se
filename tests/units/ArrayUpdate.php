@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Tests unitaire pour ArrayUpdate
  *
  * @author  Siwaÿll <sana.th.labs@gmail.com>
  * @license beerware http://wikipedia.org/wiki/Beerware
@@ -11,7 +11,7 @@ namespace tests\unit\Siwayll\Histoire;
 use atoum;
 
 /**
- *
+ * Tests unitaire pour ArrayUpdate
  *
  * @author  Siwaÿll <sana.th.labs@gmail.com>
  * @license beerware http://wikipedia.org/wiki/Beerware
@@ -32,7 +32,11 @@ class ArrayUpdate extends atoum
         ];
     }
 
-
+    /**
+     * Contrôle initialisation class
+     *
+     * @return void
+     */
     public function testConstruct()
     {
         $this
@@ -85,7 +89,12 @@ class ArrayUpdate extends atoum
                 ->hasMessage('__textGenial__ existe déjà')
         ;
     }
-    
+
+    /**
+     * Contrôle de la suppression d'un champ
+     *
+     * @return void
+     */
     public function testDelete()
     {
         $this
@@ -105,6 +114,11 @@ class ArrayUpdate extends atoum
         ;
     }
 
+    /**
+     * Contrôle de l'enregistrement d'une valeur
+     *
+     * @return void
+     */
     public function testSet()
     {
         $this
@@ -238,6 +252,20 @@ class ArrayUpdate extends atoum
                 ->hasMessage('le nouveau nom de __numeric__ n\'est pas une chaine')
         ;
 
+    }
+
+    /**
+     * Contrôle récupération du tableau
+     *
+     * @return void
+     */
+    public function testGetAll()
+    {
+        $this
+            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->array($array->getAll())
+                ->isEqualTo($this->getArrayOne())
+        ;
     }
 
     /**

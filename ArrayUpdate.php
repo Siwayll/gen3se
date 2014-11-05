@@ -170,7 +170,11 @@ class ArrayUpdate
     protected function add($name, $value)
     {
         if ($this->isPresent($name)) {
-            throw new Exception('__' . $name . '__ existe déjà', 400);
+            if (!is_array($this->data[$name])) {
+                throw new Exception('__' . $name . '__ existe déjà', 400);
+            }
+            $this->set($name, array_merge($this->data[$name], $value));
+            return $this;
         }
 
         $this->data[$name] = $value;

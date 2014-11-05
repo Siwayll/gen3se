@@ -29,6 +29,7 @@ class ArrayUpdate extends atoum
             'numeric' => 15,
             'text' => 'Lorem ipsum.',
             'word' => 'fuuu',
+            'array' => [],
         ];
     }
 
@@ -82,6 +83,10 @@ class ArrayUpdate extends atoum
                 ->isIdenticalTo($array)
             ->string($array->get('textGenial'))
                ->isEqualTo('blabla')
+            ->object($array->exec(['_add' => ['array' => ['toto' => 'tata']]]))
+                ->isIdenticalTo($array)
+            ->array($array->get('array'))
+                ->isEqualTo(['toto' => 'tata'])
             ->exception(function () use ($array) {
                 $array->exec(['_add' => ['textGenial' => 'blabla']]);
             })

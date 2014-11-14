@@ -5,25 +5,15 @@ namespace Siwayll\Histoire\Loader;
 use \Exception;
 use Siwayll\Histoire\Choice;
 
-class Simple
+class MultiFiles
 {
     private $order = [];
-    private $choices = [];
     private $loaded = [];
 
-    public function __construct(array $data)
+    public function __construct($dirPath, array $order)
     {
-        if (empty($data)) {
-            throw new Exception('Choix vide', 400);
-        }
-
-        $this->order = $data['order'];
-        foreach ($data['choices'] as $choice) {
-            if (!isset($choice['name'])) {
-                continue;
-            }
-            $this->choices[$choice['name']] = $choice;
-        }
+        $this->order = $order;
+        $this->dirPath = $dirPath;
     }
 
     /**
@@ -50,8 +40,9 @@ class Simple
             return $this->loaded[$name];
         }
 
-        if (isset($this->choices[$name])) {
-            $this->loaded[$name] = new Choice($this->choices[$name]);
+        $fileName = $this->dirPath . DIRECTORY_SEPARATOR . $name . '.yml';
+        if (file_exists($fileName)) {
+            $this->loaded[$name] = new Choice(yaml_parse_file($fileName));
             return $this->loaded[$name];
         }
 

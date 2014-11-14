@@ -13,10 +13,19 @@ class Scenari
     private $results = [];
     private $current;
 
+    /**
+     * Liste des Tags (étiquettes) caractérisant l'arbre de choix
+     *
+     * @var array
+     */
+    private $tags = [];
+
     private $instructions = [
         '_nextChoice' => 'setCurrentTo',
-        '_addChoice'  => 'addChoice',
         '_addAtEnd'   => 'addChoices',
+        '_addNext'    => 'addChoicesNext',
+        '_addTag'     => 'addTag',
+        '_rmTag'      => 'rmTag',
     ];
 
 
@@ -39,9 +48,36 @@ class Scenari
     }
 
     /**
+     * Renvoie le nombre total de choix à faire pour ce scenario
+     *
+     * Attention, ce chiffre peut évoluer au cours de la réalisation du scenario
+     *
+     * @return self
+     */
+    public function getNumberOfChoices()
+    {
+        return count($this->order);
+    }
+
+    /**
+     * Renvois la liste des choix à faire lisible.
+     * Les identifiants uniques sont donc supprimés
+     *
+     * @return array
+     */
+    public function getOrder()
+    {
+        $readableOrder = [];
+        foreach ($this->order as $order) {
+            $readableOrder[] = substr($order, 0, strpos($order, '[%]'));
+        }
+        return $readableOrder;
+    }
+
+    /**
      * Change de choix en cours de réalisation
      *
-     * @param string $name nom du choix à faire passer "en cours"
+     * @param string $name Nom du choix à faire passer "en cours"
      *
      * @return self
      * @throws Exception si aucun choix ne répond au nom demandé
@@ -62,7 +98,7 @@ class Scenari
     /**
      * Renvois les données du choix demandé
      *
-     * @param string $name nom du choix
+     * @param string $name Nom du choix
      *
      * @return Choice
      * @throws Exception si aucun choix ne répond au nom demandé
@@ -74,19 +110,34 @@ class Scenari
         }
 
         $this->choices[$name] = $this->data->getChoice($name);
+        $this->choices[$name]->addTags($this->tags);
         return $this->choices[$name];
     }
 
-    public function addChoice($name)
+    public function addChoicesNext($names)
     {
-        $name .= uniqid('[%]');
-        $this->order[] = $name;
+        if (!is_array($names)) {
+            $names = [$names];
+        }
 
+        $names = array_map(function ($name) {
+            $name .= uniqid('[%]');
+            return $name;
+        }, $names);
+
+        $order = $this->order;
+        $orderEnd = array_splice($order, array_search($this->current, $order) + 1);
+
+        $this->order = array_merge($order, $names, $orderEnd);
+        $this->restorePosition();
         return $this;
     }
 
-    public function addChoices(array $names)
+    public function addChoices($names)
     {
+        if (!is_array($names)) {
+            $names = [$names];
+        }
         $names = array_map(function ($name) {
             $name .= uniqid('[%]');
             return $name;
@@ -135,19 +186,67 @@ class Scenari
         if ($this->current === false) {
             return false;
         }
+
         $name = preg_replace('#(\[\%\][a-z0-9]+)$#', '', $this->current);
         return $this->getChoice($name);
     }
 
+    /**
+     * Ajout de tags modificateurs pour le scenario en cours
+     *
+     * @param array|string $option Tags à ajouter au scenario
+     *
+     * @return self
+     */
+    protected function addTag($option)
+    {
+        if (!is_array($option)) {
+            $option = [$option];
+        }
+        foreach ($option as $tag) {
+            $key = strtoupper($tag);
+            $this->tags[$key] = true;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Supprime un tag modificateur pour le scenario en cours
+     *
+     * @return self
+     */
+    protected function rmTag($option)
+    {
+        if (!is_array($option)) {
+            $option = [$option];
+        }
+        foreach ($option as $tag) {
+            $key = strtoupper($tag);
+            if (isset($this->tags[$key])) {
+                unset($this->tags[$key]);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     *
+     * @param array $commands
+     */
     protected function updateScenari($commands)
     {
         foreach ($commands as $command => $option) {
             $funcName = $this->instructions[$command];
             $this->$funcName($option);
         }
+
+        return $this;
     }
 
-    protected function update($command)
+    public function update($command)
     {
         foreach ($command as $name => $update) {
             if ($name == '_scenari') {
@@ -182,6 +281,7 @@ class Scenari
     {
         $choice = $this->getCurrent();
         $result = $choice->getOption($name);
+        $choice->resetCaches();
 
         $result['_choiceName'] = $choice->getName();
         $this->results[] = $result;

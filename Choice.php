@@ -1,9 +1,21 @@
 <?php
+/**
+ *
+ *
+ * @author  Siwaÿll <sana.th.labs@gmail.com>
+ * @license beerware http://wikipedia.org/wiki/Beerware
+ */
 
 namespace Siwayll\Histoire;
 
 use \Exception;
 
+/**
+ *
+ *
+ * @author  Siwaÿll <sana.th.labs@gmail.com>
+ * @license beerware http://wikipedia.org/wiki/Beerware
+ */
 class Choice
 {
     /**
@@ -26,6 +38,14 @@ class Choice
      * @var string[]
      */
     private $requiredColumns = ['name', 'text', 'weight'];
+
+    /**
+     *
+     * @var array options chargées
+     */
+    private $loaded = [];
+
+    private $tags = [];
 
     /**
      * Choix pondéré
@@ -77,7 +97,7 @@ class Choice
         }
 
         foreach ($this->requiredColumns as $colName) {
-            if (!isset($option[$colName]) || $option[$colName] == '') {
+            if (!isset($option[$colName])) {
                 throw new Exception(
                     'Dans _' . $this->getName() . '_ __' . $colName . '__ est '
                         . 'manquant pour _' . $option['name'] . '_',
@@ -100,9 +120,6 @@ class Choice
     public function getOption($name)
     {
         foreach ($this->options as $option) {
-            if (!isset($option['name'])) {
-                continue;
-            }
             if ($option['name'] == $name) {
                 return $option;
             }
@@ -126,19 +143,13 @@ class Choice
     protected function setOption($name, $newValues)
     {
         for ($i = 0; $i < count($this->options); $i++) {
-            if (!isset($this->options[$i]['name'])) {
-                continue;
-            }
             if ($this->options[$i]['name'] == $name) {
                 $this->options[$i] = $newValues;
-                return $this;
+                break;
             }
         }
 
-        throw new Exception(
-            'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
-            400
-        );
+        return $this;
     }
 
     /**
@@ -155,11 +166,73 @@ class Choice
         $updater = new ArrayUpdate($option);
         $updater->exec($parameter);
 
-        $this->setOption($name, $updater->getAll());
+        $this
+            ->setOption($name, $updater->getAll())
+            ->resetCaches()
+        ;
 
         return $this;
     }
 
+    /**
+     * Ajoute la liste des tags pour éditer le choix
+     *
+     * @param array $tags liste de tags sous la forme ['nom' => true]
+     *
+     * @return self
+     */
+    public function addTags(array $tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Applique les tags au choix
+     *
+     * @param array $options Options à modifier
+     * @return array
+     */
+    protected function applyTags($options)
+    {
+        foreach ($options['tags'] as $tag => $multiplicator) {
+            if (!isset($this->tags[$tag])) {
+                continue;
+            }
+            $options['weight'] = ceil($multiplicator * $options['weight']);
+        }
+
+        return $options;
+    }
+
+    /**
+     *
+     * @return self
+     */
+    protected function load()
+    {
+        if (!empty($this->loaded)) {
+            return $this;
+        }
+
+        foreach ($this->options as $option) {
+            $temporyOption = $option;
+            if (isset($temporyOption['tags'])) {
+                $temporyOption = $this->applyTags($temporyOption);
+            }
+
+            $this->loaded[] = $temporyOption;
+        }
+
+        return $this;
+    }
+
+    public function resetCaches()
+    {
+        $this->loaded = null;
+        return $this;
+    }
 
     /**
      * Calcule le total des poids des options
@@ -174,8 +247,9 @@ class Choice
             return $this->total;
         }
 
+        $this->load();
         $total = 0;
-        array_walk($this->options, function($value, $key) use (&$total) {
+        array_walk($this->loaded, function($value, $key) use (&$total) {
             $total += $value['weight'];
         });
         $this->total = $total;
@@ -192,8 +266,8 @@ class Choice
     {
         $total = $this->getTotal(true);
         $percents = [];
-        foreach ($this->options as $option) {
-            $percents[$option['name']] = ($option['weight'] / $total) * 100;
+        foreach ($this->loaded as $option) {
+            $percents[$option['name']] = number_format(($option['weight'] / $total) * 100, 3);
         }
 
         return $percents;
@@ -215,8 +289,10 @@ class Choice
             ->roll()
         ;
 
+        $this->load();
+
         $start = 0;
-        foreach ($this->options as $option) {
+        foreach ($this->loaded as $option) {
             $start += $option['weight'];
             if ($start >= $randValue) {
                 $this->result = $option;

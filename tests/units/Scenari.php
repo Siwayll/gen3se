@@ -147,6 +147,70 @@ class Scenari extends atoum
     }
 
     /**
+     * Contrôle des outils de maj du scenario & choix
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $this
+            ->if($scenari = new \Siwayll\Histoire\Scenari($this->getScenariOne()))
+        //
+            ->object($scenari->update(['_scenari' => ['_nextChoice' => 'cheveux']]))
+                ->isIdenticalTo($scenari)
+            ->array($scenari->getOrder())
+                ->isEqualTo(['yeux', 'cheveux', 'cheveux'])
+        // Ajout d'un choix à la fin
+            ->object($scenari->update(['_scenari' => ['_addAtEnd' => 'yeux']]))
+                ->isIdenticalTo($scenari)
+            ->array($scenari->getOrder())
+                ->isEqualTo(['yeux', 'cheveux', 'cheveux', 'yeux'])
+        // Ajout de plusieurs choix à la fin
+            ->object($scenari->update(['_scenari' => ['_addAtEnd' => ['yeux', 'yeux']]]))
+                ->isIdenticalTo($scenari)
+            ->array($scenari->getOrder())
+                ->isEqualTo(['yeux', 'cheveux', 'cheveux', 'yeux', 'yeux', 'yeux'])
+        // Ajout d'un choix à traiter juste après le current dans le scenario
+            ->object($scenari->update(['_scenari' => ['_addNext' => 'toto']]))
+                ->isIdenticalTo($scenari)
+            ->array($scenari->getOrder())
+                ->isEqualTo(['yeux', 'toto', 'cheveux', 'cheveux', 'yeux', 'yeux', 'yeux'])
+        // Lance une édition d'une option dans la un choix
+            ->object($scenari->update(['cheveux' => ['c-1' => ['_set' => ['text' => 'brun bleu']]]]))
+                ->isIdenticalTo($scenari)
+        ;
+    }
+
+
+    public function testRoll()
+    {
+        $this
+            ->if($scenari = new \Siwayll\Histoire\Scenari($this->getScenariOne()))
+            ->if($foo = $scenari->getCurrent())
+            ->string($foo->getName())
+                ->isEqualTo('yeux')
+            ->object($scenari->setChoiceResult('y-2'))
+                ->isIdenticalTo($scenari)
+            ->boolean($scenari->hasNextChoice())
+                ->isTrue()
+            ->if($foo = $scenari->getCurrent())
+            ->string($foo->getName())
+                ->isEqualTo('cheveux')
+            ->object($scenari->setChoiceResult('c-2'))
+                ->isIdenticalTo($scenari)
+            ->boolean($scenari->hasNextChoice())
+                ->isFalse()
+            ->boolean($scenari->getCurrent())
+                ->isFalse()
+            ->array($scenari->getResults())
+                ->isEqualTo([
+        ['name' => 'y-2', 'text' => 'marron', 'weight' => 129, '_choiceName' => 'yeux'],
+        ['name' => 'c-2', 'text' => 'blond', 'weight' => 129, '_choiceName' => 'cheveux']
+                ])
+        ;
+    }
+
+    /**
      * Contrôle du getter
      *
      * @return void

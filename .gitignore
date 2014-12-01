@@ -1,6 +1,6 @@
 # Ignore propre aux éditeur #
 #############################
-/nbproject/private/
+/nbproject/
 
 # Numerous always-ignore extensions #
 #####################################
@@ -21,6 +21,7 @@
 *.log
 *.sql
 *.sqlite
+*.yml
 
 # OS generated files #
 ######################
@@ -44,3 +45,4 @@ vendor/
 *.tmp
 *.csv
 conf.ini
+Tests/coverage

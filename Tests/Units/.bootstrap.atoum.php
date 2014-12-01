@@ -10,12 +10,15 @@ More information on documentation:
 [fr] http://docs.atoum.org/fr/chapter3.html#Fichier-de-bootstrap
 */
 
-require __DIR__ . '/../../vendor/Siwayll/Helion/Autoload.php';
+set_include_path(
+    get_include_path()
+    . PATH_SEPARATOR . realpath(__DIR__ . '/../../')
+);
 
-$autoload = new \Siwayll\Helion\Autoload();
+require 'vendor/autoload.php';
 
-$autoload
-    ->packagePush('Siwayll\Helion', __DIR__ . '/../../vendor/Siwayll/Helion')
-    ->packagePush('Siwayll\Histoire', __DIR__ . '/../../')
-;
-spl_autoload_register([$autoload, 'search']);
+// Génération d'un dossier temporaires pour les tests
+define('TEST_TMP_DIR', __DIR__ . '/tmp');
+if (!is_dir(TEST_TMP_DIR)) {
+    mkdir(TEST_TMP_DIR);
+}

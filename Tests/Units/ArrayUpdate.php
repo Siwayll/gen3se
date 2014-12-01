@@ -6,9 +6,10 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace tests\unit\Siwayll\Histoire;
+namespace Siwayll\Histoire\Tests\Unit;
 
 use atoum;
+use \Siwayll\Histoire\ArrayUpdate as TestedClass;
 
 /**
  * Tests unitaire pour ArrayUpdate
@@ -20,10 +21,10 @@ class ArrayUpdate extends atoum
 {
     /**
      * Renvois des données de test
-     * 
+     *
      * @return Array
      */
-    private function getArrayOne()
+    protected function getArrayOne()
     {
         return [
             'numeric' => 15,
@@ -42,12 +43,12 @@ class ArrayUpdate extends atoum
     {
         $this
             ->exception(function () {
-                new \Siwayll\Histoire\ArrayUpdate([]);
+                new TestedClass([]);
             })
                 ->hasMessage('Un tableau non vide est nécessaire')
                 ->hasCode(400)
-            ->object(new \Siwayll\Histoire\ArrayUpdate(['tata', 'toto', 'tutu']))
-            ->object(new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->object(new TestedClass(['tata', 'toto', 'tutu']))
+            ->object(new TestedClass($this->getArrayOne()))
         ;
     }
 
@@ -59,7 +60,7 @@ class ArrayUpdate extends atoum
     public function testGet()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->string($array->get('text'))
                ->isEqualTo('Lorem ipsum.')
             ->exception(function () use ($array) {
@@ -78,7 +79,7 @@ class ArrayUpdate extends atoum
     public function testAdd()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_add' => ['textGenial' => 'blabla']]))
                 ->isIdenticalTo($array)
             ->string($array->get('textGenial'))
@@ -103,7 +104,7 @@ class ArrayUpdate extends atoum
     public function testDelete()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_unset' => 'text']))
                 ->isIdenticalTo($array)
             ->exception(function () use ($array) {
@@ -127,7 +128,7 @@ class ArrayUpdate extends atoum
     public function testSet()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_set' => ['text' => 'blabla']]))
                 ->isIdenticalTo($array)
             ->string($array->get('text'))
@@ -152,7 +153,7 @@ class ArrayUpdate extends atoum
     public function testIncrement()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_inc' => 'numeric']))
                 ->isIdenticalTo($array)
             ->integer($array->get('numeric'))
@@ -182,7 +183,7 @@ class ArrayUpdate extends atoum
     public function testDecrement()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_dec' => 'numeric']))
                 ->isIdenticalTo($array)
             ->integer($array->get('numeric'))
@@ -206,13 +207,13 @@ class ArrayUpdate extends atoum
 
     /**
      * Contrôle de l'ajout en fin de champ
-     * 
+     *
      * @return void
      */
     public function testAppend()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_app' => ['text' => 'tata']]))
                 ->isIdenticalTo($array)
             ->string($array->get('text'))
@@ -236,7 +237,7 @@ class ArrayUpdate extends atoum
     public function testRename()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->object($array->exec(['_rename' => ['text' => 'tata']]))
             ->string($array->get('tata'))
                 ->isEqualTo('Lorem ipsum.')
@@ -267,7 +268,7 @@ class ArrayUpdate extends atoum
     public function testGetAll()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->array($array->getAll())
                 ->isEqualTo($this->getArrayOne())
         ;
@@ -275,13 +276,13 @@ class ArrayUpdate extends atoum
 
     /**
      * Contrôle des retours erreur de exec
-     * 
+     *
      * @return void
      */
     public function testExec()
     {
         $this
-            ->if($array = new \Siwayll\Histoire\ArrayUpdate($this->getArrayOne()))
+            ->if($array = new TestedClass($this->getArrayOne()))
             ->exception(function () use ($array) {
                 $array->exec(['blabla' => ['text' => 'fin']]);
             })

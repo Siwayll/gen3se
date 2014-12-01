@@ -22,12 +22,12 @@ $report->addField(new atoum\report\fields\runner\result\logo());
 
 
 // Please replace in next line "Project Name" by your project name and "/path/to/destination/directory" by your destination directory path for html files.
-//$coverageField = new atoum\report\fields\runner\coverage\html('Helion', __DIR__ . '/../covergage' );
+$coverageField = new atoum\report\fields\runner\coverage\html('Generator', __DIR__ . '/../coverage');
 
 // Please replace in next line http://url/of/web/site by the root url of your code coverage web site.
 //$coverageField->setRootUrl('http://url/of/web/site');
 
-// $report->addField($coverageField);
+$report->addField($coverageField);
 
 // Chargement du fichier bootstrap
 $runner->setBootstrapFile(__DIR__ . '/.bootstrap.atoum.php');

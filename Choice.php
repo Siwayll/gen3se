@@ -231,6 +231,7 @@ class Choice
     public function resetCaches()
     {
         $this->loaded = null;
+        $this->total = null;
         return $this;
     }
 
@@ -282,6 +283,8 @@ class Choice
      */
     public function roll()
     {
+        $this->load();
+
         $randomizer = new Rand();
         $randValue = $randomizer
             ->setMin(1)
@@ -289,7 +292,6 @@ class Choice
             ->roll()
         ;
 
-        $this->load();
 
         $start = 0;
         foreach ($this->loaded as $option) {
@@ -299,8 +301,7 @@ class Choice
                 return $this;
             }
         }
-
-        throw new Exception('Aucun choix possible', 400);
+        throw new Exception('Aucun choix possible pour _' . $this->getName() . '_', 400);
     }
 
     /**

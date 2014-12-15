@@ -122,7 +122,7 @@ class Rand
         do {
             $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes, $s)));
             $rnd = $rnd & $filter;
-        } while ($rnd >= $range);
+        } while ($rnd > $range);
 
         $this->result = (int) $this->min + $rnd;
         return $this->result;

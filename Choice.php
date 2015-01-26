@@ -37,7 +37,7 @@ class Choice
      *
      * @var string[]
      */
-    private $requiredColumns = ['name', 'text', 'weight'];
+    private $requiredColumns = ['name', 'weight'];
 
     /**
      *
@@ -45,7 +45,20 @@ class Choice
      */
     private $loaded = [];
 
-    private $tags = [];
+    /**
+     * Règles à appliquer à toutes les options
+     *
+     * @var Array
+     */
+    private $globalRules = [];
+
+
+    /**
+     * List of Modificators
+     *
+     * @var array
+     */
+    private $modificators = [];
 
     /**
      * Choix pondéré
@@ -72,6 +85,10 @@ class Choice
             throw new Exception('Le choix _' . $this->name . '_ doit avoir des options.', 400);
         }
 
+        if (isset($config['globalRules'])) {
+            $this->globalRules = $config['globalRules'];
+        }
+
         array_walk($config['options'], [$this, 'controlOption']);
 
         $this->options = $config['options'];
@@ -86,7 +103,7 @@ class Choice
      * @return self
      * @throws Exception si l'option est mal formaté
      */
-    private function controlOption($option, $key)
+    private function controlOption(&$option, $key)
     {
         if (!isset($option['name']) || $option['name'] == '') {
             throw new Exception(
@@ -95,6 +112,8 @@ class Choice
                 400
             );
         }
+
+        $option = array_merge_recursive($this->globalRules, $option);
 
         foreach ($this->requiredColumns as $colName) {
             if (!isset($option[$colName])) {
@@ -175,38 +194,20 @@ class Choice
     }
 
     /**
-     * Ajoute la liste des tags pour éditer le choix
+     * Enregistre les modificateurs du Scénario
      *
-     * @param array $tags liste de tags sous la forme ['nom' => true]
+     * @param object $modificator Objet Modificator
      *
      * @return self
      */
-    public function addTags(array $tags)
+    public function linkToModificator($modificator)
     {
-        $this->tags = $tags;
-
+        $this->modificators[] = $modificator;
         return $this;
     }
 
     /**
-     * Applique les tags au choix
-     *
-     * @param array $options Options à modifier
-     * @return array
-     */
-    protected function applyTags($options)
-    {
-        foreach ($options['tags'] as $tag => $multiplicator) {
-            if (!isset($this->tags[$tag])) {
-                continue;
-            }
-            $options['weight'] = ceil($multiplicator * $options['weight']);
-        }
-
-        return $options;
-    }
-
-    /**
+     * Charge une option
      *
      * @return self
      */
@@ -218,8 +219,9 @@ class Choice
 
         foreach ($this->options as $option) {
             $temporyOption = $option;
-            if (isset($temporyOption['tags'])) {
-                $temporyOption = $this->applyTags($temporyOption);
+
+            foreach ($this->modificators as $modificator) {
+                $temporyOption = $modificator->apply($temporyOption);
             }
 
             $this->loaded[] = $temporyOption;
@@ -228,6 +230,11 @@ class Choice
         return $this;
     }
 
+    /**
+     * Suppression du cache du choix
+     *
+     * @return self
+     */
     public function resetCaches()
     {
         $this->loaded = null;
@@ -287,7 +294,7 @@ class Choice
 
         $randomizer = new Rand();
         $randValue = $randomizer
-            ->setMin(1)
+            ->setMin(0)
             ->setMax($this->getTotal())
             ->roll()
         ;
@@ -295,6 +302,9 @@ class Choice
 
         $start = 0;
         foreach ($this->loaded as $option) {
+            if ($option['weight'] == 0) {
+                continue;
+            }
             $start += $option['weight'];
             if ($start >= $randValue) {
                 $this->result = $option;

@@ -10,6 +10,7 @@ namespace tests\unit\Siwayll\Histoire;
 
 use atoum;
 use \Siwayll\Histoire\Choice as TestedClass;
+use \Siwayll\Histoire\Modificator\Tag;
 
 /**
  *
@@ -56,6 +57,45 @@ class Choice extends atoum
     }
 
     /**
+     * Renvoie un choix avec un paramétrage global
+     *
+     * @return array
+     */
+    private function getChoiceWithGlobal()
+    {
+        $choice = [
+            'name' => 'yeux',
+            'globalRules' => [
+                'dataGlob' => 'plop',
+                ],
+            'options' => [
+                [
+                    'name' => 'y-1',
+                    'text' => 'bleu',
+                    'weight' => 50,
+                ],
+                [
+                    'name' => 'y-2',
+                    'text' => 'marron',
+                    'weight' => 129,
+                ],
+                [
+                    'name' => 'y-3',
+                    'text' => 'vert',
+                    'weight' => 20,
+                ],
+                [
+                    'name' => 'y-4',
+                    'text' => 'hétérochromie',
+                    'weight' => 1,
+                ],
+            ]
+        ];
+
+        return $choice;
+    }
+
+    /**
      * Renvoie un choix avec un paramétrage TAGS
      *
      * @return array
@@ -70,16 +110,13 @@ class Choice extends atoum
                     'text' => 'bleu',
                     'weight' => 50,
                     'tags' => [
-                        'TAG1' => 2,
-                    ],
+                        'NOP' => 0,
+                    ]
                 ],
                 [
                     'name' => 'y-2',
                     'text' => 'marron',
                     'weight' => 129,
-                    'tags' => [
-                        'TAG2' => 0.2,
-                    ],
                 ],
                 [
                     'name' => 'y-3',
@@ -90,9 +127,6 @@ class Choice extends atoum
                     'name' => 'y-4',
                     'text' => 'hétérochromie',
                     'weight' => 1,
-                    'tags' => [
-                        'TAG2' => 75,
-                    ],
                 ],
             ]
         ];
@@ -253,11 +287,14 @@ class Choice extends atoum
             ->exception(function () use ($choice) {
                 $choice->roll();
             })
-                ->hasMessage('Aucun choix possible')
+                ->hasMessage('Aucun choix possible pour _yeux_')
                 ->hasCode(400)
         ;
     }
 
+    /**
+     * Contrôle du calcule de pourcentage de repartition
+     */
     public function testGetPercent()
     {
         $this
@@ -268,26 +305,29 @@ class Choice extends atoum
     }
 
     /**
-     * Contrôle de la gestion des tags
-     *
-     * @return void
+     * Contrôle de la gestion des règles communes à toutes les options
      */
-    public function testTags()
+    public function testGlobalRules()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceWithTags()))
-            ->object($choice->addTags(['TAG1' => true]))
-                ->isIdenticalTo($choice)
+            ->if ($choice = new TestedClass($this->getChoiceWithGlobal()))
+            ->array($choice->getOption('y-1'))
+                ->hasKey('dataGlob')
+        ;
+    }
+
+    /**
+     * Contrôle de l'application des modificateurs
+     */
+    public function testModificators()
+    {
+        $this
+            ->if ($choice = new TestedClass($this->getChoiceWithTags()))
+            ->and($tag = new Tag())
+            ->and($tag->addTag('nop'))
+            ->and($choice->linkToModificator($tag))
             ->array($choice->getPercent())
-                ->isEqualTo(['y-1' => 40, 'y-2' => 51.6 , 'y-3' => 8, 'y-4' => 0.4 ])
-            ->object($choice->addTags(['TAG2' => true]))
-                ->isIdenticalTo($choice)
-            ->array($choice->getPercent())
-                ->isEqualTo(['y-1' => 40, 'y-2' => 51.6 , 'y-3' => 8, 'y-4' => 0.4 ])
-            ->object($choice->resetCaches())
-                ->isIdenticalTo($choice)
-            ->array($choice->getPercent())
-                ->isEqualTo(['y-1' => 29.24, 'y-2' => 15.205, 'y-3' => 11.696, 'y-4' => 43.86])
+                ->isEqualTo(['y-1' => '0.000', 'y-2' => '86.000' , 'y-3' => '13.333', 'y-4' => '0.667' ])
         ;
     }
 }

@@ -16,9 +16,10 @@
   },
   "require-dev": {
     "php": ">=5.5.0",
-    "atoum/atoum" : "dev-master",
     "m6web/coke": "~1.2",
-    "siwayll/phpcs-norme-dpsi": "~3.0"
+    "siwayll/phpcs-norme-dpsi": "~3.0",
+    "monolog/monolog": "~1.12",
+    "solire/conf": "dev-master"
   },
   "autoload": {
       "psr-4": {

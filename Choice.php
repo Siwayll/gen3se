@@ -92,6 +92,19 @@ class Choice
         array_walk($config['options'], [$this, 'controlOption']);
 
         $this->options = $config['options'];
+
+        unset($config['options'], $config['globalRules'], $config['name']);
+        $this->rules = $config;
+    }
+
+    /**
+     * Renvoie toutes les règles de configurations
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
     }
 
     /**

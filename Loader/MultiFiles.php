@@ -10,6 +10,17 @@ class MultiFiles
     private $order = [];
     private $loaded = [];
 
+
+    public function hasInstruction()
+    {
+        return false;
+    }
+
+    public function hasModificators()
+    {
+        return false;
+    }
+
     public function __construct($dirPath, array $order)
     {
         $this->order = $order;

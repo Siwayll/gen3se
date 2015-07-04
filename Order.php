@@ -3,18 +3,39 @@
 namespace Siwayll\Histoire;
 
 /**
- *
+ * Gestionnaire des choix à faire
  */
 class Order
 {
+    /**
+     * Liste des choix restant à faire
+     *
+     * @var array
+     */
     private $list = [];
+
+    /**
+     * Prochain choix à faire
+     *
+     * @var string
+     */
     private $current = null;
 
+    /**
+     * Indicateur de présence de Modificator pour l'Engine
+     *
+     * @return boolean
+     */
     public function hasModificators()
     {
         return true;
     }
 
+    /**
+     * Liste des instructions à ajouter au moteur
+     *
+     * @return array
+     */
     public function getInstructions()
     {
         return [
@@ -23,13 +44,18 @@ class Order
         ];
     }
 
+    /**
+     * Test si il reste des choix dans la liste des choix à faire
+     *
+     * @return boolean
+     */
     public function hasNext()
     {
         return !empty($this->list);
     }
 
     /**
-     * Send next order
+     * Récupère le prochain choix à faire
      *
      * @return string
      */
@@ -40,9 +66,11 @@ class Order
     }
 
     /**
-     * Add an order after the current
+     * Ajoute un choix qui sera fait juste après l'actuel
      *
      * @param string $name Name of the order
+     *
+     * @return self
      */
     public function addFurther($name)
     {
@@ -54,9 +82,9 @@ class Order
     }
 
     /**
-     * Add at end of the order list
+     * Ajoute un choix à la fin de la liste des choix à faire
      *
-     * @var string $name Name of the order
+     * @param string $name Name of the order
      *
      * @return self
      */

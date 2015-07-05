@@ -170,6 +170,7 @@ class Engine
 
         $command = $options['mod'];
         foreach ($command as $name => $update) {
+            $this->currentResultData = $options;
             if ($this->isInstruction($name) === true) {
                 $additionalDatas = $this->updateScenari($name, $update);
                 $options = $this->merge($options, $additionalDatas);

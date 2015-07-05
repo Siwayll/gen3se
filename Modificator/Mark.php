@@ -2,6 +2,10 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+/**
+ * Gestionnaire des Mark
+ *
+ */
 class Mark extends Base
 {
     protected $marks = [];
@@ -24,11 +28,18 @@ class Mark extends Base
     public function getInstructions()
     {
         $instructions = [
-            '_addMark' => [$this, 'addMark'],
+            'addMark' => [$this, 'addMark'],
         ];
         return $instructions;
     }
 
+    /**
+     * Applique les modifications configurées dans la section Mark du choix
+     *
+     * @param array $options Paramétrage du choix
+     *
+     * @return array
+     */
     public function apply($options)
     {
         if (!isset($options['marks'])) {
@@ -38,19 +49,22 @@ class Mark extends Base
         foreach ($options['marks'] as $mark) {
             $mark = strtoupper($mark);
             switch ($this->getSymbole($mark)) {
-                case '!': // interdit
+                case '!':
+                    // interdit
                     if (isset($this->marks[$mark])) {
                         $options['weight'] = 0;
                     }
                     break;
-                case '#': // obligatoire
+                case '#':
+                    // obligatoire
                     if (!isset($this->marks[$mark])) {
                         $options['weight'] = 0;
                     } else {
                         $options['weight'] += 2 * (int) $this->marks[$mark];
                     }
                     break;
-                case '-': // négatif
+                case '-':
+                    // négatif
                     if (isset($this->marks[$mark])) {
                         $options['weight'] -= (int) $this->marks[$mark];
                         if ($options['weight'] < 0) {
@@ -70,9 +84,16 @@ class Mark extends Base
         return $options;
     }
 
+    /**
+     * Récupère le symbole (si présent) et le retire de la chaine
+     *
+     * @param string $mark Chaine identifiant la Mark
+     *
+     * @return string
+     */
     protected function getSymbole(&$mark)
     {
-        $pattern = '/^([#\+\-\!]?)/';
+        $pattern = '/^([#\+\-\!]{1})/';
         preg_match($pattern, $mark, $match);
         if (isset($match[1])) {
             $mark = preg_replace($pattern, '', $mark);
@@ -83,6 +104,7 @@ class Mark extends Base
     }
 
     /**
+     * Renvoi la liste des marks enregsitrées
      *
      * @return array
      */
@@ -92,7 +114,7 @@ class Mark extends Base
     }
 
     /**
-     *
+     * Ajoute une ou plusieurs Mark à l'Engine
      *
      * @param array $option Tags à ajouter au scenario
      *

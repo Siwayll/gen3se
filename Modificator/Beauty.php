@@ -2,6 +2,14 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+use \Siwayll\Histoire\Register;
+
+/**
+ * Ajout de la notion d'experience
+ *
+ * @author  Siwaÿll <sanath.labs@gmail.com>
+ * @license MIT http://mit-license.org/
+ */
 class Beauty extends Base
 {
 
@@ -15,6 +23,11 @@ class Beauty extends Base
         return 'beauty';
     }
 
+    /**
+     * Renvoie les instructions spécifiques au modificateur
+     *
+     * @return array
+     */
     public function getInstructions()
     {
         $instructions = [
@@ -23,6 +36,13 @@ class Beauty extends Base
         return $instructions;
     }
 
+    /**
+     * Non utilisé
+     *
+     * @param array $options Paramétrage du choix
+     *
+     * @return array
+     */
     public function apply($options)
     {
 
@@ -30,14 +50,24 @@ class Beauty extends Base
     }
 
     /**
-     * 
+     * Evolution du score de beautée
+     *
+     * @param int $option Modificateur du score de beauté
      *
      * @return self
      */
     public function add($option)
     {
         $value = (int) $option;
-        $npc = $this->engine->getResult()->getStorage();
+        $engine = Register::load($this->engineKey);
+        $npc = $engine->getResult()->getStorage();
+
+        if (!isset($npc->description->charme->history)) {
+            $npc->set([], 'description', 'charme', 'history');
+        }
+
+        $npc->description->charme->history[] = 'var ' . $option;
+
         if (isset($npc->description->charme->score)) {
             $value += $npc->description->charme->score;
         }

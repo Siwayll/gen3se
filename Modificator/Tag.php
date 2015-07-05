@@ -2,6 +2,12 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+/**
+ * Ajout de la notion de Tags
+ *
+ * @author  Siwaÿll <sanath.labs@gmail.com>
+ * @license MIT http://mit-license.org/
+ */
 class Tag extends Base
 {
     protected $tags = [];
@@ -16,6 +22,11 @@ class Tag extends Base
         return 'tag';
     }
 
+    /**
+     * Renvoie les instructions spécifiques au modificateur
+     *
+     * @return array
+     */
     public function getInstructions()
     {
         $instructions = [
@@ -25,6 +36,14 @@ class Tag extends Base
         return $instructions;
     }
 
+    /**
+     * Applique les modifications configurés dans le choix pour la notion
+     * de tags
+     *
+     * @param array $options Paramétrage du choix
+     *
+     * @return array
+     */
     public function apply($options)
     {
         if (!isset($options['tags'])) {
@@ -42,6 +61,7 @@ class Tag extends Base
     }
 
     /**
+     * Renvoi les données des tags
      *
      * @return array
      */
@@ -73,6 +93,8 @@ class Tag extends Base
     /**
      * Supprime un tag modificateur pour le scenario en cours
      *
+     * @param array|string $option Tags à supprimer scenario
+     *
      * @return self
      */
     public function rmTag($option)
@@ -89,5 +111,4 @@ class Tag extends Base
 
         return null;
     }
-
 }

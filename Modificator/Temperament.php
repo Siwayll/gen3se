@@ -2,9 +2,17 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+use \Siwayll\Histoire\Register;
+
+/**
+ * Ajout de la notion de Tempérament
+ *
+ * @author  Siwaÿll <sanath.labs@gmail.com>
+ * @license MIT http://mit-license.org/
+ */
 class Temperament extends Base
 {
-    protected $name = '';
+    protected $value = 0;
 
     /**
      * Renvoie le nom du modificateur
@@ -16,6 +24,11 @@ class Temperament extends Base
         return 'temperament';
     }
 
+    /**
+     * Renvoie les instructions spécifiques au modificateur
+     *
+     * @return array
+     */
     public function getInstructions()
     {
         $instructions = [
@@ -25,6 +38,13 @@ class Temperament extends Base
         return $instructions;
     }
 
+    /**
+     * Non utilisé
+     *
+     * @param array $options Paramétrage du choix
+     *
+     * @return array
+     */
     public function apply($options)
     {
 
@@ -40,20 +60,23 @@ class Temperament extends Base
      */
     public function setName($option)
     {
-        $this->name = $option;
-
+        $engine = Register::load($this->engineKey);
+        $mark = $engine->getModificator('mark');
+        $mark->addMark([$option => $this->value]);
         return null;
     }
 
     /**
-     * Supprime un tag modificateur pour le scenario en cours
+     * Enregistre la valeur du temperament
+     *
+     * @param int $option Valeur du temperament
      *
      * @return self
      */
     public function setValue($option)
     {
-        $mark = $this->engine->getModificator('mark');
-        $mark->addMark([$this->name => $option]);
+        $this->value = (int) $option;
+
         return null;
     }
 }

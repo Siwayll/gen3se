@@ -13,11 +13,25 @@ use Monolog\Logger;
  */
 class Engine
 {
+    use RegisterTrait;
 
     private $loader;
     private $order;
     private $result;
 
+    /**
+     * @var Monolog\Logger
+     */
+    private $logger;
+
+    /**
+     * Initialisation du moteur
+     *
+     * @param object $loader Système de chargement des données
+     * @param Order  $order  Gestionnaire de l'ordre de traitement des choix
+     * @param Result $result Resultat des choix
+     * @param Logger $logger Logger pour debug
+     */
     public function __construct($loader, Order $order, Result $result, Logger $logger)
     {
         $this->logger = $logger;
@@ -31,18 +45,55 @@ class Engine
                 }
             }
         }
+
+        $this
+            ->generateRegisterKey()
+            ->saveToRegister()
+        ;
     }
 
+    /**
+     * Renvoi le gestionnaire d'ordre des choix
+     *
+     * @return Order
+     */
     public function getOrder()
     {
         return $this->order;
     }
 
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * Renvoi le gestionnaire des résultats
+     *
+     * @return Result
+     */
     public function getResult()
     {
         return $this->result;
     }
 
+    /**
+     * Renvoi le système de chargement des données
+     *
+     * @return object
+     */
+    public function getLoader()
+    {
+        return $this->loader;
+    }
+
+    /**
+     * Défini le choix en cours de réalisation
+     *
+     * @param string $name Nom du choix
+     *
+     * @return self
+     */
     public function setCurrent($name)
     {
         $this->current = $name;
@@ -50,7 +101,9 @@ class Engine
     }
 
     /**
-     * add a modificator
+     * Ajout d'un Modificateur
+     *
+     * @param object $modificator Modificateur à ajouter
      *
      * @return self
      */
@@ -63,14 +116,16 @@ class Engine
             $this->logger->addDebug('Engine Save instruction', [$code]);
         }
 
-        $modificator->linkToEngine($this);
+        $modificator->linkToEngine($this->getRegisterKey());
         return $this;
     }
 
     /**
+     * Renvoi le Modificateur demandé
      *
-     * @param string $name Modificator name
-     * @return type
+     * @param string $name Nom du Modificateur
+     *
+     * @return object
      */
     public function getModificator($name)
     {
@@ -78,9 +133,12 @@ class Engine
     }
 
     /**
-     * undocumented function
+     * Fusion des données
      *
-     * @return void
+     * @param array       $options     Données de base
+     * @param array|mixed $anotherData Données à ajouter
+     *
+     * @return array
      */
     protected function merge($options, $anotherData)
     {
@@ -90,6 +148,11 @@ class Engine
         return array_merge($options, $anotherData);
     }
 
+    /**
+     * Renvoi les resultats du choix qui vient d'être résolu
+     *
+     * @return array
+     */
     public function getCurrentResultData()
     {
         return $this->currentResultData;
@@ -140,7 +203,7 @@ class Engine
      */
     protected function updateScenari($code, $option)
     {
-        return call_user_func($this->instructions[$code],  $option);
+        return call_user_func($this->instructions[$code], $option);
     }
 
     protected function updateChoice($name, $command, $result)
@@ -207,7 +270,7 @@ class Engine
                 ->next()
                 ->resolve()
             ;
-        } while($this->order->hasNext());
+        } while ($this->order->hasNext());
 
         return $this;
     }
@@ -252,15 +315,13 @@ class Engine
      * Enregistre le resultat du choix en cours
      *
      * @param type $name
-     * @return \Siwayll\Histoire\Scenari
+     * @return self
      */
     public function specifyResult($name)
     {
         $choice = $this->getCurrent();
         $result = $choice->getOption($name, true);
         $choice->resetCaches();
-
-//        $result['_choiceName'] = $choice->getName();
 
         // post traitement
         if (isset($result['mod'])) {

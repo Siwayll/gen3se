@@ -2,6 +2,14 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+use \Siwayll\Histoire\Register;
+
+/**
+ * Ajout de la possibilité de spécification des données d'une option
+ *
+ * @author  Siwaÿll <sanath.labs@gmail.com>
+ * @license MIT http://mit-license.org/
+ */
 class Data extends Base
 {
     /**
@@ -28,32 +36,46 @@ class Data extends Base
         return $instructions;
     }
 
+    /**
+     * Applique les modifications aux options du choix
+     *
+     * @param array $options Données du choix
+     *
+     * @return array
+     */
     public function apply($options)
     {
         return $options;
     }
 
+    /**
+     * Récupère les données des choix demandés pour les ajouter au champ text
+     *
+     * @param array|string $options Choix à jouer pour récupérer les données
+     *
+     * @return array
+     */
     public function dataConcat($options)
     {
         if (!is_array($options)) {
             $options = [$options];
         }
-        $resultData = $this->engine->getCurrentResultData();
+        $engine = Register::load($this->engineKey);
+        $resultData = $engine->getCurrentResultData();
         $text = $resultData['text'];
-        $current = $this->engine->getCurrent()->getName();
+        $current = $engine->getCurrent()->getName();
         foreach ($options as $choiceName) {
-            $result = $this
-                ->engine
-                    ->setCurrent($choiceName)
-                    ->getCurrent()
-                    ->roll()
-                    ->getResult()
+            $result = $engine
+                ->setCurrent($choiceName)
+                ->getCurrent()
+                ->roll()
+                ->getResult()
             ;
-            $result = $this->engine->update($result);
+            $result = $engine->update($result);
             $text .= $result['text'];
         }
 
-        $this->engine->setCurrent($current);
+        $engine->setCurrent($current);
 
         $finalResult = [
             'text' => $text,
@@ -61,20 +83,29 @@ class Data extends Base
         return $finalResult;
     }
 
-
+    /**
+     * Récupère les données des choix demandés pour les ajouter aux données de
+     * l'option
+     *
+     * @param array|string $options Choix à jouer pour récupérer les données
+     *
+     * @return array
+     */
     public function addData($options)
     {
         if (!is_array($options)) {
             $options = [$options];
         }
-        $finalResult = $this->engine->getCurrentResultData();
+        $engine = Register::load($this->engineKey);
+        $finalResult = $engine->getCurrentResultData();
         foreach ($options as $choiceName) {
-            $result = $this
-                ->engine
-                    ->loadChoice($choiceName)
-                    ->roll()
-                    ->getResult()
+            $result = $engine
+                ->loadChoice($choiceName)
+                ->roll()
+                ->getResult()
             ;
+            $result = $engine->update($result);
+
             $finalResult = array_merge($finalResult, $result);
         }
 

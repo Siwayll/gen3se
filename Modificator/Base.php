@@ -20,6 +20,9 @@ abstract class Base
      */
     protected $engineKey = '';
 
+    /**
+     * Enregistrement dans le registre du modificateur
+     */
     public function __construct()
     {
         $prefix = ucfirst(strtolower($this->getName())) . '_';

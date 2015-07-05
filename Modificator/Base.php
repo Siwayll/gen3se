@@ -20,6 +20,14 @@ abstract class Base
      */
     protected $engineKey = '';
 
+    public function __construct()
+    {
+        $this
+            ->generateRegisterKey()
+            ->saveToRegister()
+        ;
+    }
+
     /**
      * Renvoie les instructions spécifiques au modificateur
      *

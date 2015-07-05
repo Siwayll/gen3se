@@ -161,7 +161,6 @@ class Engine
 
     public function update($options)
     {
-        $this->currentResultData = $options;
         if (!isset($options['mod'])) {
             return $options;
         }
@@ -295,8 +294,9 @@ class Engine
     public function loadChoice($choiceName)
     {
         $choice = $this->loader->getChoice($choiceName);
+        /* @var $mod Modificator\Base */
         foreach ($this->modificators as $mod) {
-            $choice->linkToModificator($mod);
+            $choice->linkToModificator($mod->getRegisterKey());
         }
         return $choice;
     }
@@ -322,6 +322,8 @@ class Engine
         $choice = $this->getCurrent();
         $result = $choice->getOption($name, true);
         $choice->resetCaches();
+
+        $this->currentResultData = $result;
 
         // post traitement
         if (isset($result['mod'])) {

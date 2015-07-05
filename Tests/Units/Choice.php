@@ -29,6 +29,7 @@ class Choice extends atoum
     {
         $choice = [
             'name' => 'yeux',
+            'storageRule' => ['toto', 'tata'],
             'options' => [
                 [
                     'name' => 'y-1',
@@ -212,6 +213,8 @@ class Choice extends atoum
     {
         $this
             ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->array($choice->getRules())
+                ->isEqualTo(['storageRule' => ['toto', 'tata']])
             ->array($choice->getOption('y-1'))
                 ->isEqualTo(['name' => 'y-1', 'text' => 'bleu', 'weight' => 50])
             ->exception(function () use ($choice) {
@@ -325,7 +328,7 @@ class Choice extends atoum
             ->if ($choice = new TestedClass($this->getChoiceWithTags()))
             ->and($tag = new Tag())
             ->and($tag->addTag('nop'))
-            ->and($choice->linkToModificator($tag))
+            ->and($choice->linkToModificator($tag->getRegisterKey()))
             ->array($choice->getPercent())
                 ->isEqualTo(['y-1' => '0.000', 'y-2' => '86.000' , 'y-3' => '13.333', 'y-4' => '0.667' ])
         ;

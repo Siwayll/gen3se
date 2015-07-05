@@ -9,6 +9,7 @@
 namespace Siwayll\Histoire;
 
 use \Exception;
+use Siwayll\Histoire\Register;
 
 /**
  *
@@ -209,13 +210,13 @@ class Choice
     /**
      * Enregistre les modificateurs du Scénario
      *
-     * @param object $modificator Objet Modificator
+     * @param object $modificatorKey Objet Modificator
      *
      * @return self
      */
-    public function linkToModificator($modificator)
+    public function linkToModificator($modificatorKey)
     {
-        $this->modificators[] = $modificator;
+        $this->modificators[] = $modificatorKey;
         return $this;
     }
 
@@ -233,7 +234,8 @@ class Choice
         foreach ($this->options as $option) {
             $temporyOption = $option;
 
-            foreach ($this->modificators as $modificator) {
+            foreach ($this->modificators as $modificatorKey) {
+                $modificator = Register::load($modificatorKey);
                 $temporyOption = $modificator->apply($temporyOption);
             }
 

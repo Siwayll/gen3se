@@ -8,6 +8,20 @@ Trait RegisterTrait
     protected $registerPrefix = '';
 
     /**
+     * Spéficie le préfice des clés registre de la classe
+     *
+     * @param string $prefix Préfixe des clés pour le Registre
+     *
+     * @return self
+     */
+    protected function setPrefixForRegisterKey($prefix)
+    {
+        $this->registerPrefix = (string) $prefix;
+        return $this;
+    }
+
+
+    /**
      * Renseigne l'identifiant unique de l'objet pour le Registre
      *
      * @return self

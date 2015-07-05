@@ -47,6 +47,7 @@ class Engine
         }
 
         $this
+            ->setPrefixForRegisterKey('Engine_')
             ->generateRegisterKey()
             ->saveToRegister()
         ;

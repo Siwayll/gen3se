@@ -22,7 +22,9 @@ abstract class Base
 
     public function __construct()
     {
+        $prefix = ucfirst(strtolower($this->getName())) . '_';
         $this
+            ->setPrefixForRegisterKey($prefix)
             ->generateRegisterKey()
             ->saveToRegister()
         ;

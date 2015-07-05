@@ -2,6 +2,9 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+use \Exception;
+use \Siwayll\Histoire\Error\Level;
+
 /**
  * Ajout de la notion de Tags
  *
@@ -11,6 +14,8 @@ namespace Siwayll\Histoire\Modificator;
 class Tag extends Base
 {
     protected $tags = [];
+
+    const SYMBOLES = '&!';
 
     /**
      * Renvoie le nom du modificateur
@@ -51,6 +56,14 @@ class Tag extends Base
         }
 
         foreach ($options['tags'] as $tag => $multiplicator) {
+            if ($this->hasComplexRules($tag) === true) {
+                $options['weight'] = $this->applyComplex(
+                    $options['weight'],
+                    $multiplicator,
+                    $tag
+                );
+                continue;
+            }
             if (!isset($this->tags[$tag])) {
                 continue;
             }
@@ -61,13 +74,78 @@ class Tag extends Base
     }
 
     /**
+     * Test si un tag est complexe
+     * c.a.d est une somme de tag via &
+     *
+     *
+     * @param string $tag Tag à tester
+     *
+     * @return boolean
+     */
+    protected function hasComplexRules($tag)
+    {
+        if (preg_match('/[' . self::SYMBOLES . ']+/', $tag)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Traite les formules complexe de tags
+     *
+     * @param int    $weight        Poids de l'option
+     * @param float  $multiplicator Multiplicateur du tag
+     * @param string $tagStr        Chaine du tag
+     *
+     * @return int
+     */
+    protected function applyComplex($weight, $multiplicator, $tagStr)
+    {
+        $tags = explode('&', $tagStr);
+        foreach ($tags as $tag) {
+            $seek = true;
+            if (strpos($tag, '!') === 0) {
+                $seek = false;
+                $tag = substr($tag, 1);
+            }
+            $tag = $this->controlAndFormat($tag);
+            if (isset($this->tags[$tag]) !== $seek) {
+                return $weight;
+            }
+        }
+
+        return ceil($multiplicator * $weight);
+    }
+
+    /**
      * Renvoi les données des tags
      *
      * @return array
      */
     public function getDatas()
     {
-        return $this->tags;
+        return array_keys($this->tags);
+    }
+
+    /**
+     * Contrôle l'absence des caractères interdit et formate le Tag
+     *
+     * @param string $tag Tag
+     *
+     * @return string
+     * @throws Exception Si il y a un caractère interdit
+     */
+    private function controlAndFormat($tag)
+    {
+        if (preg_match('/[' . self::SYMBOLES . ']+/', $tag)) {
+            throw new Exception(
+                '_' . $tag . '_ mal formaté (' . self::SYMBOLES . ')',
+                Level::NOTICE
+            );
+        }
+
+        return strtoupper($tag);
     }
 
     /**
@@ -83,7 +161,7 @@ class Tag extends Base
             $option = [$option];
         }
         foreach ($option as $tag) {
-            $key = strtoupper($tag);
+            $key = $this->controlAndFormat($tag);
             $this->tags[$key] = true;
         }
 

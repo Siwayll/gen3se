@@ -13,6 +13,40 @@ use \Siwayll\Histoire\Modificator\Mark as TestedClass;
  */
 class Mark extends atoum
 {
+    /**
+     * Contrôle de validité des informations sur les instructions
+     *
+     * @return void
+     */
+    public function testGetInstructions()
+    {
+        $this
+            ->given($mark = new TestedClass())
+            ->dump($mark->getInstructions())
+            ->assert('Liste des méthodes données')
+                ->array($mark->getInstructions())
+                    ->hasSize(1)
+                    ->hasKey('addMark')
+            ->given($instructions = $mark->getInstructions())
+            ->assert('Test valeur addMark')
+                ->array($instructions['addMark'])
+                    ->object[0]->isIdenticalTo($mark)
+                    ->string[1]->isEqualTo('addMark')
+        ;
+    }
+
+    /**
+     * Préparation de l'objet
+     *
+     * @return void
+     */
+    public function testConstruct()
+    {
+        $this
+            ->object(new TestedClass())
+                ->isInstanceOf('Siwayll\Histoire\Modificator\Base')
+        ;
+    }
 
     /**
      * Instantiation d'un chargeur de données pour le scénario
@@ -49,6 +83,11 @@ class Mark extends atoum
         ;
     }
 
+    /**
+     * Fonctionnement interne
+     *
+     * @return void
+     */
     public function testAddMark()
     {
         $this

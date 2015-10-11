@@ -146,47 +146,47 @@ class Choice extends atoum
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 unset($data['name']);
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Utilisation d\'un choix sans nom impossible.')
                 ->hasCode(400)
             ->exception(function () {
-                $choice = new TestedClass([]);
+                new TestedClass([]);
             })
                 ->hasMessage('L\'architecture du choix doit être un tableau non vide.')
                 ->hasCode(400)
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 $data['name'] = '';
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Utilisation d\'un choix sans nom impossible.')
                 ->hasCode(400)
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 unset($data['options']);
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Le choix _yeux_ doit avoir des options.')
                 ->hasCode(400)
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 unset($data['options'][0]['name']);
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
                 ->hasCode(400)
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 $data['options'][0]['name'] = '';
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
                 ->hasCode(400)
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 $data['options'][0]['name'] = null;
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
                 ->hasCode(400)
@@ -196,7 +196,7 @@ class Choice extends atoum
             ->exception(function () {
                 $data = $this->getChoiceOne();
                 unset($data['options'][1]['weight']);
-                $choice = new TestedClass($data);
+                new TestedClass($data);
             })
                 ->hasMessage('Dans _yeux_ __weight__ est manquant pour _y-2_')
                 ->hasCode(400)
@@ -313,7 +313,7 @@ class Choice extends atoum
     public function testGlobalRules()
     {
         $this
-            ->if ($choice = new TestedClass($this->getChoiceWithGlobal()))
+            ->if($choice = new TestedClass($this->getChoiceWithGlobal()))
             ->array($choice->getOption('y-1'))
                 ->hasKey('dataGlob')
         ;
@@ -325,12 +325,49 @@ class Choice extends atoum
     public function testModificators()
     {
         $this
-            ->if ($choice = new TestedClass($this->getChoiceWithTags()))
-            ->and($tag = new Tag())
+            ->given($choice = new TestedClass($this->getChoiceWithTags()))
+            ->array($choice->getPercent())
+                ->isEqualTo(['y-1' => '25.000', 'y-2' => '64.500' , 'y-3' => '10.000', 'y-4' => '0.500'])
+            ->given($tag = new Tag())
             ->and($tag->addTag('nop'))
             ->and($choice->linkToModificator($tag->getRegisterKey()))
+            ->and($choice->resetCaches())
             ->array($choice->getPercent())
-                ->isEqualTo(['y-1' => '0.000', 'y-2' => '86.000' , 'y-3' => '13.333', 'y-4' => '0.667' ])
+                ->isEqualTo(['y-1' => '0.000', 'y-2' => '86.000' , 'y-3' => '13.333', 'y-4' => '0.667'])
         ;
     }
+
+    /**
+     * Contrôle de l'application des modificateurs
+     */
+    public function testCanIForce()
+    {
+        $this
+            ->given($choice = new TestedClass($this->getChoiceWithTags()))
+            ->boolean($choice->canIForce('y-1'))
+                ->isTrue()
+            ->boolean($choice->canIForce('y-2'))
+                ->isTrue()
+            ->boolean($choice->canIForce('y-3'))
+                ->isTrue()
+            ->boolean($choice->canIForce('y-4'))
+                ->isTrue()
+            ->boolean($choice->canIForce('y-NONEXISTE'))
+                ->isFalse()
+            ->given($tag = new Tag())
+            ->and($tag->addTag('nop'))
+            ->and($choice->linkToModificator($tag->getRegisterKey()))
+            ->and($choice->resetCaches())
+            ->boolean($choice->canIForce('y-1'))
+                ->isFalse()
+            ->boolean($choice->canIForce('y-2'))
+                ->isTrue()
+            ->boolean($choice->canIForce('y-3'))
+                ->isTrue()
+            ->boolean($choice->canIForce('y-4'))
+                ->isTrue()
+        ;
+    }
+
+
 }

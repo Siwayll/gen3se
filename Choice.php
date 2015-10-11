@@ -66,7 +66,6 @@ class Choice
      *
      * @param array $config Liste des options pondérés du choix
      *
-     * @return void
      * @throws Exception si les options sont mal formatés
      */
     public function __construct(array $config)
@@ -225,7 +224,7 @@ class Choice
      *
      * @return self
      */
-    protected function load()
+    private function load()
     {
         if (!empty($this->loaded)) {
             return $this;
@@ -264,7 +263,7 @@ class Choice
      *
      * @return int
      */
-    protected function getTotal($force = false)
+    private function getTotal($force = false)
     {
         if ($force === false && !empty($this->total)) {
             return $this->total;
@@ -327,6 +326,32 @@ class Choice
             }
         }
         throw new Exception('Aucun choix possible pour _' . $this->getName() . '_', 400);
+    }
+
+    /**
+     * Indique si une option est accessible
+     *
+     * @param $optionName Nom de l'option que l'on veut utiliser
+     *
+     * @return bool
+     */
+    public function canIForce($optionName)
+    {
+        $this->load();
+
+        foreach ($this->loaded as $option) {
+            if ($option['name'] != $optionName) {
+                continue;
+            }
+
+            if ($option['weight'] == 0) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

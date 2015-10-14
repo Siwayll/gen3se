@@ -4,6 +4,7 @@ namespace Siwayll\Histoire;
 
 use \Exception;
 use Monolog\Logger;
+use Siwayll\Histoire\Choice;
 
 /**
  * Moteur de génération
@@ -18,6 +19,12 @@ class Engine
     private $loader;
     private $order;
     private $result;
+    private $modificators = [];
+
+    /**
+     * @var Constraint
+     */
+    private $constraint = null;
 
     /**
      * @var Monolog\Logger
@@ -41,7 +48,7 @@ class Engine
             if ($this->{$varName}->hasModificators() === true) {
                 foreach ($this->{$varName}->getInstructions() as $code => $callback) {
                     $this->instructions[$code] = $callback;
-                    $this->logger->addDebug('Engine Save instruction from ' . $varName, [$code]);
+                    $this->logger->addNotice('Engine Save instruction from ' . $varName, [$code]);
                 }
             }
         }
@@ -54,6 +61,19 @@ class Engine
     }
 
     /**
+     * Ajoute des règles de contrainte pour la génération
+     *
+     * @param Constraint $constraint Gestionnaire de contraintes
+     *
+     * @return self
+     */
+    public function addConstraint(Constraint $constraint)
+    {
+        $this->constraint = $constraint;
+        return $this;
+    }
+
+    /**
      * Renvoi le gestionnaire d'ordre des choix
      *
      * @return Order
@@ -63,6 +83,11 @@ class Engine
         return $this->order;
     }
 
+    /**
+     * Donne le logger
+     *
+     * @return Logger|Monolog\Logger
+     */
     public function getLogger()
     {
         return $this->logger;
@@ -114,7 +139,7 @@ class Engine
         $modificators = $modificator->getInstructions();
         foreach ($modificators as $code => $callback) {
             $this->instructions[$code] = $callback;
-            $this->logger->addDebug('Engine Save instruction', [$code]);
+            $this->logger->addNotice('Engine Save instruction from ' . $modificator->getName(), [$code]);
         }
 
         $modificator->linkToEngine($this->getRegisterKey());
@@ -172,11 +197,13 @@ class Engine
         foreach ($command as $name => $update) {
             $this->currentResultData = $options;
             if ($this->isInstruction($name) === true) {
+                $this->logger->addNotice('Mod ' . $name, [$update]);
                 $additionalDatas = $this->updateScenari($name, $update);
                 $options = $this->merge($options, $additionalDatas);
                 continue;
             }
 
+            $this->logger->addNotice('Live update ' . $name, [$update]);
             $this->updateChoice($name, $update, $options);
         }
 
@@ -190,7 +217,7 @@ class Engine
      *
      * @return boolean
      */
-    protected function isInstruction($command)
+    private function isInstruction($command)
     {
         if (isset($this->instructions[$command])) {
             return true;
@@ -235,13 +262,16 @@ class Engine
      * @param string $choiceName Name of the Choice
      *
      * @return self
+     * @todo Trouver un moyen de charger les storageRule autrement
      */
     public function resolve($choiceName = null)
     {
         if (empty($choiceName)) {
             $choice = $this->getCurrent();
+            $this->logger->addDebug('Resolve ' . $choice->getName());
         } else {
             $choice = $this->loadChoice($choiceName);
+            $this->logger->addNotice('Force resolve ' . $choice->getName());
         }
 
         // Factoriser
@@ -252,10 +282,40 @@ class Engine
             ;
         }
 
+        if ($this->hasConstraint($choice) === true) {
+            return $this->resolveConstraint($choice);
+        }
+
         $result = $choice
             ->roll()
             ->getResult()
         ;
+
+        return $this->specifyResult($result['name']);
+    }
+
+    /**
+     * Contrôle la présence de contrainte pour le choix en cours
+     *
+     * @param \Siwayll\Histoire\Choice $choice Choix en cours
+     *
+     * @return bool
+     */
+    private function hasConstraint(Choice $choice)
+    {
+        if ($this->constraint === null) {
+            return false;
+        }
+
+        return $this->constraint->hasRuleFor($choice);
+    }
+
+    private function resolveConstraint(Choice $choice)
+    {
+        $rule = $this->constraint->getRulesFor($choice);
+        $result = $rule->selectResult($this, $choice);
+        $this->constraint->markAsTreated($choice);
+
         return $this->specifyResult($result['name']);
     }
 

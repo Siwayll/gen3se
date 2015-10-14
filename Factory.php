@@ -2,6 +2,7 @@
 
 namespace Siwayll\Histoire;
 
+use Monolog\Formatter\HtmlFormatter;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -47,8 +48,10 @@ class Factory
         if (self::$logger !== null) {
             $logger = self::$logger;
         } else {
+            file_put_contents('engine.log', '');
             $logger = new Logger('engine');
-            $logger->pushHandler(new Streamhandler('engine.log', Logger::DEBUG));
+            $stream = new Streamhandler('engine.log', Logger::DEBUG);
+            $logger->pushHandler($stream);
         }
 
         $engine = new Engine($loader, $order, $result, $logger);

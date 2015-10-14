@@ -20,7 +20,8 @@
     "siwayll/phpcs-norme-dpsi": "~3.2",
     "siwayll/deuton": "dev-develop",
     "monolog/monolog": "~1.12",
-    "solire/conf": "dev-master"
+    "solire/conf": "dev-master",
+    "atoum/atoum": "^2.2"
   },
   "autoload": {
       "psr-4": {

@@ -234,16 +234,26 @@ class Engine
         return call_user_func($this->instructions[$code], $option);
     }
 
+    /**
+     * Edition en live des variables d'un choix
+     *
+     * @param string $name    Nom du choix
+     * @param array  $command
+     * @param $result
+     * @return $this
+     */
     protected function updateChoice($name, $command, $result)
     {
         if (strtolower($name) == 'self') {
             $name = $this->current;
+            $this->logger->addNotice('Live update choix "self" pour ' . $name, []);
         }
         $choice = $this->loader->getChoice($name);
 
         foreach ($command as $name => $parameter) {
             if ($name == 'self') {
                 $name = $result['name'];
+                $this->logger->addNotice('Live update option "self" pour ' . $name, [$result]);
             }
             $choice->update($name, $parameter);
         }
@@ -388,9 +398,7 @@ class Engine
         $this->currentResultData = $result;
 
         // post traitement
-        if (isset($result['mod'])) {
-            $result = $this->update($result);
-        }
+        $result = $this->update($result);
 
         $this->result->saveFor($choice->getName(), $result);
         return $this;

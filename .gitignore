@@ -46,3 +46,7 @@ vendor/
 *.csv
 conf.ini
 Tests/coverage
+tags
+log/
+Generator/
+deuton.ini

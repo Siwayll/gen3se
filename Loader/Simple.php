@@ -11,6 +11,16 @@ class Simple
     private $choices = [];
     private $loaded = [];
 
+    /**
+     * Information sur l'ajout de Modificateurs
+     *
+     * @return boolean
+     */
+    public function hasModificators()
+    {
+        return false;
+    }
+
     public function __construct(array $data)
     {
         if (empty($data)) {

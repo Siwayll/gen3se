@@ -74,7 +74,6 @@ class Beauty extends Base
      */
     public function apply($options)
     {
-
         return $options;
     }
 
@@ -83,7 +82,9 @@ class Beauty extends Base
      *
      * @Param string $option Ligne d'option
      *
+     * @param $option
      * @return int Valeur de variation
+     * @throws Exception
      */
     protected function parseOption($option)
     {

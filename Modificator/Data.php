@@ -98,16 +98,26 @@ class Data extends Base
         }
         $engine = Register::load($this->engineKey);
         $finalResult = $engine->getCurrentResultData();
+
+        /** @var \Monolog\Logger $logger */
+        $logger = $engine->getlogger();
+        $logger->addNotice('addData to ' . $finalResult['name'], [$finalResult]);
+
+        $current = $engine->getCurrent()->getName();
         foreach ($options as $choiceName) {
             $result = $engine
                 ->loadChoice($choiceName)
                 ->roll()
                 ->getResult()
             ;
+            $logger->addDebug('addData add ' . $result['name'], [$result]);
             $result = $engine->update($result);
 
-            $finalResult = array_merge($finalResult, $result);
+            $finalResult = array_merge($result, $finalResult);
         }
+
+        $logger->addDebug('addData restoration current ' . $current, [$finalResult]);
+        $engine->setCurrent($current);
 
         return $finalResult;
     }

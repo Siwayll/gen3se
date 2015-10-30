@@ -8,6 +8,7 @@ use Solire\Conf\Loader\ArrayToConf;
 class Result
 {
     private $dirty = [];
+    private $storage;
 
     /**
      *

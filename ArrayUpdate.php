@@ -28,7 +28,7 @@ class ArrayUpdate
      *
      * @param array $array tableau à édtier
      *
-     * @return void
+     * @throws Exception
      */
     public function __construct(array $array)
     {

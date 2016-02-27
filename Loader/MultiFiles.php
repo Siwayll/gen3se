@@ -4,6 +4,7 @@ namespace Siwayll\Histoire\Loader;
 
 use \Exception;
 use Siwayll\Histoire\Choice;
+use Symfony\Component\Yaml\Yaml;
 
 class MultiFiles
 {
@@ -53,7 +54,8 @@ class MultiFiles
 
         $fileName = $this->dirPath . DIRECTORY_SEPARATOR . $name . '.yml';
         if (file_exists($fileName)) {
-            $this->loaded[$name] = new Choice(yaml_parse_file($fileName));
+            $data = Yaml::parse(file_get_contents($fileName));
+            $this->loaded[$name] = new Choice($data);
             return $this->loaded[$name];
         }
 

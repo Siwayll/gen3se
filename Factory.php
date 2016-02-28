@@ -48,9 +48,9 @@ class Factory
         if (self::$logger !== null) {
             $logger = self::$logger;
         } else {
-            file_put_contents('engine.log', '');
+            file_put_contents(__DIR__ . '/log/engine.log', '');
             $logger = new Logger('engine');
-            $stream = new Streamhandler('engine.log', Logger::DEBUG);
+            $stream = new Streamhandler(__DIR__ . '/log/engine.log', Logger::DEBUG);
             $logger->pushHandler($stream);
         }
 

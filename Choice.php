@@ -24,7 +24,7 @@ class Choice
      *
      * @var string
      */
-    private $name = '';
+    protected $name = '';
 
     /**
      * Résultat de la séléction aléatoire parmis les options du choix
@@ -38,20 +38,20 @@ class Choice
      *
      * @var string[]
      */
-    private $requiredColumns = ['name', 'weight'];
+    protected $requiredColumns = ['name', 'weight'];
 
     /**
      *
      * @var array options chargées
      */
-    private $loaded = [];
+    protected $loaded = [];
 
     /**
      * Règles à appliquer à toutes les options
      *
      * @var Array
      */
-    private $globalRules = [];
+    protected $globalRules = [];
 
 
     /**
@@ -59,7 +59,7 @@ class Choice
      *
      * @var array
      */
-    private $modificators = [];
+    protected $modificators = [];
 
     /**
      * Choix pondéré
@@ -163,6 +163,16 @@ class Choice
         );
     }
 
+    public function getOptionNames()
+    {
+        $names = [];
+        foreach ($this->options as $option) {
+            $names[] = $option['name'];
+        }
+
+        return $names;
+    }
+
     /**
      * Met à jour une option
      *
@@ -206,6 +216,69 @@ class Choice
         return $this;
     }
 
+
+    /**
+     * Met à jour une option
+     *
+     * @param strin $name      nom de l'option
+     * @param array $newValues nouvelles valeurs
+     *
+     * @return self
+     * @throws Exception si aucune option ne répond au nom demandé
+     */
+    protected function setLoadedOption($name, $newValues)
+    {
+        for ($i = 0; $i < count($this->loaded); $i++) {
+            if ($this->loaded[$i]['name'] == $name) {
+                $this->loaded[$i] = $newValues;
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Modification d'une option déjà chargée
+     *
+     * @param string $name      nom de l'option à édtier
+     * @param array  $parameter paramètres de modification
+     *
+     * @return self
+     */
+    public function updateLoaded($name, $parameter)
+    {
+        $option = $this->getLoadedOption($name);
+        $updater = new ArrayUpdate($option);
+        $updater->exec($parameter);
+
+        $this->setLoadedOption($name, $updater->getAll());
+
+        return $this;
+    }
+
+    /**
+     * Renvois les informations d'une option
+     *
+     * @param string $name nom de l'option demandée
+     *
+     * @return array
+     * @throws Exception si aucune option ne répond au nom demandé
+     */
+    public function getLoadedOption($name)
+    {
+        foreach ($this->loaded as $option) {
+            if ($option['name'] == $name) {
+                return $option;
+            }
+        }
+
+        throw new Exception(
+            'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'est pas chargée',
+            400
+        );
+    }
+
     /**
      * Enregistre les modificateurs du Scénario
      *
@@ -224,7 +297,7 @@ class Choice
      *
      * @return self
      */
-    private function load()
+    public function load()
     {
         if (!empty($this->loaded)) {
             return $this;
@@ -289,6 +362,10 @@ class Choice
         $total = $this->getTotal(true);
         $percents = [];
         foreach ($this->loaded as $option) {
+            if ($total == 0) {
+                $percents[$option['name']] = 0;
+                continue;
+            }
             $percents[$option['name']] = number_format(($option['weight'] / $total) * 100, 3);
         }
 
@@ -352,6 +429,16 @@ class Choice
         }
 
         return false;
+    }
+
+    public function wantContextData()
+    {
+        return false;
+    }
+
+    public function setContextData($data)
+    {
+
     }
 
     /**

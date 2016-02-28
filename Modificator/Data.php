@@ -60,9 +60,28 @@ class Data extends Base
         if (!is_array($options)) {
             $options = [$options];
         }
+
+        $field = 'text';
+        if (isset($options['field'])) {
+            $field = $options['field'];
+        }
+
+        $separator = '';
+        if (isset($options['separator'])) {
+            $separator = $options['separator'];
+        }
+
+        if (isset($options['choices'])) {
+            $options = $options['choices'];
+        }
+        // chargement de la base déjà choisie
         $engine = Register::load($this->engineKey);
         $resultData = $engine->getCurrentResultData();
-        $text = $resultData['text'];
+        $text = '';
+        if (isset($resultData[$field])) {
+            $text = $resultData[$field];
+        }
+
         $current = $engine->getCurrent()->getName();
         foreach ($options as $choiceName) {
             $result = $engine
@@ -72,13 +91,13 @@ class Data extends Base
                 ->getResult()
             ;
             $result = $engine->update($result);
-            $text .= $result['text'];
+            $text .= $separator . $result[$field];
         }
 
         $engine->setCurrent($current);
 
         $finalResult = [
-            'text' => $text,
+            $field => trim($text, $separator),
         ];
         return $finalResult;
     }

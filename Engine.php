@@ -18,6 +18,9 @@ class Engine
 
     private $loader;
     private $order;
+    /**
+     * @var Result
+     */
     private $result;
     private $modificators = [];
 
@@ -292,6 +295,10 @@ class Engine
             ;
         }
 
+        if ($choice->wantContextData() === true) {
+            $choice->setContextData(clone $this->result->getStorage());
+        }
+
         if ($this->hasConstraint($choice) === true) {
             return $this->resolveConstraint($choice);
         }
@@ -301,7 +308,7 @@ class Engine
             ->getResult()
         ;
 
-        return $this->specifyResult($result['name']);
+        return $this->specifyResult($result);
     }
 
     /**
@@ -326,7 +333,7 @@ class Engine
         $result = $rule->selectResult($this, $choice);
         $this->constraint->markAsTreated($choice);
 
-        return $this->specifyResult($result['name']);
+        return $this->specifyResult($result);
     }
 
     /**
@@ -386,20 +393,16 @@ class Engine
     /**
      * Enregistre le resultat du choix en cours
      *
-     * @param type $name
+     * @param array $result
      * @return self
      */
-    public function specifyResult($name)
+    public function specifyResult($result)
     {
         $choice = $this->getCurrent();
-        $result = $choice->getOption($name, true);
-        $choice->resetCaches();
-
         $this->currentResultData = $result;
 
         // post traitement
         $result = $this->update($result);
-
         $this->result->saveFor($choice->getName(), $result);
         return $this;
     }

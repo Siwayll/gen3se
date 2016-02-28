@@ -34,6 +34,21 @@ class ArrayUpdate extends atoum
         ];
     }
 
+    protected function getArrayTwo()
+    {
+        return [
+            'one' => [
+                'toto' => 15,
+            ],
+            'two' => [
+                'toto' => 25,
+            ],
+            'three' => [
+                'toto' => 35,
+            ],
+        ];
+    }
+
     /**
      * Contrôle initialisation class
      *
@@ -298,4 +313,14 @@ class ArrayUpdate extends atoum
                 ->isEqualTo('fuuubar')
         ;
     }
+
+//    public function testOn()
+//    {
+//        $this
+//            ->if($array = new TestedClass($this->getArrayTwo()))
+//            ->object($array->exec(['_on' => ['*¬toto>20', ['_unset' => 'toto']]]))
+//            ->array($array->get('two'))
+//                ->isEqualTo([])
+//        ;
+//    }
 }

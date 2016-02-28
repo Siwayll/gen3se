@@ -13,6 +13,7 @@ use \Exception;
 class Register
 {
     private static $registre = [];
+    private static $typeDefault = [];
 
     /**
      * Enregistre l'élément dans le registre
@@ -33,6 +34,7 @@ class Register
      * @param string $name Nom de l'élément à renvoyer
      *
      * @return mixed
+     * @throws
      */
     public static function load($name)
     {
@@ -41,6 +43,20 @@ class Register
         }
 
         return self::$registre[$name];
+    }
+
+    public static function loadByType($typeName)
+    {
+        if (!isset(self::$typeDefault[$typeName])) {
+            throw new Exception('_' . $typeName . '_ n\'a pas de valeur par défaut');
+        }
+
+        return self::$registre[self::$typeDefault[$typeName]];
+    }
+
+    public static function setTypeDefault($name, $type)
+    {
+        self::$typeDefault[$type] = $name;
     }
 
 

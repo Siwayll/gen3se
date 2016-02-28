@@ -17,8 +17,10 @@ set_include_path(
 
 require 'vendor/autoload.php';
 
+define('TEST_DATA_DIR', __DIR__ . '/../data');
+
 // Génération d'un dossier temporaires pour les tests
-define('TEST_TMP_DIR', __DIR__ . '/tmp');
+define('TEST_TMP_DIR', __DIR__ . '/../tmp');
 if (!is_dir(TEST_TMP_DIR)) {
     mkdir(TEST_TMP_DIR);
 }

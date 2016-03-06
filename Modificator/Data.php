@@ -2,6 +2,7 @@
 
 namespace Siwayll\Histoire\Modificator;
 
+use Siwayll\Histoire\Engine;
 use \Siwayll\Histoire\Register;
 
 /**
@@ -75,7 +76,9 @@ class Data extends Base
             $options = $options['choices'];
         }
         // chargement de la base déjà choisie
+        /** @var Engine $engine */
         $engine = Register::load($this->engineKey);
+        $logger = $engine->getLogger();
         $resultData = $engine->getCurrentResultData();
         $text = '';
         if (isset($resultData[$field])) {
@@ -84,9 +87,10 @@ class Data extends Base
 
         $current = $engine->getCurrent()->getName();
         foreach ($options as $choiceName) {
-            $result = $engine
-                ->setCurrent($choiceName)
-                ->getCurrent()
+            $choice = $engine->setCurrent($choiceName)->getCurrent();
+            $choice->resetCaches();
+            $logger->addDebug('Resolution Data', [$choice->getPercent()]);
+            $result = $choice
                 ->roll()
                 ->getResult()
             ;

@@ -308,6 +308,8 @@ class Engine
             return $this->resolveConstraint($choice);
         }
 
+        $this->logger->addDebug('Resolution normale', [$choice->getPercent()]);
+
         $result = $choice
             ->roll()
             ->getResult()

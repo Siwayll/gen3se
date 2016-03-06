@@ -49,7 +49,7 @@ class NameSound extends Base
         $particle = $options['text'];
         $end = substr($particle, -1);
 
-        $cat = 'COSONNE';
+        $cat = 'CONSONNE';
         if (strpos('aeiouy', $end) !== false) {
             $cat = 'VOYELLE';
         }

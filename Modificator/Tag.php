@@ -55,11 +55,11 @@ class Tag extends Base
             return $options;
         }
 
-        foreach ($options['tags'] as $tag => $multiplicator) {
+        foreach ($options['tags'] as $tag => $mod) {
             if ($this->hasComplexRules($tag) === true) {
                 $options['weight'] = $this->applyComplex(
                     $options['weight'],
-                    $multiplicator,
+                    $mod,
                     $tag
                 );
                 continue;
@@ -67,7 +67,13 @@ class Tag extends Base
             if (!isset($this->tags[$tag])) {
                 continue;
             }
-            $options['weight'] = ceil($multiplicator * $options['weight']);
+
+            if (strpos($mod, '+') === 0) {
+                $options['weight'] += $mod;
+                continue;
+            }
+
+            $options['weight'] = ceil($mod * $options['weight']);
         }
 
         return $options;
@@ -180,13 +186,31 @@ class Tag extends Base
         if (!is_array($option)) {
             $option = [$option];
         }
+
+
+
         foreach ($option as $tag) {
             $key = strtoupper($tag);
+            if (preg_match('/\*$/', $key) === 1) {
+                $this->rmTagWithStar($key);
+                continue;
+            }
             if (isset($this->tags[$key])) {
                 unset($this->tags[$key]);
             }
         }
 
         return null;
+    }
+
+    protected function rmTagWithStar($key)
+    {
+        $key = preg_replace('/\*$/', '', $key);
+        foreach ($this->tags as $tagName => $mod) {
+            if (strpos($tagName, $key) === false) {
+                continue;
+            }
+            unset($this->tags[$tagName]);
+        }
     }
 }

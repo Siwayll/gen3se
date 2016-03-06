@@ -14,9 +14,22 @@ use \Siwayll\Histoire\Error\Level;
  */
 class Tag extends atoum
 {
+
+    /**
+     * Contrôle des instructions ajoutées par Tag
+     */
+    public function testConfiguration()
+    {
+        $this
+            ->if($tag = new TestedClass())
+            ->array($tag->getInstructions())
+                ->hasKey('addTag')
+                ->hasKey('rmTag')
+        ;
+    }
+
     /**
      * Test de la gestion des Tags
-     * @return void
      */
     public function testAddTag()
     {
@@ -34,6 +47,10 @@ class Tag extends atoum
                 ->isNull()
             ->array($tag->getDatas())
                 ->isEqualTo(['TESTTAG'])
+            ->if($tag->addTag(['tag1', 'tag2', 'AUTRE']))
+            ->and($tag->rmTag('TA*'))
+            ->array($tag->getDatas())
+                ->isEqualTo(['AUTRE'])
             ->exception(function () use ($tag) {
                 $tag->addTag('NON&VALIDE');
             })
@@ -43,11 +60,9 @@ class Tag extends atoum
     }
 
     /**
-     * Instantiation d'un chargeur de données pour le scénario
-     *
-     * @return void
+     * Application simple des tags
      */
-    public function testApply()
+    public function testApplySimple()
     {
         $this
             ->if($tag = new TestedClass())
@@ -55,12 +70,29 @@ class Tag extends atoum
                 ->isNull()
             ->array($tag->apply([]))
                 ->isEqualTo([])
+
             ->if($option = ['tags' => ['TITI' => 2], 'weight' => 50])
             ->array($tag->apply($option))
                 ->isEqualTo(['tags' => ['TITI' => 2], 'weight' => 50])
+
             ->if($option = ['tags' => ['TOTO' => 2], 'weight' => 50])
             ->array($tag->apply($option))
                 ->isEqualTo(['tags' => ['TOTO' => 2], 'weight' => 100])
+
+            ->if($option = ['tags' => ['TOTO' => "+25"], 'weight' => 50])
+            ->array($tag->apply($option))
+                ->isEqualTo(['tags' => ['TOTO' => "+25"], 'weight' => 75])
+        ;
+    }
+
+    /**
+     * Application complexe des tags
+     */
+    public function testApplyComplex()
+    {
+        $this
+            ->if($tag = new TestedClass())
+            ->and($tag->addTag(['toto']))
             ->if($option = ['tags' => ['TOTO&TATA' => 2], 'weight' => 50])
             ->array($tag->apply($option))
                 ->isEqualTo(['tags' => ['TOTO&TATA' => 2], 'weight' => 50])

@@ -200,8 +200,10 @@ class Engine
 
 
         $command = $options['mod'];
+        ksort($command, SORT_NATURAL);
         foreach ($command as $name => $update) {
             $this->currentResultData = $options;
+            $name = preg_replace('/^[0-9]+|-/', '', $name);
             if ($this->isInstruction($name) === true) {
                 $this->logger->addNotice('Mod ' . $name, [$update]);
                 $additionalDatas = $this->updateScenari($name, $update);

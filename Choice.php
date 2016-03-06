@@ -366,6 +366,9 @@ class Choice
                 $percents[$option['name']] = 0;
                 continue;
             }
+            if ($option['weight'] == 0) {
+                continue;
+            }
             $percents[$option['name']] = number_format(($option['weight'] / $total) * 100, 3);
         }
 

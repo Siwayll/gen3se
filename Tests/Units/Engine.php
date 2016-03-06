@@ -10,6 +10,7 @@ namespace tests\unit\Siwayll\Histoire;
 
 use atoum;
 use Siwayll\Histoire\Constraint;
+use Siwayll\Histoire\Constraint\Rule\Value;
 use \Siwayll\Histoire\Engine as TestedClass;
 use \Siwayll\Histoire\Loader\Simple;
 use Monolog\Logger;
@@ -18,6 +19,7 @@ use Siwayll\Histoire\Order;
 use Siwayll\Histoire\Constraint\Rule;
 use Siwayll\Histoire\Result;
 use Solire\Conf\Conf;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  *
@@ -38,7 +40,7 @@ class Engine extends atoum
     {
         $data = [
             'order' => ['sexe'],
-            'choices' => [yaml_parse_file(TEST_DATA_DIR . '/sexe.yml')],
+            'choices' => [Yaml::parse(file_get_contents(TEST_DATA_DIR . '/sexe.yml'))],
         ];
         $loader = new Simple($data);
         return $loader;
@@ -100,6 +102,9 @@ class Engine extends atoum
         ;
     }
 
+    /**
+     * Ajout de contraintes lors de la génération
+     */
     public function testConstraint()
     {
         $loader = $this->getLoader();
@@ -110,16 +115,17 @@ class Engine extends atoum
         $this
             ->given($engine = new TestedClass($loader, $order, $result, $logger))
             ->given($constraint = new Constraint())
-            ->and($constraint->setRuleTo('sexe', new Rule('ANDROGYNE')))
-            ->object($engine->addConstraint($constraint))
-                ->isIdenticalTo($engine)
-            ->if($order->addAtEnd('sexe'))
-            ->object($engine->resolveAll())
-                ->isIdenticalTo($engine)
-            ->given($store = $engine->getResult()->getStorage())
-            ->object($store->get('description'))
-            ->string($store->get('description')->get('sexe'))
-                ->isEqualTo('androgyne')
+            ->assert('Contrainte par valeur directe')
+                ->if($constraint->setRuleTo('sexe', new Value('ANDROGYNE')))
+                ->object($engine->addConstraint($constraint))
+                    ->isIdenticalTo($engine)
+                ->if($order->addAtEnd('sexe'))
+                ->object($engine->resolveAll())
+                    ->isIdenticalTo($engine)
+                ->given($store = $engine->getResult()->getStorage())
+                ->object($store->get('description'))
+                ->string($store->get('description')->get('sexe'))
+                    ->isEqualTo('androgyne')
         ;
     }
 }

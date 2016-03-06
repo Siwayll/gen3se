@@ -24,6 +24,9 @@ class Engine
     private $result;
     private $modificators = [];
 
+    protected $current;
+    protected $currentResultData;
+
     /**
      * @var Constraint
      */

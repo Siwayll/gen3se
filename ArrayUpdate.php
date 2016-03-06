@@ -4,6 +4,13 @@ namespace Siwayll\Histoire;
 
 use \Exception;
 
+/**
+ * Class ArrayUpdate
+ *
+ * Execution d'un ensemble de commandes pour éditer un tableau
+ *
+ * @package Siwayll\Gen3se\Updater
+ */
 class ArrayUpdate
 {
     private $data = [];
@@ -143,6 +150,7 @@ class ArrayUpdate
      * @param mixed  $value valeur à mettre à la place
      *
      * @return self
+     * @throws Exception si champ demandé n'existe pas
      */
     protected function set($name, $value)
     {
@@ -166,6 +174,7 @@ class ArrayUpdate
      * @param mixed  $value valeur du champ
      *
      * @return self
+     * @throws Exception si le champ à ajouter existe déjà
      */
     protected function add($name, $value)
     {
@@ -189,6 +198,7 @@ class ArrayUpdate
      * @param string $name nom du champ à supprimer
      *
      * @return self
+     * @throws Exception si champ demandé n'existe pas
      */
     protected function delete($name)
     {

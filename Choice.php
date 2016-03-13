@@ -195,6 +195,26 @@ class Choice
     }
 
     /**
+     * Suppression d'une option d'un choix
+     *
+     * @param string $name Nom de l'option
+     *
+     * @return $this
+     */
+    public function unsetOption($name)
+    {
+        for ($i = 0; $i < count($this->options); $i++) {
+            if ($this->options[$i]['name'] === $name) {
+                array_splice($this->options, $i, 1);
+                break;
+            }
+        }
+
+        $this->resetCaches();
+        return $this;
+    }
+
+    /**
      * Modification d'une option
      *
      * @param string $name      nom de l'option à édtier

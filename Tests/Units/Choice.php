@@ -333,7 +333,7 @@ class Choice extends atoum
             ->and($choice->linkToModificator($tag->getRegisterKey()))
             ->and($choice->resetCaches())
             ->array($choice->getPercent())
-                ->isEqualTo(['y-1' => '0.000', 'y-2' => '86.000' , 'y-3' => '13.333', 'y-4' => '0.667'])
+                ->isEqualTo(['y-2' => '86.000' , 'y-3' => '13.333', 'y-4' => '0.667'])
         ;
     }
 
@@ -370,4 +370,19 @@ class Choice extends atoum
     }
 
 
+    /**
+     * Suppression d'une option dans le choix
+     */
+    public function testUnsetOption()
+    {
+        $this
+            ->given($choice = new TestedClass($this->getChoiceOne()))
+            ->object($choice->unsetOption('y-2'))
+                ->isIdenticalTo($choice)
+            ->array($choice->getPercent())
+                ->isEqualTo(['y-1' => 70.423, 'y-3' => 28.169, 'y-4' => 1.408 ])
+            ->object($choice->unsetOption('y-3'))
+                ->isIdenticalTo($choice)
+        ;
+    }
 }

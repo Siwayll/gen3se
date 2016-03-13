@@ -59,6 +59,14 @@ class Result
         $this->reroute = false;
     }
 
+    /**
+     * Enregistre le resultat d'un choix
+     *
+     * @param string $name  Nom du choix
+     * @param array  $datas Données à enregistrer
+     *
+     * @return $this
+     */
     public function saveFor($name, array $datas)
     {
         unset(
@@ -67,6 +75,12 @@ class Result
             $datas['tags'],
             $datas['name']
         );
+
+        foreach ($datas as $key => $value) {
+            if (empty($value)) {
+                unset($datas[$key]);
+            }
+        }
 
         $this->dirty[] = [$name => $datas];
 

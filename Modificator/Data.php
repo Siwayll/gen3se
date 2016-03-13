@@ -87,15 +87,10 @@ class Data extends Base
 
         $current = $engine->getCurrent()->getName();
         foreach ($options as $choiceName) {
-            $choice = $engine->setCurrent($choiceName)->getCurrent();
-            $choice->resetCaches();
-            $logger->addDebug('Resolution Data', [$choice->getPercent()]);
-            $result = $choice
-                ->roll()
-                ->getResult()
-            ;
-            $result = $engine->update($result);
+            $engine->setCurrent($choiceName)->resolve();
+            $result = $engine->getCurrentResultData();
             $text .= $separator . $result[$field];
+            $logger->addDebug('Mod concat [' . $result[$field] . ']', ['state' => $text]);
         }
 
         $engine->setCurrent($current);

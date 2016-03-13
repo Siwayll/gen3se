@@ -256,6 +256,7 @@ class Engine
             $name = $this->current;
             $this->logger->addNotice('Live update choix "self" pour ' . $name, []);
         }
+        /** @var Choice $choice */
         $choice = $this->loader->getChoice($name);
 
         foreach ($command as $name => $parameter) {
@@ -276,21 +277,15 @@ class Engine
     }
 
     /**
-     *
-     * @param string $choiceName Name of the Choice
+     * Résolution d'un choix
      *
      * @return self
      * @todo Trouver un moyen de charger les storageRule autrement
      */
-    public function resolve($choiceName = null)
+    public function resolve()
     {
-        if (empty($choiceName)) {
-            $choice = $this->getCurrent();
-            $this->logger->addDebug('Resolve ' . $choice->getName());
-        } else {
-            $choice = $this->loadChoice($choiceName);
-            $this->logger->addNotice('Force resolve ' . $choice->getName());
-        }
+        $choice = $this->getCurrent();
+        $this->logger->addDebug('Resolve ' . $choice->getName());
 
         // Factoriser
         $rules = $choice->getRules();
@@ -405,12 +400,21 @@ class Engine
      */
     public function specifyResult($result)
     {
+        /** @var Choice $choice */
         $choice = $this->getCurrent();
+        $this->logger->addDebug('resultat : ' . $result['name'], $result);
+        $result = $this->update($result);
         $this->currentResultData = $result;
 
-        // post traitement
-        $result = $this->update($result);
-        $this->result->saveFor($choice->getName(), $result);
+        // @todo factoriser les traitements post UPDATE
+        if (array_key_exists('consume', $choice->getRules()) === true) {
+            $choice->unsetOption($result['name']);
+        }
+
+        if (array_key_exists('ignoreForStorage', $choice->getRules()) !== true) {
+            $this->result->saveFor($choice->getName(), $result);
+        }
+
         return $this;
     }
 }

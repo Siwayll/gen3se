@@ -14,12 +14,11 @@
   "require": {
     "php": ">=5.5.0",
     "mongodb/mongodb": "^0.2.0",
-    "symfony/yaml": "^3.0"
+    "symfony/yaml": "^3.0",
+    "phpmd/phpmd": "^2.3"
   },
   "require-dev": {
     "php": ">=5.5.0",
-    "m6web/coke": "~2.0",
-    "siwayll/phpcs-norme-dpsi": "~3.2",
     "siwayll/deuton": "dev-develop",
     "monolog/monolog": "~1.12",
     "solire/conf": "dev-master",

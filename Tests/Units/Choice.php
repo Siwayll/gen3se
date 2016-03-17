@@ -10,6 +10,7 @@ namespace tests\unit\Siwayll\Histoire;
 
 use atoum;
 use \Siwayll\Histoire\Choice as TestedClass;
+use Siwayll\Histoire\ChoiceData;
 use \Siwayll\Histoire\Modificator\Tag;
 
 /**
@@ -143,64 +144,7 @@ class Choice extends atoum
     public function testConstruct()
     {
         $this
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                unset($data['name']);
-                new TestedClass($data);
-            })
-                ->hasMessage('Utilisation d\'un choix sans nom impossible.')
-                ->hasCode(400)
-            ->exception(function () {
-                new TestedClass([]);
-            })
-                ->hasMessage('L\'architecture du choix doit être un tableau non vide.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                $data['name'] = '';
-                new TestedClass($data);
-            })
-                ->hasMessage('Utilisation d\'un choix sans nom impossible.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                unset($data['options']);
-                new TestedClass($data);
-            })
-                ->hasMessage('Le choix _yeux_ doit avoir des options.')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                unset($data['options'][0]['name']);
-                new TestedClass($data);
-            })
-                ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                $data['options'][0]['name'] = '';
-                new TestedClass($data);
-            })
-                ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
-                ->hasCode(400)
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                $data['options'][0]['name'] = null;
-                new TestedClass($data);
-            })
-                ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
-                ->hasCode(400)
-            ->if ($data = $this->getChoiceOne())
-            ->and($data['options'][0]['name'] = '0')
-            ->object(new TestedClass($data))
-            ->exception(function () {
-                $data = $this->getChoiceOne();
-                unset($data['options'][1]['weight']);
-                new TestedClass($data);
-            })
-                ->hasMessage('Dans _yeux_ __weight__ est manquant pour _y-2_')
-                ->hasCode(400)
-
+            ->object(new TestedClass(new ChoiceData($this->getChoiceOne())))
         ;
     }
 
@@ -212,7 +156,7 @@ class Choice extends atoum
     public function testGetOption()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
             ->array($choice->getRules())
                 ->isEqualTo(['storageRule' => ['toto', 'tata']])
             ->array($choice->getOption('y-1'))
@@ -233,7 +177,7 @@ class Choice extends atoum
     public function testGetName()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
             ->string($choice->getName())
                 ->isEqualTo('yeux')
         ;
@@ -248,7 +192,7 @@ class Choice extends atoum
     public function testUpdate()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
             ->exception(function () use ($choice) {
                 $choice->update('sdfgh', ['$inc' => 50]);
             })
@@ -273,7 +217,7 @@ class Choice extends atoum
     public function testRoll()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
             ->variable($choice->getResult())
                 ->isNull()
             ->object($choice->roll())
@@ -301,7 +245,7 @@ class Choice extends atoum
     public function testGetPercent()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
             ->array($choice->getPercent())
                 ->isEqualTo(['y-1' => 25, 'y-2' => 64.5 , 'y-3' => 10, 'y-4' => 0.5 ])
         ;
@@ -313,7 +257,7 @@ class Choice extends atoum
     public function testGlobalRules()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceWithGlobal()))
+            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceWithGlobal())))
             ->array($choice->getOption('y-1'))
                 ->hasKey('dataGlob')
         ;
@@ -325,7 +269,7 @@ class Choice extends atoum
     public function testModificators()
     {
         $this
-            ->given($choice = new TestedClass($this->getChoiceWithTags()))
+            ->given($choice = new TestedClass(new ChoiceData($this->getChoiceWithTags())))
             ->array($choice->getPercent())
                 ->isEqualTo(['y-1' => '25.000', 'y-2' => '64.500' , 'y-3' => '10.000', 'y-4' => '0.500'])
             ->given($tag = new Tag())
@@ -343,7 +287,7 @@ class Choice extends atoum
     public function testCanIForce()
     {
         $this
-            ->given($choice = new TestedClass($this->getChoiceWithTags()))
+            ->given($choice = new TestedClass(new ChoiceData($this->getChoiceWithTags())))
             ->boolean($choice->canIForce('y-1'))
                 ->isTrue()
             ->boolean($choice->canIForce('y-2'))
@@ -376,7 +320,7 @@ class Choice extends atoum
     public function testUnsetOption()
     {
         $this
-            ->given($choice = new TestedClass($this->getChoiceOne()))
+            ->given($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
             ->object($choice->unsetOption('y-2'))
                 ->isIdenticalTo($choice)
             ->array($choice->getPercent())

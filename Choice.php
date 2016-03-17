@@ -64,37 +64,15 @@ class Choice
     /**
      * Choix pondéré
      *
-     * @param array $config Liste des options pondérés du choix
+     * @param ChoiceData $data Données du choix
      *
      * @throws Exception si les options sont mal formatés
      */
-    public function __construct(array $config)
+    public function __construct(ChoiceData $data)
     {
-        if (empty($config)) {
-            throw new Exception('L\'architecture du choix doit être un tableau non vide.', 400);
-        }
-
-        // Drop Ici
-        if (!isset($config['name']) || empty($config['name'])) {
-            throw new Exception('Utilisation d\'un choix sans nom impossible.', 400);
-        }
-        $this->name = $config['name'];
-
-        // Drop Ici
-        if (!isset($config['options']) || empty($config['options'])) {
-            throw new Exception('Le choix _' . $this->name . '_ doit avoir des options.', 400);
-        }
-
-        if (isset($config['globalRules'])) {
-            $this->globalRules = $config['globalRules'];
-        }
-
-        array_walk($config['options'], [$this, 'controlOption']);
-
-        $this->options = $config['options'];
-
-        unset($config['options'], $config['globalRules'], $config['name']);
-        $this->rules = $config;
+        $this->name = $data->getName();
+        $this->options = $data->getOptions();
+        $this->rules = $data->getRules();
     }
 
     /**
@@ -108,40 +86,6 @@ class Choice
     }
 
     /**
-     * Contrôle du format des options
-     *
-     * @param array $option option à contrôler
-     * @param int   $key    place de l'option dans le choix
-     *
-     * @return self
-     * @throws Exception si l'option est mal formaté
-     */
-    private function controlOption(&$option, $key)
-    {
-        if (!isset($option['name']) || $option['name'] == '') {
-            throw new Exception(
-                'Dans _' . $this->getName() . '_ l\'option __' . $key . '__ '
-                    . 'n\'a pas de nom',
-                400
-            );
-        }
-
-        $option = array_merge_recursive($this->globalRules, $option);
-
-        foreach ($this->requiredColumns as $colName) {
-            if (!isset($option[$colName])) {
-                throw new Exception(
-                    'Dans _' . $this->getName() . '_ __' . $colName . '__ est '
-                        . 'manquant pour _' . $option['name'] . '_',
-                    400
-                );
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Renvois les informations d'une option
      *
      * @param string $name nom de l'option demandée
@@ -151,10 +95,8 @@ class Choice
      */
     public function getOption($name)
     {
-        foreach ($this->options as $option) {
-            if ($option['name'] == $name) {
-                return $option;
-            }
+        if (isset($this->options[$name])) {
+            return $this->options[$name];
         }
 
         throw new Exception(
@@ -176,20 +118,22 @@ class Choice
     /**
      * Met à jour une option
      *
-     * @param strin $name      nom de l'option
-     * @param array $newValues nouvelles valeurs
+     * @param strin $name      Nom de l'option
+     * @param array $newValues Nouvelles valeurs
      *
      * @return self
      * @throws Exception si aucune option ne répond au nom demandé
      */
     protected function setOption($name, $newValues)
     {
-        for ($i = 0; $i < count($this->options); $i++) {
-            if ($this->options[$i]['name'] == $name) {
-                $this->options[$i] = $newValues;
-                break;
-            }
+        if (!isset($this->options[$name])) {
+            throw new Exception(
+                'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
+                400
+            );
         }
+
+        $this->options[$name] = $newValues;
 
         return $this;
     }
@@ -203,12 +147,7 @@ class Choice
      */
     public function unsetOption($name)
     {
-        for ($i = 0; $i < count($this->options); $i++) {
-            if ($this->options[$i]['name'] === $name) {
-                array_splice($this->options, $i, 1);
-                break;
-            }
-        }
+        unset($this->options[$name]);
 
         $this->resetCaches();
         return $this;
@@ -248,12 +187,14 @@ class Choice
      */
     protected function setLoadedOption($name, $newValues)
     {
-        for ($i = 0; $i < count($this->loaded); $i++) {
-            if ($this->loaded[$i]['name'] == $name) {
-                $this->loaded[$i] = $newValues;
-                break;
-            }
+        if (!isset($this->loaded[$name])) {
+            throw new Exception(
+                'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
+                400
+            );
         }
+
+        $this->loaded[$name] = $newValues;
 
         return $this;
     }
@@ -287,10 +228,8 @@ class Choice
      */
     public function getLoadedOption($name)
     {
-        foreach ($this->loaded as $option) {
-            if ($option['name'] == $name) {
-                return $option;
-            }
+        if (isset($this->loaded[$name])) {
+            return $this->loaded[$name];
         }
 
         throw new Exception(
@@ -331,7 +270,7 @@ class Choice
                 $temporyOption = $modificator->apply($temporyOption);
             }
 
-            $this->loaded[] = $temporyOption;
+            $this->loaded[$temporyOption['name']] = $temporyOption;
         }
 
         return $this;
@@ -452,16 +391,6 @@ class Choice
         }
 
         return false;
-    }
-
-    public function wantContextData()
-    {
-        return false;
-    }
-
-    public function setContextData($data)
-    {
-
     }
 
     /**

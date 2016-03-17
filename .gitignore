@@ -1,6 +1,7 @@
 # Ignore propre aux éditeur #
 #############################
 /nbproject/
+.idea
 
 # Numerous always-ignore extensions #
 #####################################
@@ -50,3 +51,5 @@ tags
 log/
 Generator/
 deuton.ini
+build/coverHtml
+build/atoum.clover.xml

@@ -295,8 +295,11 @@ class Engine
             ;
         }
 
-        if ($choice->wantContextData() === true) {
-            $choice->setContextData(clone $this->result->getStorage());
+        $choiceInterfaces = class_implements($choice);
+        if (isset($choiceInterfaces[__NAMESPACE__ . '\Choice\ContextDataInterface'])) {
+            if ($choice->wantContextData() === true) {
+                $choice->setContextData(clone $this->result->getStorage());
+            }
         }
 
         if ($this->hasConstraint($choice) === true) {

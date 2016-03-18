@@ -1,0 +1,17 @@
+variables:
+  # Timezone will be used both for system and php date.timezone php.ini value
+  TIMEZONE: "Europe/Paris"
+
+before_script:
+# Install composer
+  - curl -sS https://getcomposer.org/installer | php
+
+# Install all project dependencies
+  - php composer.phar install
+
+php-5.6:
+  image: tetraweb/php:5.6
+  script:
+    - vendor/bin/atoum -d Tests/Units
+    - vendor/bin/coke --ignore="vendor/,Tests/tmp/,build/" ./
+    - vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/

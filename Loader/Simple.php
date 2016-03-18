@@ -4,6 +4,7 @@ namespace Siwayll\Histoire\Loader;
 
 use \Exception;
 use Siwayll\Histoire\Choice;
+use Siwayll\Histoire\ChoiceData;
 
 class Simple
 {
@@ -61,7 +62,8 @@ class Simple
         }
 
         if (isset($this->choices[$name])) {
-            $this->loaded[$name] = new Choice($this->choices[$name]);
+            $choiceData = new ChoiceData($this->choices[$name]);
+            $this->loaded[$name] = new Choice($choiceData);
             return $this->loaded[$name];
         }
 

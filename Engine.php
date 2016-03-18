@@ -5,6 +5,7 @@ namespace Siwayll\Histoire;
 use \Exception;
 use Monolog\Logger;
 use Siwayll\Histoire\Choice;
+use Siwayll\Histoire\Error\Level;
 
 /**
  * Moteur de génération
@@ -138,9 +139,15 @@ class Engine
      * @param object $modificator Modificateur à ajouter
      *
      * @return self
+     * @throws Exception Si le Modificator à ajouter est déjà présent
      */
     public function addModificator($modificator)
     {
+        if (isset($this->modificators[$modificator->getName()])) {
+            $message = 'Modificator ' . $modificator->getName() . ' already present.';
+            $this->logger->addWarning($message);
+            throw new Exception($message, Level::WARNING);
+        }
         $this->modificators[$modificator->getName()] = $modificator;
         $modificators = $modificator->getInstructions();
         foreach ($modificators as $code => $callback) {
@@ -158,9 +165,16 @@ class Engine
      * @param string $name Nom du Modificateur
      *
      * @return object
+     * @throws Exception Si le Modificator demandé n'est pas présent
      */
     public function getModificator($name)
     {
+        if (!isset($this->modificators[$name])) {
+            $message = 'Modificator ' . $name . ' not present.';
+            $this->logger->addWarning($message);
+            throw new Exception($message, Level::ERROR);
+        }
+
         return $this->modificators[$name];
     }
 

@@ -12,9 +12,11 @@ use atoum;
 use Siwayll\Histoire\Constraint;
 use Siwayll\Histoire\Constraint\Rule\Value;
 use \Siwayll\Histoire\Engine as TestedClass;
+use Siwayll\Histoire\Error\Level;
 use \Siwayll\Histoire\Loader\Simple;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Siwayll\Histoire\Modificator\Tag;
 use Siwayll\Histoire\Order;
 use Siwayll\Histoire\Constraint\Rule;
 use Siwayll\Histoire\Result;
@@ -81,6 +83,37 @@ class Engine extends atoum
                 ->isIdenticalTo($order)
             ->object($engine->getLogger())
                 ->isIdenticalTo($logger)
+        ;
+    }
+
+    /**
+     * Contrôle du setter & getter des mod
+     *
+     * @erturn void
+     */
+    public function testAddAndGetModificator()
+    {
+        $loader = $this->getLoader();
+        $order = $this->getOrder();
+        $result = $this->getResult();
+        $logger = $this->getLogger();
+        $this
+            ->given($engine = new TestedClass($loader, $order, $result, $logger))
+            ->exception(function () use ($engine) {
+                $engine->getModificator('tag');
+            })
+                ->hasMessage('Modificator tag not present.')
+                ->hasCode(Level::ERROR)
+            ->given($tag = new Tag())
+            ->object($engine->addModificator($tag))
+                ->isIdenticalTo($engine)
+            ->object($engine->getModificator('tag'))
+                ->isIdenticalTo($tag)
+            ->exception(function () use ($engine, $tag) {
+                $engine->addModificator($tag);
+            })
+                ->hasMessage('Modificator tag already present.')
+                ->hasCode(Level::WARNING)
         ;
     }
 

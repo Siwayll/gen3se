@@ -62,6 +62,13 @@ class Choice
     protected $modificators = [];
 
     /**
+     * Liste des solutions possibles pour le choix
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * Choix pondéré
      *
      * @param ChoiceData $data Données du choix

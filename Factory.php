@@ -52,6 +52,7 @@ class Factory
             $logger = new Logger('engine');
             $stream = new Streamhandler(__DIR__ . '/log/engine.log', Logger::DEBUG);
             $logger->pushHandler($stream);
+            self::$logger = $logger;
         }
 
         $engine = new Engine($loader, $order, $result, $logger);
@@ -60,6 +61,20 @@ class Factory
             $engine->addModificator($mod);
         }
 
+        self::reset();
         return $engine;
+    }
+
+    /**
+     * Reset des données
+     *
+     * @return void
+     */
+    public static function reset()
+    {
+        self::$mods = [];
+        self::$loader = null;
+        self::$order = null;
+        self::$result = null;
     }
 }

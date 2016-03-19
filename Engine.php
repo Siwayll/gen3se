@@ -428,9 +428,7 @@ class Engine
             $choice->unsetOption($result['name']);
         }
 
-        if (array_key_exists('ignoreForStorage', $choice->getRules()) !== true) {
-            $this->result->saveFor($choice->getName(), $result);
-        }
+        $this->result->saveFor($choice->getName(), $result);
 
         return $this;
     }

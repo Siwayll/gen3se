@@ -15,13 +15,13 @@
     "php": ">=5.5.0",
     "mongodb/mongodb": "^0.2.0",
     "symfony/yaml": "^3.0",
-    "phpmd/phpmd": "^2.3"
+    "phpmd/phpmd": "^2.3",
+    "mustache/mustache": "^2.10"
   },
   "require-dev": {
     "php": ">=5.5.0",
     "siwayll/deuton": "dev-develop",
     "monolog/monolog": "~1.12",
-    "solire/conf": "dev-master",
     "atoum/atoum": "^2.2"
   },
   "autoload": {

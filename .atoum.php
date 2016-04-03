@@ -7,7 +7,7 @@ $report = $script->addDefaultReport();
 // This will add a green or red logo after each run depending on its status.
 $report->addField(new atoum\report\fields\runner\result\logo());
 
-$buildDir = __DIR__ . '/build/';
+$buildDir = __DIR__ . '/Tests/build/';
 if (!is_dir($buildDir)) {
     mkdir($buildDir);
     mkdir($buildDir . '/coverHtml');

@@ -2,6 +2,7 @@
 
 namespace Siwayll\Histoire;
 
+use Siwayll\Histoire\Result\CoreInterface;
 use Solire\Conf\Conf;
 use Solire\Conf\Loader\ArrayToConf;
 
@@ -24,10 +25,10 @@ class Result
 
     /**
      *
-     * @param Conf $storage
+     * @param CoreInterface $storage
      * @return self
      */
-    public function setStorage(Conf $storage)
+    public function setStorage(CoreInterface $storage)
     {
         $this->storage = $storage;
         return $this;

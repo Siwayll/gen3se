@@ -20,7 +20,7 @@ use Siwayll\Histoire\Modificator\Tag;
 use Siwayll\Histoire\Order;
 use Siwayll\Histoire\Constraint\Rule;
 use Siwayll\Histoire\Result;
-use Solire\Conf\Conf;
+use Siwayll\Histoire\Result\Core as ResultData;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -52,7 +52,7 @@ class Engine extends atoum
     {
         $result = new Result();
 
-        $data = new Conf();
+        $data = new ResultData();
         $result->setStorage($data);
         return $result;
     }

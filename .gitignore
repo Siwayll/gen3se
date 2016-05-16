@@ -48,7 +48,6 @@ conf.ini
 Tests/coverage
 tags
 log/
-Generator/
 deuton.ini
 build/coverHtml
 build/atoum.clover.xml

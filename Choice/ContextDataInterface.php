@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Histoire\Choice;
+namespace Siwayll\Gen3se\Choice;
 
 
 interface ContextDataInterface

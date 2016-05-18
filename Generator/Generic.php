@@ -1,13 +1,13 @@
 <?php
 
-namespace Siwayll\Histoire\Generator;
+namespace Siwayll\Gen3se\Generator;
 
-use Siwayll\Histoire\Factory;
-use Siwayll\Histoire\RegisterTrait;
+use Siwayll\Gen3se\Factory;
+use Siwayll\Gen3se\RegisterTrait;
 
-use Siwayll\Histoire\Modificator\Data;
+use Siwayll\Gen3se\Modificator\Data;
 
-use Siwayll\Histoire\Result\Core;
+use Siwayll\Gen3se\Result\Core;
 use Solire\Conf\Conf;
 
 class Generic

@@ -1,8 +1,8 @@
 <?php
 
-namespace Siwayll\Histoire\Modificator;
+namespace Siwayll\Gen3se\Modificator;
 
-use \Siwayll\Histoire\Register;
+use \Siwayll\Gen3se\Register;
 
 /**
  * Ajout de la notion de Tempérament

@@ -1,10 +1,10 @@
 <?php
 
-namespace Siwayll\Histoire\Constraint\Rule;
+namespace Siwayll\Gen3se\Constraint\Rule;
 
-use Siwayll\Histoire\Choice;
-use Siwayll\Histoire\Constraint\Rule;
-use Siwayll\Histoire\Engine;
+use Siwayll\Gen3se\Choice;
+use Siwayll\Gen3se\Constraint\Rule;
+use Siwayll\Gen3se\Engine;
 
 class Value extends Rule
 {

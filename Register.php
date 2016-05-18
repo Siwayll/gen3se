@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Histoire;
+namespace Siwayll\Gen3se;
 
 use \Exception;
 

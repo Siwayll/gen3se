@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Histoire\Modificator;
+namespace Siwayll\Gen3se\Modificator;
 
 use \Exception;
-use \Siwayll\Histoire\Error\Level;
+use \Siwayll\Gen3se\Error\Level;
 
 /**
  * Ajout de la notion de Tags

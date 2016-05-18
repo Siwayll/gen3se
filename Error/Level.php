@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Histoire\Error;
+namespace Siwayll\Gen3se\Error;
 
 /**
  * Description of Level

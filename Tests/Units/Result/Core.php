@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Histoire\Tests\Units\Result;
+namespace Siwayll\Gen3se\Tests\Units\Result;
 
 use atoum;
-use Siwayll\Histoire\Result\Core as TestClass;
+use Siwayll\Gen3se\Result\Core as TestClass;
 
 /**
  * Test class for formulaire.
@@ -22,8 +22,8 @@ class Core extends atoum
     {
         $this
             ->object(new TestClass())
-            ->class('\Siwayll\Histoire\Result\Core')
-                ->hasInterface('\Siwayll\Histoire\Result\CoreInterface')
+            ->class('\Siwayll\Gen3se\Result\Core')
+                ->hasInterface('\Siwayll\Gen3se\Result\CoreInterface')
                 ->hasInterface('\ArrayAccess')
         ;
     }

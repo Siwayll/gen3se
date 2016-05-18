@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Histoire\Result;
+namespace Siwayll\Gen3se\Result;
 
 /**
  * Interface des classes de configuration

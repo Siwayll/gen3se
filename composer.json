@@ -1,5 +1,5 @@
 {
-  "name": "siwayll/histoire",
+  "name": "siwayll/gen3se",
   "type": "module",
   "description": "random generator of inspiration",
   "keywords": ["write", "generator", "php"],
@@ -27,7 +27,7 @@
   },
   "autoload": {
       "psr-4": {
-          "Siwayll\\Histoire\\": ""
+          "Siwayll\\Gen3se\\": ""
       }
   }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\unit\Siwayll\Histoire;
+namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Histoire\ChoiceData as TestedClass;
+use \Siwayll\Gen3se\ChoiceData as TestedClass;
 
 /**
  *

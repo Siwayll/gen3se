@@ -6,10 +6,10 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace Siwayll\Histoire\Tests\Unit;
+namespace Siwayll\Gen3se\Tests\Unit;
 
 use atoum;
-use \Siwayll\Histoire\ArrayUpdate as TestedClass;
+use \Siwayll\Gen3se\ArrayUpdate as TestedClass;
 
 /**
  * Tests unitaire pour ArrayUpdate

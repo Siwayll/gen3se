@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\unit\Siwayll\Histoire\Modificator;
+namespace tests\unit\Siwayll\Gen3se\Modificator;
 
 use atoum;
-use \Siwayll\Histoire\Modificator\Mark as TestedClass;
+use \Siwayll\Gen3se\Modificator\Mark as TestedClass;
 
 /**
  *
@@ -44,7 +44,7 @@ class Mark extends atoum
     {
         $this
             ->object(new TestedClass())
-                ->isInstanceOf('Siwayll\Histoire\Modificator\Base')
+                ->isInstanceOf('Siwayll\Gen3se\Modificator\Base')
         ;
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace tests\unit\Siwayll\Histoire\Modificator;
+namespace tests\unit\Siwayll\Gen3se\Modificator;
 
 use atoum;
-use \Siwayll\Histoire\Modificator\Beauty as TestedClass;
-use \Siwayll\Histoire\Error\Level;
+use \Siwayll\Gen3se\Modificator\Beauty as TestedClass;
+use \Siwayll\Gen3se\Error\Level;
 
 /**
  *

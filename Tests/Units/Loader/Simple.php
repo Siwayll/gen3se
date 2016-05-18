@@ -6,12 +6,12 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace tests\unit\Siwayll\Histoire\Loader;
+namespace tests\unit\Siwayll\Gen3se\Loader;
 
 use atoum;
-use Siwayll\Histoire\ChoiceData;
-use Siwayll\Histoire\Choice;
-use Siwayll\Histoire\Loader\Simple as TestedClass;
+use Siwayll\Gen3se\ChoiceData;
+use Siwayll\Gen3se\Choice;
+use Siwayll\Gen3se\Loader\Simple as TestedClass;
 
 /**
  *

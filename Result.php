@@ -1,8 +1,9 @@
 <?php
 
-namespace Siwayll\Histoire;
+namespace Siwayll\Gen3se;
 
-use Siwayll\Histoire\Result\CoreInterface;
+use Siwayll\Gen3se\Result\Core;
+use Siwayll\Gen3se\Result\CoreInterface;
 use Solire\Conf\Conf;
 use Solire\Conf\Loader\ArrayToConf;
 
@@ -61,6 +62,27 @@ class Result
     }
 
     /**
+     *
+     * @param $conf
+     * @param $data
+     * @return Core
+     */
+    protected function arrayConvert($conf, $data)
+    {
+        if ($conf === null) {
+            $conf = new Core();
+        }
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $conf->set($this->arrayConvert(null, $value), $key);
+                continue;
+            }
+            $conf->set($value, $key);
+        }
+        return $conf;
+    }
+
+    /**
      * Enregistre le resultat d'un choix
      *
      * @param string $name  Nom du choix
@@ -91,7 +113,7 @@ class Result
             }
             // classement des données lorsqu'il y en a plusieurs
             if (is_array($datas)) {
-                $datas = new ArrayToConf($datas);
+                $datas = $this->arrayConvert(null, $datas);
             }
             if ($this->storage->has(...$this->stow[$name]) === true) {
                 $alreadyPresent = $this->storage->get(...$this->stow[$name]);

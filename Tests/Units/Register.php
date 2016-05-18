@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\unit\Siwayll\Histoire;
+namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Histoire\Register as TestedClass;
+use \Siwayll\Gen3se\Register as TestedClass;
 
 /**
  * Test class for Register

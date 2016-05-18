@@ -6,10 +6,10 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace tests\unit\Siwayll\Histoire;
+namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Histoire\Order as TestedClass;
+use \Siwayll\Gen3se\Order as TestedClass;
 
 /**
  *

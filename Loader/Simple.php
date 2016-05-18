@@ -1,10 +1,10 @@
 <?php
 
-namespace Siwayll\Histoire\Loader;
+namespace Siwayll\Gen3se\Loader;
 
 use \Exception;
-use Siwayll\Histoire\Choice;
-use Siwayll\Histoire\ChoiceData;
+use Siwayll\Gen3se\Choice;
+use Siwayll\Gen3se\ChoiceData;
 
 class Simple
 {

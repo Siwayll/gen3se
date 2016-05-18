@@ -6,21 +6,21 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace tests\unit\Siwayll\Histoire;
+namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use Siwayll\Histoire\Constraint;
-use Siwayll\Histoire\Constraint\Rule\Value;
-use \Siwayll\Histoire\Engine as TestedClass;
-use Siwayll\Histoire\Error\Level;
-use \Siwayll\Histoire\Loader\Simple;
+use Siwayll\Gen3se\Constraint;
+use Siwayll\Gen3se\Constraint\Rule\Value;
+use \Siwayll\Gen3se\Engine as TestedClass;
+use Siwayll\Gen3se\Error\Level;
+use \Siwayll\Gen3se\Loader\Simple;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Siwayll\Histoire\Modificator\Tag;
-use Siwayll\Histoire\Order;
-use Siwayll\Histoire\Constraint\Rule;
-use Siwayll\Histoire\Result;
-use Siwayll\Histoire\Result\Core as ResultData;
+use Siwayll\Gen3se\Modificator\Tag;
+use Siwayll\Gen3se\Order;
+use Siwayll\Gen3se\Constraint\Rule;
+use Siwayll\Gen3se\Result;
+use Siwayll\Gen3se\Result\Core as ResultData;
 use Symfony\Component\Yaml\Yaml;
 
 /**

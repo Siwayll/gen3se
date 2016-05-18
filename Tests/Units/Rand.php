@@ -6,10 +6,10 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace tests\unit\Siwayll\Histoire;
+namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Histoire\Rand as testedClass;
+use \Siwayll\Gen3se\Rand as testedClass;
 
 /**
  * Chargement automatique des classes
@@ -28,11 +28,11 @@ class Rand extends atoum
     {
         $this
             ->object(new testedClass())
-                ->isInstanceOf('\Siwayll\Histoire\Rand')
+                ->isInstanceOf('\Siwayll\Gen3se\Rand')
             ->object(new testedClass(0))
-                ->isInstanceOf('\Siwayll\Histoire\Rand')
+                ->isInstanceOf('\Siwayll\Gen3se\Rand')
             ->object(new testedClass(5, 15))
-                ->isInstanceOf('\Siwayll\Histoire\Rand')
+                ->isInstanceOf('\Siwayll\Gen3se\Rand')
             ->exception(function () {
                 $foo = new testedClass(5, 3);
             })

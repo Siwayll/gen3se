@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Histoire\Modificator;
+namespace Siwayll\Gen3se\Modificator;
 
-use \Siwayll\Histoire\Register;
-use \Siwayll\Histoire\Error\Level;
+use \Siwayll\Gen3se\Register;
+use \Siwayll\Gen3se\Error\Level;
 use \Exception;
 
 /**

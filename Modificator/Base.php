@@ -1,8 +1,8 @@
 <?php
 
-namespace Siwayll\Histoire\Modificator;
+namespace Siwayll\Gen3se\Modificator;
 
-use \Siwayll\Histoire\RegisterTrait;
+use \Siwayll\Gen3se\RegisterTrait;
 
 /**
  * Modèle de base d'un modificateur

@@ -1,12 +1,12 @@
 <?php
 
-namespace Siwayll\Histoire\Loader;
+namespace Siwayll\Gen3se\Loader;
 
 use \Exception;
 use Hoa\Compiler\Llk\TreeNode;
-use Siwayll\Histoire\Choice;
-use Siwayll\Histoire\ChoiceData;
-use Siwayll\Histoire\RegisterTrait;
+use Siwayll\Gen3se\Choice;
+use Siwayll\Gen3se\ChoiceData;
+use Siwayll\Gen3se\RegisterTrait;
 
 class FromCompiler
 {

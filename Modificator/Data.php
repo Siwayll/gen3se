@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Histoire\Modificator;
+namespace Siwayll\Gen3se\Modificator;
 
-use Siwayll\Histoire\Engine;
-use \Siwayll\Histoire\Register;
+use Siwayll\Gen3se\Engine;
+use \Siwayll\Gen3se\Register;
 
 /**
  * Ajout de la possibilité de spécification des données d'une option

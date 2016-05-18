@@ -6,10 +6,10 @@
  * Time: 09:19
  */
 
-namespace Siwayll\Histoire;
+namespace Siwayll\Gen3se;
 
 
-use Siwayll\Histoire\Constraint\Rule;
+use Siwayll\Gen3se\Constraint\Rule;
 
 class Constraint
 {

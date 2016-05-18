@@ -5,7 +5,7 @@
  * @author  Siwaÿll <sana.th.labs@gmail.com>
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
-namespace Siwayll\Histoire;
+namespace Siwayll\Gen3se;
 
 use \Exception;
 

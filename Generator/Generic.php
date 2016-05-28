@@ -30,7 +30,7 @@ class Generic
     /**
      * Générateur
      */
-    public function __construct($name, $loader, $list)
+    public function __construct($name, $loader, $list, $render = null)
     {
         // Paramétrage du loader
         Factory::setLoader($loader);
@@ -48,6 +48,7 @@ class Generic
         // Création de l'espace de stockage du pnj
         $this->data = new Core();
         $this->result->setStorage($this->data);
+        $this->render = $render;
 
 
         // temporaire
@@ -55,6 +56,36 @@ class Generic
 
 
         $this->data->set(uniqId($name . '_'), '__data');
+    }
+
+    /**
+     * Formation du rendu du scenario
+     *
+     * @return bool|string
+     */
+    public function render()
+    {
+        if ($this->render === null) {
+            return false;
+        }
+
+        $engine = new \Mustache_Engine();
+        $engine->addHelper('case', [
+            'lower' => function($value) { return strtolower((string) $value); },
+            'upper' => function($value) { return strtoupper((string) $value); },
+        ]);
+
+        $toArray = function ($conf) use (&$toArray) {
+            $conf = (array) $conf;
+            foreach ($conf as &$data) {
+                if (is_object($data) || is_array($data)) {
+                    $data = $toArray($data);
+                }
+            }
+            return $conf;
+        };
+
+        return $engine->render($this->render, $toArray($this->data));
     }
 
     /**

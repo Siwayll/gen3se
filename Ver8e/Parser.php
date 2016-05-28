@@ -18,6 +18,7 @@ class Parser implements Visit
     public function visit(Element $globalElement, &$handle = null, $eldnah = null)
     {
         $loader = new Loader();
+        $render = null;
         foreach ($globalElement->getChildren() as $element) {
             switch ($element->getId()) {
                 case '#choice' :
@@ -30,6 +31,10 @@ class Parser implements Visit
                     $scenarioList = [];
 
                     foreach ($element->getChildren() as $subElement) {
+                        if ($subElement->getId() === '#scenarioRender') {
+                            $render = $subElement->getChild(0)->getValue()['value'];
+                            continue;
+                        }
                         if ($subElement->getId() != '#scenarioChoice') {
                             continue;
                         }
@@ -40,6 +45,6 @@ class Parser implements Visit
             }
         }
 
-        return new Generator($scenarioName, $loader, $scenarioList);
+        return new Generator($scenarioName, $loader, $scenarioList, $render);
     }
 }

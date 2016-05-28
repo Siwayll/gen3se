@@ -7,6 +7,7 @@
 %token  sce:end         [-]{3} -> default
 %token  sce:choice      >
 %token  sce:name        [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
+%token  sce:_string     "  -> string
 
 
 %token  choice           Choix -> chce
@@ -23,8 +24,9 @@
 %token  chce:integer     (0|[1-9]\d*)
 %token  chce:string      ([^"]+)
 %token  chce:_string     "  -> string
+
 %token  string:value     ([^"]+)
-%token  string:string_   " -> chce
+%token  string:string_   " -> __shift__
 
 
 
@@ -45,10 +47,14 @@ stringQuote:
 #scenario:
     ::scenari:: ::space:: name() ::eol::
     (scenarioChoice())+
+    (scenarioRender())?
     ::end::
 
 #scenarioChoice:
     ::tab:: ::choice:: ::space:: name() ::eol::
+
+#scenarioRender:
+    stringQuote() ::eol::
 
 
 

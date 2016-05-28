@@ -40,6 +40,8 @@ weight:
 stringQuote:
     ::_string:: <value> ::string_::
 
+
+
 #scenario:
     ::scenari:: ::space:: name() ::eol::
     (scenarioChoice())+
@@ -49,6 +51,8 @@ stringQuote:
     ::tab:: ::choice:: ::space:: name() ::eol::
 
 
+
+
 #choice:
   ::choice:: ::space:: name() choiceStorage()? ::eol::
   (choiceOption())+
@@ -56,13 +60,19 @@ stringQuote:
 
 #choiceOption:
     ::tab:: ( name() ::space:: )? ( weight() ::space:: )? choiceMainValue()
-    ( ::eol:: ::tab:: ::tab:: choiceData() )*
+    ( ::eol:: ::tab:: ::tab:: choiceElement() )*
     ::eol::
 
 #choiceMainValue:
     (choiceDataName()  ::colon:: )? choiceDataValue()
 
-#choiceData:
+#choiceElement:
+    choiceData()
+
+choiceSound
+    ::bracket_:: choiceDataValue() ::_bracket::
+
+choiceData:
     choiceDataName() ::colon:: choiceDataValue()
 
 choiceDataName:

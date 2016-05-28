@@ -3,7 +3,7 @@
 %token  scenari         Scenario  -> sce
 %token  sce:tab         [ ]{2}
 %token  sce:space       [ ]
-%token  sce:eol         [\n]
+%token  sce:eol         [\n\r]+
 %token  sce:end         [-]{3} -> default
 %token  sce:choice      >
 %token  sce:name        [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
@@ -13,7 +13,7 @@
 %token  choice           Choix -> chce
 %token  chce:tab         [ ]{2}
 %token  chce:space       [ ]
-%token  chce:eol         [\n]+
+%token  chce:eol         [\n\r]+
 
 %token  chce:bracket_    \[
 %token  chce:_bracket    \]
@@ -40,7 +40,7 @@ weight:
     <integer>
 
 stringQuote:
-    ::_string:: <value> ::string_::
+    ::_string:: <value>? ::string_::
 
 
 

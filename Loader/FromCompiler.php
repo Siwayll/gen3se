@@ -83,7 +83,10 @@ class FromCompiler
             $return['key'] = $elements[0]->getValue()['value'];
             $target = 1;
         }
-        $return['value'] = $elements[$target]->getValue()['value'];
+
+        if (isset($elements[$target])) {
+            $return['value'] = $elements[$target]->getValue()['value'];
+        }
 
         return $return;
     }

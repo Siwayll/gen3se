@@ -6,9 +6,10 @@ use \Exception;
 use Hoa\Compiler\Llk\TreeNode;
 use Siwayll\Gen3se\Choice;
 use Siwayll\Gen3se\ChoiceData;
+use Siwayll\Gen3se\LoaderInterface;
 use Siwayll\Gen3se\RegisterTrait;
 
-class FromCompiler
+class FromCompiler implements LoaderInterface
 {
     use RegisterTrait;
     private $order = [];
@@ -18,11 +19,16 @@ class FromCompiler
     /**
      * Information sur l'ajout de Modificateurs
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasModificators()
+    public function hasModificators(): bool
     {
         return false;
+    }
+
+    public function getInstructions(): array
+    {
+        return [];
     }
 
     public function __construct()
@@ -146,7 +152,7 @@ class FromCompiler
      * @return Choice
      * @throws Exception si aucun choix n'éxiste avec ce nom
      */
-    public function getChoice($name)
+    public function getChoice(string $name): Choice
     {
         if (isset($this->loaded[$name])) {
             return $this->loaded[$name];

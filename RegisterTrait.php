@@ -38,7 +38,7 @@ Trait RegisterTrait
      *
      * @return string
      */
-    public function getRegisterKey()
+    final public function getRegisterKey(): string
     {
         return $this->registerKey;
     }

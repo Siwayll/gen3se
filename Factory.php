@@ -2,13 +2,14 @@
 
 namespace Siwayll\Gen3se;
 
-use Monolog\Formatter\HtmlFormatter;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 class Factory
 {
-
+    /**
+     * @var LoaderInterface
+     */
     private static $loader;
     private static $order;
     private static $result;
@@ -16,7 +17,10 @@ class Factory
 
     private static $mods = [];
 
-    public static function setLoader($loader)
+    /**
+     * @param LoaderInterface $loader Module de chargement des choix
+     */
+    public static function setLoader(LoaderInterface $loader)
     {
         self::$loader = $loader;
     }

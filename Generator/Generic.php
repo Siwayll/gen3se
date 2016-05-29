@@ -3,6 +3,7 @@
 namespace Siwayll\Gen3se\Generator;
 
 use Siwayll\Gen3se\Factory;
+use Siwayll\Gen3se\LoaderInterface;
 use Siwayll\Gen3se\RegisterTrait;
 
 use Siwayll\Gen3se\Modificator\Data;
@@ -30,7 +31,7 @@ class Generic
     /**
      * Générateur
      */
-    public function __construct($name, $loader, $list, $render = null)
+    public function __construct($name, LoaderInterface $loader, $list, $render = null)
     {
         // Paramétrage du loader
         Factory::setLoader($loader);

@@ -14,10 +14,16 @@
 %token  chce:tab         [ ]{2}
 %token  chce:space       [ ]
 %token  chce:eol         [\n\r]+
+%token  chce:tagCleat    #
+%token  chce:globalCleat    \*
+%token  chce:tagName     [A-Z_&!]+
 
 %token  chce:bracket_    \[
 %token  chce:_bracket    \]
+%token  chce:rBracket_    \(
+%token  chce:_rBracket    \)
 %token  chce:colon       :
+%token  chce:null                ~
 %token  chce:storageDelimiter    \.
 %token  chce:end         [-]{3} -> default
 %token  chce:name        [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
@@ -36,8 +42,14 @@
 name:
     <name>
 
+tagName:
+    <tagName>
+
 weight:
     <integer>
+
+null:
+    <null>
 
 stringQuote:
     ::_string:: <value>? ::string_::
@@ -61,11 +73,18 @@ stringQuote:
 
 #choice:
   ::choice:: ::space:: name() choiceStorage()? ::eol::
-  (choiceOption())+
+  ( choiceGlobalElement() )*
+  ( choiceOption() )+
   ::end::
 
+choiceGlobalElement:
+    ::tab:: ::tab:: ::globalCleat:: choiceElement() ::eol::
+
+#choiceStorage:
+    ::space:: ::bracket_:: name() ( ::storageDelimiter:: name())* ::_bracket::
+
 #choiceOption:
-    ::tab:: ( name() ::space:: )? ( weight() ::space:: )? choiceMainValue()
+    ::tab:: ( name() ::space:: )? ( weight() ::space:: )? choiceMainValue() ( ::space:: choiceTag() )*
     ( ::eol:: ::tab:: ::tab:: choiceElement() )*
     ::eol::
 
@@ -75,8 +94,8 @@ stringQuote:
 #choiceElement:
     choiceData()
 
-choiceSound
-    ::bracket_:: choiceDataValue() ::_bracket::
+#choiceTag:
+    ::tagCleat:: tagName() ::rBracket_:: weight() ::_rBracket::
 
 choiceData:
     choiceDataName() ::colon:: choiceDataValue()
@@ -85,9 +104,5 @@ choiceDataName:
     stringQuote() | name()
 
 choiceDataValue:
-    stringQuote()
-
-#choiceStorage:
-    ::space:: ::bracket_:: name() ( ::storageDelimiter:: name())* ::_bracket::
-
+    stringQuote() | null()
 

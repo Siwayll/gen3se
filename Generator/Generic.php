@@ -7,6 +7,8 @@ use Siwayll\Gen3se\LoaderInterface;
 use Siwayll\Gen3se\RegisterTrait;
 
 use Siwayll\Gen3se\Modificator\Data;
+use Siwayll\Gen3se\Modificator\NameSound;
+use Siwayll\Gen3se\Modificator\Tag;
 
 use Siwayll\Gen3se\Result\Core;
 use Solire\Conf\Conf;
@@ -39,6 +41,8 @@ class Generic
 
         // Chargement des mod
         Factory::addMod(new Data());
+        Factory::addMod(new NameSound());
+        Factory::addMod(new Tag());
 
         $this->engine = Factory::loadEngine();
 
@@ -86,7 +90,15 @@ class Generic
             return $conf;
         };
 
-        return $engine->render($this->render, $toArray($this->data));
+        $arrayData = $toArray($this->data);
+
+        foreach ($arrayData as $key => $value) {
+            if (is_array($value)) {
+                $arrayData[$key] = $value['text'];
+            }
+        }
+
+        return $engine->render($this->render, $arrayData);
     }
 
     /**

@@ -43,6 +43,8 @@ class FromCompiler implements LoaderInterface
             'options' => []
         ];
 
+        $global = [];
+
         foreach ($choiceData->getChildren() as $element) {
             switch ($element->getId()) {
                 case 'token':
@@ -68,7 +70,12 @@ class FromCompiler implements LoaderInterface
                     unset($storageRule);
                     break;
                 case '#choiceOption' :
-                    $rawData['options'][] = $this->loadOption($element);
+                    $rawData['options'][] = $this->loadOption($element, $global);
+                    break;
+                case '#choiceElement':
+                    $value = $this->loadChoiceDataValue($element, 'global');
+                    $global[$value['key']] = $value['value'];
+                    unset($value);
                     break;
                 default:
                     var_dump($element->getId());
@@ -91,19 +98,26 @@ class FromCompiler implements LoaderInterface
         }
 
         if (isset($elements[$target])) {
-            $return['value'] = $elements[$target]->getValue()['value'];
+            $data = $elements[$target]->getValue();
+            $return['value'] = $data['value'];
+            if ($data['token'] ==  'null') {
+                $return['value'] = null;
+            }
+
         }
 
         return $return;
     }
 
-    private function loadOption(TreeNode $choiceOption)
+    private function loadOption(TreeNode $choiceOption, array $global)
     {
 
         $archi = [
             'name' => uniqid('auto_'),
             'weight' => 100,
         ];
+
+        $archi = array_merge($archi, $global);
 
         foreach ($choiceOption->getChildren() as $element) {
             switch ($element->getId()) {
@@ -126,6 +140,18 @@ class FromCompiler implements LoaderInterface
                     $archi[$value['key']] = $value['value'];
                     unset($value);
                     break;
+                case '#choiceTag':
+                    if (!isset($archi['tags'])) {
+                        $archi['tags'] = [];
+                    }
+
+                    $tag = $element->getChildren();
+                    $key = $tag[0]->getValue();
+                    $weight = $tag[1]->getValue();
+
+                    $archi['tags'][$key['value']] = $weight['value'];
+                    break;
+
                 default:
                     var_dump($element->getId());
             }

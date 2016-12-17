@@ -47,6 +47,9 @@ class NameSound extends Base
         }
 
         $particle = $options['text'];
+        if (empty($particle)) {
+            return $options;
+        }
         $end = substr($particle, -1);
 
         $cat = 'CONSONNE';

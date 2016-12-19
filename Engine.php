@@ -149,6 +149,7 @@ class Engine
             throw new Exception($message, Level::WARNING);
         }
         $this->modificators[$modificator->getName()] = $modificator;
+        $this->logger->addNotice('Engine add modificator ' . $modificator->getName());
         $modificators = $modificator->getInstructions();
         foreach ($modificators as $code => $callback) {
             $this->instructions[$code] = $callback;

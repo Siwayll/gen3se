@@ -19,6 +19,7 @@ class Parser implements Visit
     {
         $loader = new Loader();
         $render = null;
+        $modList = null;
         foreach ($globalElement->getChildren() as $element) {
             switch ($element->getId()) {
                 case '#choice' :
@@ -31,20 +32,23 @@ class Parser implements Visit
                     $scenarioList = [];
 
                     foreach ($element->getChildren() as $subElement) {
-                        if ($subElement->getId() === '#scenarioRender') {
-                            $render = $subElement->getChild(0)->getValue()['value'];
-                            continue;
-                        }
-                        if ($subElement->getId() != '#scenarioChoice') {
-                            continue;
-                        }
+                        switch ($subElement->getId()) {
+                            case '#scenarioRender':
+                                $render = $subElement->getChild(0)->getValue()['value'];
+                                break;
 
-                        $scenarioList[] = $subElement->getChild(0)->getValue()['value'];
+                            case '#scenarioMod':
+                                $modList = new ModList($subElement);
+                                break;
+                            case '#scenarioChoice':
+                                $scenarioList[] = $subElement->getChild(0)->getValue()['value'];
+                                break;
+                        }
                     }
                     break;
             }
         }
 
-        return new Generator($scenarioName, $loader, $scenarioList, $render);
+        return new Generator($scenarioName, $loader, $scenarioList, $render, $modList);
     }
 }

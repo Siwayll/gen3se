@@ -11,6 +11,7 @@ use Siwayll\Gen3se\Modificator\NameSound;
 use Siwayll\Gen3se\Modificator\Tag;
 
 use Siwayll\Gen3se\Result\Core;
+use Siwayll\Gen3se\Ver8e\ModList;
 use Solire\Conf\Conf;
 
 class Generic
@@ -33,16 +34,19 @@ class Generic
     /**
      * Générateur
      */
-    public function __construct($name, LoaderInterface $loader, $list, $render = null)
+    public function __construct($name, LoaderInterface $loader, $list, $render = null, ModList $modList = null)
     {
         // Paramétrage du loader
         Factory::setLoader($loader);
         $this->keys['loader'] = $loader->getRegisterKey();
 
         // Chargement des mod
-        Factory::addMod(new Data());
-        Factory::addMod(new NameSound());
-        Factory::addMod(new Tag());
+        if ($modList !== null) {
+            $mods = $modList->getList();
+            foreach ($mods as $mod) {
+                Factory::addMod(new $mod());
+            }
+        }
 
         $this->engine = Factory::loadEngine();
 

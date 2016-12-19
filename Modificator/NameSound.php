@@ -61,7 +61,7 @@ class NameSound extends Base
             $options['mod'] = [];
         }
         $options['mod']['0000-rmTag'] = ['SOUND_*'];
-        $options['mod']['0009-addTag'] = ['SOUND_' . $end, 'SOUND_' . $cat];
+        $options['mod']['0009-addTag'] = ['SOUND_' . strtoupper($end), 'SOUND_' . $cat];
 
         return $options;
     }

@@ -16,12 +16,12 @@
     "symfony/yaml": "^3.0",
     "phpmd/phpmd": "^2.3",
     "mustache/mustache": "^2.10",
+    "monolog/monolog": "~1.12",
     "hoa/compiler": "~3.0"
   },
   "require-dev": {
     "php": ">=5.5.0",
     "siwayll/deuton": "dev-develop",
-    "monolog/monolog": "~1.12",
     "atoum/atoum": "^2.2"
   },
   "autoload": {

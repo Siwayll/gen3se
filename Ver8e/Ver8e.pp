@@ -17,9 +17,8 @@
 %token  chce:tab                 [ ]{2}
 %token  chce:space               [ ]
 %token  chce:eol                 [\n\r]+
-%token  chce:tagCleat            #
+%token  chce:tagCleat            # -> tag
 %token  chce:globalCleat         \*
-%token  chce:tagName             [A-Z_&!]+
 %token  chce:bracket_            \[
 %token  chce:_bracket            \]
 %token  chce:rBracket_           \(
@@ -31,11 +30,17 @@
 %token  chce:name                [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
 %token  chce:integer             (0|[1-9]\d*)
 %token  chce:string              ([^"]+)
+%token  chce:string              ([^"]+)
 %token  chce:_string             "  -> string
 
 %token  string:value             ([^"]+)
 %token  string:string_           " -> __shift__
 
+
+%token  tag:tagName             [A-Z_&!]+
+%token  tag:rBracket_           \(
+%token  tag:_rBracket           \) -> __shift__
+%token  tag:tagWeight           [+-]?(0|[1-9]\d*)
 
 
 #root:
@@ -49,6 +54,9 @@ tagName:
 
 weight:
     <integer>
+
+tagValue:
+    <tagWeight>
 
 null:
     <null>
@@ -108,7 +116,7 @@ choiceGlobalElement:
     choiceData()
 
 #choiceTag:
-    ::tagCleat:: tagName() ::rBracket_:: weight() ::_rBracket::
+    ::tagCleat:: tagName() ::rBracket_:: tagValue() ::_rBracket::
 
 choiceData:
     choiceDataName() ::colon:: choiceDataValue()

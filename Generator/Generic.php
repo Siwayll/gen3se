@@ -98,6 +98,10 @@ class Generic
 
         foreach ($arrayData as $key => $value) {
             if (is_array($value)) {
+                if (!isset($value['text'])) {
+                    $arrayData[$key] = '';
+                    continue;
+                }
                 $arrayData[$key] = $value['text'];
             }
         }

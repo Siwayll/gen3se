@@ -110,6 +110,17 @@ class Generic
     }
 
     /**
+     * Accède aux modificateurs utilisés par le Moteur
+     *
+     * @param string $modName Nom du Modificateur
+     * @return object
+     */
+    public function getModificator(string $modName)
+    {
+        return $this->engine->getModificator($modName);
+    }
+
+    /**
      * Charge le moteur avec les choix listés et les résoux
      *
      * @param string $orders Liste des choix

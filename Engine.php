@@ -420,12 +420,12 @@ class Engine
     {
         /** @var Choice $choice */
         $choice = $this->getCurrent();
-        $this->logger->addDebug('resultat : ' . $result['name'], $result);
+        $this->logger->addDebug('Resultat : ' . $result['name'], $result);
         $result = $this->update($result);
         $this->currentResultData = $result;
 
         // @todo factoriser les traitements post UPDATE
-        if (array_key_exists('consume', $choice->getRules()) === true) {
+        if (array_key_exists('consume', $result) === true || array_key_exists('consume', $choice->getRules()) === true) {
             $choice->unsetOption($result['name']);
         }
 

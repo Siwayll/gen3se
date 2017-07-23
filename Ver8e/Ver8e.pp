@@ -30,7 +30,6 @@
 %token  chce:name                [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
 %token  chce:integer             (0|[1-9]\d*)
 %token  chce:string              ([^"]+)
-%token  chce:string              ([^"]+)
 %token  chce:_string             "  -> string
 
 %token  string:value             ([^"]+)

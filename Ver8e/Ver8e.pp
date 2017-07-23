@@ -17,6 +17,8 @@
 %token  chce:tab                 [ ]{2}
 %token  chce:space               [ ]
 %token  chce:eol                 [\n\r]+
+%token  chce:adder               >
+%token  chce:adderEnd            \+
 %token  chce:tagCleat            # -> tag
 %token  chce:globalCleat         \*
 %token  chce:bracket_            \[
@@ -106,6 +108,7 @@ choiceGlobalElement:
 #choiceOption:
     ::tab:: ( name() ::space:: )? ( weight() ::space:: )? choiceMainValue() ( ::space:: choiceTag() )*
     ( ::eol:: ::tab:: ::tab:: choiceElement() )*
+    ( ::eol:: ::tab:: ::tab:: ::adder:: addChoiceElement() )*
     ::eol::
 
 #choiceMainValue:
@@ -113,6 +116,12 @@ choiceGlobalElement:
 
 #choiceElement:
     choiceData()
+
+#addChoiceEndIndicator:
+    (::adder::)?
+
+#addChoiceElement:
+     addChoiceEndIndicator() ::space:: name()
 
 #choiceTag:
     ::tagCleat:: tagName() ::rBracket_:: tagValue() ::_rBracket::

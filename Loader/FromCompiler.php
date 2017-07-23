@@ -109,6 +109,22 @@ class FromCompiler implements LoaderInterface
         return $return;
     }
 
+    /**
+     * Crée un nouveau tableau dans $array si la clé $keyName n'existe pas
+     * 
+     * @param array  $array   Tableau dans lequel initialiser le champ
+     * @param string $keyName Clé du champ à initialiser
+     * @return array
+     */
+    private function initiateArray(array $array, string $keyName): array
+    {
+        if (!isset($array[$keyName])) {
+            $array[$keyName] = [];
+        }
+
+        return $array;
+    }
+
     private function loadOption(TreeNode $choiceOption, array $global)
     {
 
@@ -136,20 +152,34 @@ class FromCompiler implements LoaderInterface
                     }
                     break;
                 case '#choiceMainValue':
+                case '#choiceElement':
                     $value = $this->loadChoiceDataValue($element, 'text');
                     $archi[$value['key']] = $value['value'];
                     unset($value);
                     break;
                 case '#choiceTag':
-                    if (!isset($archi['tags'])) {
-                        $archi['tags'] = [];
-                    }
+                    $archi = $this->initiateArray($archi, 'tags');
 
                     $tag = $element->getChildren();
                     $key = $tag[0]->getValue();
                     $weight = $tag[1]->getValue();
 
                     $archi['tags'][$key['value']] = $weight['value'];
+                    break;
+
+                case '#addChoiceElement':
+
+                    $data = $element->getChildren();
+                    $name = $data[0]->getValue();
+                    $stepName = '0002-addNext';
+                    if ($data[0]->getId() === '#addChoiceEndIndicator') {
+                        $name = $data[1]->getValue();
+                        $stepName = '0001-addAtEnd';
+                    }
+                    $archi = $this->initiateArray($archi, 'mod');
+                    $archi['mod'] = $this->initiateArray($archi['mod'], $stepName);
+                    $archi['mod'][$stepName][] = $name['value'];
+                    unset($data, $name);
                     break;
 
                 default:

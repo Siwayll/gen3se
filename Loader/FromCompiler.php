@@ -111,7 +111,7 @@ class FromCompiler implements LoaderInterface
 
     /**
      * Crée un nouveau tableau dans $array si la clé $keyName n'existe pas
-     * 
+     *
      * @param array  $array   Tableau dans lequel initialiser le champ
      * @param string $keyName Clé du champ à initialiser
      * @return array
@@ -169,16 +169,33 @@ class FromCompiler implements LoaderInterface
 
                 case '#addChoiceElement':
 
-                    $data = $element->getChildren();
-                    $name = $data[0]->getValue();
+                    // valeurs par défaut
+                    $iterationNumber = 1;
+                    $idValue = 0;
                     $stepName = '0002-addNext';
-                    if ($data[0]->getId() === '#addChoiceEndIndicator') {
-                        $name = $data[1]->getValue();
+
+                    $data = $element->getChildren();
+
+                    if ($data[$idValue]->getId() === '#addChoiceEndIndicator') {
+                        $idValue++;
                         $stepName = '0001-addAtEnd';
                     }
+
+                    if ($data[$idValue]->getId() === '#addChoiceMultiplicator') {
+                        $child = $data[$idValue]->getChildren();
+                        $iterationNumber = (int) $child[0]->getValue()['value'];
+                        $idValue++;
+                    }
+
+                    $name = $data[$idValue]->getValue();
+                    // préparation
                     $archi = $this->initiateArray($archi, 'mod');
                     $archi['mod'] = $this->initiateArray($archi['mod'], $stepName);
-                    $archi['mod'][$stepName][] = $name['value'];
+
+                    // Application
+                    for ($i = 0; $i < $iterationNumber; $i++) {
+                        $archi['mod'][$stepName][] = $name['value'];
+                    }
                     unset($data, $name);
                     break;
 

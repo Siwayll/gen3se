@@ -17,8 +17,8 @@
 %token  chce:tab                 [ ]{2}
 %token  chce:space               [ ]
 %token  chce:eol                 [\n\r]+
-%token  chce:adder               >
-%token  chce:adderEnd            \+
+%token  chce:adder               > -> chceAdd
+
 %token  chce:tagCleat            # -> tag
 %token  chce:globalCleat         \*
 %token  chce:bracket_            \[
@@ -37,6 +37,11 @@
 %token  string:value             ([^"]+)
 %token  string:string_           " -> __shift__
 
+%token  chceAdd:atEnd            >
+%token  chceAdd:multiplicator    \*
+%token  chceAdd:integer          (\d+)
+%token  chceAdd:space            [ ]
+%token  chceAdd:name             [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]* -> chce
 
 %token  tag:tagName             [A-Z_&!]+
 %token  tag:rBracket_           \(
@@ -118,10 +123,13 @@ choiceGlobalElement:
     choiceData()
 
 #addChoiceEndIndicator:
-    (::adder::)?
+    (::atEnd::)?
+
+#addChoiceMultiplicator:
+    (::space:: ::multiplicator:: weight())?
 
 #addChoiceElement:
-     addChoiceEndIndicator() ::space:: name()
+     addChoiceEndIndicator() addChoiceMultiplicator() ::space:: name()
 
 #choiceTag:
     ::tagCleat:: tagName() ::rBracket_:: tagValue() ::_rBracket::

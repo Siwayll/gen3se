@@ -1,4 +1,5 @@
 %skip       space       \s
+%skip       comment     //([^\n\r])*
 
 %token  scenari                  Scenario  -> sce
 %token  sce:spaceComa            [ \n\r]*,[ \n\r]*
@@ -9,7 +10,7 @@
 %token  sce:choice               >
 %token  sce:modCleat             mod:[ ]?
 %token  sce:modName              [A-Z][A-za-z]*
-%token  sce:name                 [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
+%token  sce:name                 [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ0-9]*
 %token  sce:_string              "  -> string
 
 
@@ -18,18 +19,17 @@
 %token  chce:space               [ ]
 %token  chce:eol                 [\n\r]+
 %token  chce:adder               > -> chceAdd
-
+%token  chce:tagAdder            \+# -> chceAddTag
 %token  chce:tagCleat            # -> tag
 %token  chce:globalCleat         \*
-%token  chce:bracket_            \[
-%token  chce:_bracket            \]
+%token  chce:bracket_            \[ -> storage
 %token  chce:rBracket_           \(
 %token  chce:_rBracket           \)
 %token  chce:colon               :
 %token  chce:null                ~
-%token  chce:storageDelimiter    \.
+
 %token  chce:end                 [-]{3} -> default
-%token  chce:name                [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]*
+%token  chce:name                [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ0-9]*
 %token  chce:integer             (0|[1-9]\d*)
 %token  chce:string              ([^"]+)
 %token  chce:_string             "  -> string
@@ -37,11 +37,21 @@
 %token  string:value             ([^"]+)
 %token  string:string_           " -> __shift__
 
+%token  chceAddTag:tagName       [A-Z_&!]+ -> chce
+
+%token  storage:_bracket            \] -> chce
+%token  storage:name                [a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ0-9\-]+
+%token  storage:storageDelimiter    \.
+
+%token  chceAdd:atEnd            >
+%token  chceAdd:data             \+
+%token  chceAdd:dataConcat       \.
+%token  chceAdd:dataMustache     \{\}
 %token  chceAdd:atEnd            >
 %token  chceAdd:multiplicator    \*
 %token  chceAdd:integer          (\d+)
 %token  chceAdd:space            [ ]
-%token  chceAdd:name             [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ]* -> chce
+%token  chceAdd:name             [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ0-9]* -> chce
 
 %token  tag:tagName             [A-Z_&!]+
 %token  tag:rBracket_           \(
@@ -113,6 +123,7 @@ choiceGlobalElement:
 #choiceOption:
     ::tab:: ( name() ::space:: )? ( weight() ::space:: )? choiceMainValue() ( ::space:: choiceTag() )*
     ( ::eol:: ::tab:: ::tab:: choiceElement() )*
+    ( ::eol:: ::tab:: ::tab:: ::tagAdder:: tagAdder() )*
     ( ::eol:: ::tab:: ::tab:: ::adder:: addChoiceElement() )*
     ::eol::
 
@@ -121,15 +132,6 @@ choiceGlobalElement:
 
 #choiceElement:
     choiceData()
-
-#addChoiceEndIndicator:
-    (::atEnd::)?
-
-#addChoiceMultiplicator:
-    (::space:: ::multiplicator:: weight())?
-
-#addChoiceElement:
-     addChoiceEndIndicator() addChoiceMultiplicator() ::space:: name()
 
 #choiceTag:
     ::tagCleat:: tagName() ::rBracket_:: tagValue() ::_rBracket::
@@ -143,3 +145,19 @@ choiceDataName:
 choiceDataValue:
     stringQuote() | null()
 
+//   ___ _        _          _      _    _
+//  / __| |_  ___(_)__ ___  /_\  __| |__| |___ _ _
+// | (__| ' \/ _ \ / _/ -_)/ _ \/ _` / _` / -_) '_|
+//  \___|_||_\___/_\__\___/_/ \_\__,_\__,_\___|_|
+//
+#addChoiceIndicator:
+    (<atEnd> | <dataMustache> | <data> | <dataConcat>)?
+
+#addChoiceMultiplicator:
+    (::space:: ::multiplicator:: weight())?
+
+#addChoiceElement:
+    addChoiceIndicator() addChoiceMultiplicator() ::space:: name()
+
+#tagAdder:
+    tagName()

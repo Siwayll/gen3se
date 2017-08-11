@@ -33,6 +33,7 @@ class Data extends Base
         $instructions = [
             'addData' => [$this, 'addData'],
             'dataConcat' => [$this, 'dataConcat'],
+            'dataMustache' => [$this, 'addDataMustache'],
         ];
         return $instructions;
     }
@@ -132,6 +133,60 @@ class Data extends Base
             $result = $engine->update($result);
 
             $finalResult = array_merge($result, $finalResult);
+        }
+
+        $logger->addDebug('addData restoration current ' . $current, [$finalResult]);
+        $engine->setCurrent($current);
+
+        return $finalResult;
+    }
+
+
+    /**
+     * Récupère les données des choix demandés pour les ajouter aux données de
+     * l'option
+     *
+     * @param array|string $options Choix à jouer pour récupérer les données
+     *
+     * @return array
+     */
+    public function addDataMustache($options)
+    {
+        if (!is_array($options)) {
+            $options = [$options];
+        }
+        $engine = Register::load($this->engineKey);
+        $finalResult = $engine->getCurrentResultData();
+
+        /** @var \Monolog\Logger $logger */
+        $logger = $engine->getlogger();
+        $logger->addNotice('addData to ' . $finalResult['name'], [$finalResult]);
+
+        $mustacheEngine = new \Mustache_Engine();
+        $mustacheEngine->addHelper('case', [
+            'lower' => function($value) { return strtolower((string) $value); },
+            'upper' => function($value) { return strtoupper((string) $value); },
+        ]);
+
+        $current = $engine->getCurrent()->getName();
+        $data = [];
+        foreach ($options as $choiceName) {
+            $result = $engine
+                ->loadChoice($choiceName)
+                ->roll()
+                ->getResult()
+            ;
+            $logger->addDebug('addData add ' . $result['name'], [$result]);
+            $result = $engine->update($result);
+
+            $data = array_merge($data, $result);
+
+        }
+        foreach ($finalResult as $key => $value) {
+            if (!is_string($value)) {
+                continue;
+            }
+            $finalResult[$key] = $mustacheEngine->render($value, $data);
         }
 
         $logger->addDebug('addData restoration current ' . $current, [$finalResult]);

@@ -377,16 +377,16 @@ class Choice
     /**
      * Indique si une option est accessible
      *
-     * @param $optionName Nom de l'option que l'on veut utiliser
-     *
-     * @return bool
+     * @param string $fieldName  Nom du chanmp sur lequel chercher la valeur
+     * @param string $optionName Valeur à forcer
+     * @return bool/string
      */
-    public function canIForce($optionName)
+    public function canIForce(string $fieldName = 'name', string $optionName)
     {
         $this->load();
 
         foreach ($this->loaded as $option) {
-            if ($option['name'] != $optionName) {
+            if ($option[$fieldName] != $optionName) {
                 continue;
             }
 
@@ -394,7 +394,7 @@ class Choice
                 return false;
             }
 
-            return true;
+            return $option['name'];
         }
 
         return false;

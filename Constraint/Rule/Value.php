@@ -9,6 +9,7 @@ use Siwayll\Gen3se\Engine;
 class Value extends Rule
 {
     private $value;
+    private $fieldName = 'text';
 
     public function __construct($value)
     {
@@ -17,10 +18,11 @@ class Value extends Rule
 
     public function selectResult(Engine $engine, Choice $choice)
     {
-        if ($choice->canIForce($this->value) === false) {
+        $targetName = $choice->canIForce($this->fieldName, $this->value);
+        if ($targetName === false) {
             throw new \Exception('Pour ' . $choice->getName() . ' ' . $this->value . ' non valide');
         }
 
-        return $choice->getOption($this->value);
+        return $choice->getOption($targetName);
     }
 }

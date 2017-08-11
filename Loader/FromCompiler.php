@@ -154,7 +154,14 @@ class FromCompiler implements LoaderInterface
                 case '#choiceMainValue':
                 case '#choiceElement':
                     $value = $this->loadChoiceDataValue($element, 'text');
-                    $archi[$value['key']] = $value['value'];
+                    $rawData = $value['value'];
+                    if (isset($archi[$value['key']])) {
+                        if (!is_array($archi[$value['key']])) {
+                            $rawData = [$archi[$value['key']]];
+                        }
+                        $rawData[] = $value['value'];
+                    }
+                    $archi[$value['key']] = $rawData;
                     unset($value);
                     break;
                 case '#choiceTag':
@@ -167,18 +174,40 @@ class FromCompiler implements LoaderInterface
                     $archi['tags'][$key['value']] = $weight['value'];
                     break;
 
+                case '#tagAdder':
+                    $data = $element->getChildren();
+                    $value = $data[0]->getValue();
+                    $stepName = '0010-addTag';
+
+                    $archi = $this->initiateArray($archi, 'mod');
+                    $archi['mod'] = $this->initiateArray($archi['mod'], $stepName);
+
+                    $archi['mod'][$stepName][] = $value['value'];
+
+                    unset($data, $value);
+                    break;
+
                 case '#addChoiceElement':
 
                     // valeurs par défaut
                     $iterationNumber = 1;
                     $idValue = 0;
-                    $stepName = '0002-addNext';
+                    $stepName = '0020-addNext';
 
                     $data = $element->getChildren();
 
-                    if ($data[$idValue]->getId() === '#addChoiceEndIndicator') {
+                    if ($data[$idValue]->getId() === '#addChoiceIndicator') {
+                        $raw = $data[$idValue]->getChildren();
+                        $token = $raw[0]->getValue();
+                        switch ($token['token']) {
+                            case 'atEnd':
+                                $stepName = '0001-addAtEnd';
+                                break;
+                            case 'dataMustache':
+                                $stepName = '0100-dataMustache';
+                                break;
+                        }
                         $idValue++;
-                        $stepName = '0001-addAtEnd';
                     }
 
                     if ($data[$idValue]->getId() === '#addChoiceMultiplicator') {

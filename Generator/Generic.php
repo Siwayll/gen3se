@@ -2,6 +2,7 @@
 
 namespace Siwayll\Gen3se\Generator;
 
+use Siwayll\Gen3se\Constraint;
 use Siwayll\Gen3se\Factory;
 use Siwayll\Gen3se\LoaderInterface;
 use Siwayll\Gen3se\RegisterTrait;
@@ -118,6 +119,15 @@ class Generic
     public function getModificator(string $modName)
     {
         return $this->engine->getModificator($modName);
+    }
+
+    /**
+     * @param Constraint $constraint
+     * @return void
+     */
+    public function addConstraint(Constraint $constraint)
+    {
+        $this->engine->addConstraint($constraint);
     }
 
     /**

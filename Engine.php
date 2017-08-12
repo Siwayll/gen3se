@@ -432,7 +432,7 @@ class Engine
             $choice->getRule('consume');
         }
 
-        $this->result->saveFor($choice->getName(), $result);
+        $this->result->saveFor($choice->getName(), $result, $choice->getRules());
 
         return $this;
     }

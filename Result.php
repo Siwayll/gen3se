@@ -90,7 +90,7 @@ class Result
      *
      * @return $this
      */
-    public function saveFor($name, array $datas)
+    public function saveFor($name, array $datas, array $rules = null)
     {
         unset(
             $datas['mod'],
@@ -122,6 +122,12 @@ class Result
                 }
                 $alreadyPresent[] = $datas;
                 $datas = $alreadyPresent;
+            }
+            if (!empty($rules)) {
+                if (!is_array($datas)) {
+                    $datas = [$datas];
+                }
+                $datas['_rules'] = $rules;
             }
             $this->storage->set($datas, ...$this->stow[$name]);
         }

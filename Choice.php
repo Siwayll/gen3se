@@ -86,10 +86,46 @@ class Choice
      * Renvoie toutes les règles de configurations
      *
      * @return array
+     * @deprecated
      */
     public function getRules()
     {
         return $this->rules;
+    }
+
+    /**
+     * Indique si une règle existe ou nom
+     *
+     * @param string $ruleName Nom de la règle
+     * @return bool
+     */
+    public function hasRule(string $ruleName): bool
+    {
+        if (isset($this->rules[$ruleName])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Renvoie le contenu d'une règle et l'efface du choix
+     *
+     * @param string $ruleName Nom de la règle
+     * @return mixed
+     * @throws Exception Si la règle n'est pas présente
+     */
+    public function getRule(string $ruleName)
+    {
+        if (!isset($this->rules[$ruleName])) {
+            throw new Exception(
+                'Dans _' . $this->getName() . '_ la regle __' . $ruleName . '__ n\'existe pas',
+                400
+            );
+        }
+
+        $rule = $this->rules[$ruleName];
+        unset($this->rules[$ruleName]);
+        return $rule;
     }
 
     /**

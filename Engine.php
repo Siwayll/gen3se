@@ -303,10 +303,9 @@ class Engine
         $this->logger->addDebug('Resolve ' . $choice->getName());
 
         // Factoriser
-        $rules = $choice->getRules();
-        if (isset($rules['storageRule'])) {
+        if ($choice->hasRule('storageRule')) {
             $this->result
-                ->addStorageRule($choice->getName(), $rules['storageRule'])
+                ->addStorageRule($choice->getName(), $choice->getRule('storageRule'))
             ;
         }
 
@@ -425,8 +424,12 @@ class Engine
         $this->currentResultData = $result;
 
         // @todo factoriser les traitements post UPDATE
-        if (array_key_exists('consume', $result) === true || array_key_exists('consume', $choice->getRules()) === true) {
+        if (array_key_exists('consume', $result) === true) {
             $choice->unsetOption($result['name']);
+        }
+        if ($choice->hasRule('consume') === true) {
+            $choice->unsetOption($result['name']);
+            $choice->getRule('consume');
         }
 
         $this->result->saveFor($choice->getName(), $result);

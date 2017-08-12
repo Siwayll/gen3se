@@ -427,10 +427,6 @@ class Engine
         if (array_key_exists('consume', $result) === true) {
             $choice->unsetOption($result['name']);
         }
-        if ($choice->hasRule('consume') === true) {
-            $choice->unsetOption($result['name']);
-            $choice->getRule('consume');
-        }
 
         $this->result->saveFor($choice->getName(), $result, $choice->getRules());
 

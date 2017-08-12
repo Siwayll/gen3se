@@ -110,12 +110,16 @@ stringQuote:
 // \___/_/ /_/\____/_/\___/\___/
 #choice:
   ::choice:: ::space:: name() choiceStorage()? ::eol::
+  ( choiceRules() )*
   ( choiceGlobalElement() )*
   ( choiceOption() )+
   ::end::
 
 choiceGlobalElement:
     ::tab:: ::tab:: ::globalCleat:: choiceElement() ::eol::
+
+#choiceRules:
+    ::tab:: ::tab:: choiceElement() ::eol::
 
 #choiceStorage:
     ::space:: ::bracket_:: name() ( ::storageDelimiter:: name())* ::_bracket::

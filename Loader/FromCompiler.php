@@ -77,6 +77,27 @@ class FromCompiler implements LoaderInterface
                     $global[$value['key']] = $value['value'];
                     unset($value);
                     break;
+                case '#choiceRules':
+                    $elmtChildren = $element->getChildren();
+                    $name = 'defaultNameOption';
+                    $value = '';
+                    foreach ($elmtChildren as $subElement) {
+                        $children = $subElement->getChildren();
+                        foreach ($children as $child) {
+                            $values = $child->getValue();
+                            switch ($values['token']) {
+                                case 'name':
+                                    $name = $values['value'];
+                                    break;
+                                case 'value':
+                                    $value = $values['value'];
+                                    break;
+                            }
+                        }
+                    }
+                    $rawData[$name] = $value;
+                    unset($elmtChildren, $name, $value, $subElement, $child, $children, $values);
+                    break;
                 default:
                     var_dump($element->getId());
             }

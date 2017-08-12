@@ -2,6 +2,7 @@
 
 namespace Siwayll\Gen3se\Generator;
 
+use Siwayll\Gen3se\Choice;
 use Siwayll\Gen3se\Constraint;
 use Siwayll\Gen3se\Factory;
 use Siwayll\Gen3se\LoaderInterface;
@@ -66,6 +67,17 @@ class Generic
 
 
         $this->data->set(uniqId($name . '_'), '__data');
+    }
+
+    /**
+     * Accès au choix demandé
+     *
+     * @param $choiceName Nom du choix
+     * @return Choice
+     */
+    public function getChoice($choiceName): Choice
+    {
+        return $this->engine->getLoader()->getChoice($choiceName);
     }
 
     /**

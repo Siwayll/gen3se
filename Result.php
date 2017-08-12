@@ -2,6 +2,7 @@
 
 namespace Siwayll\Gen3se;
 
+use Siwayll\Gen3se\Choice\OptionCleanerTrait;
 use Siwayll\Gen3se\Result\Core;
 use Siwayll\Gen3se\Result\CoreInterface;
 use Solire\Conf\Conf;
@@ -11,6 +12,8 @@ class Result
 {
     private $dirty = [];
     private $storage;
+
+    use OptionCleanerTrait;
 
     /**
      *
@@ -92,12 +95,7 @@ class Result
      */
     public function saveFor($name, array $datas, array $rules = null)
     {
-        unset(
-            $datas['mod'],
-            $datas['weight'],
-            $datas['tags'],
-            $datas['name']
-        );
+        $datas = $this->cleanOption($datas);
 
         foreach ($datas as $key => $value) {
             if (empty($value)) {

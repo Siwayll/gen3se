@@ -8,6 +8,8 @@
 %token  sce:eol                  [\n\r]+
 %token  sce:end                  [-]{3} -> default
 %token  sce:choice               >
+%token  sce:multiplicator        \*
+%token  sce:integer              (\d+)
 %token  sce:modCleat             mod:[ ]?
 %token  sce:modName              [A-Z][A-za-z]*
 %token  sce:name                 [a-zéêèâàôîïöäë][a-zA-ZéêèâàôîïöäëùÉÊÈÂÀÔÎÏÖÄËÙ0-9]*
@@ -93,7 +95,10 @@ stringQuote:
     ::end::
 
 #scenarioChoice:
-    ::tab:: ::choice:: ::space:: name() ::eol::
+    ::tab:: ::choice:: scenarioChoiceMultiplicator() ::space:: name() ::eol::
+
+#scenarioChoiceMultiplicator:
+    (::space:: ::multiplicator:: weight())?
 
 #scenarioMod:
     ::tab:: ::modCleat:: ( <modName> ( ::spaceComa:: | ::eol:: ) )+

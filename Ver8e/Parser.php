@@ -41,7 +41,22 @@ class Parser implements Visit
                                 $modList = new ModList($subElement);
                                 break;
                             case '#scenarioChoice':
-                                $scenarioList[] = $subElement->getChild(0)->getValue()['value'];
+                                $iterationNumber = 1;
+                                $idElement = 0;
+
+
+                                if ($subElement->getChild($idElement)->getId() === '#scenarioChoiceMultiplicator') {
+                                    $iterationNumber = (int) $subElement->getChild($idElement)->getChild(0)->getValue()['value'];
+                                    $idElement++;
+                                }
+
+                                $name = $subElement->getChild($idElement)->getValue()['value'];
+
+                                // Application
+                                for ($i = 0; $i < $iterationNumber; $i++) {
+                                    $scenarioList[] = $name;
+                                }
+
                                 break;
                         }
                     }

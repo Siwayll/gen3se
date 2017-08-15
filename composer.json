@@ -22,7 +22,7 @@
   "require-dev": {
     "php": ">=5.5.0",
     "siwayll/deuton": "dev-develop",
-    "atoum/atoum": "^2.2"
+    "atoum/atoum": "3.0.*"
   },
   "autoload": {
       "psr-4": {

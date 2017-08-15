@@ -10,17 +10,5 @@ More information on documentation:
 [fr] http://docs.atoum.org/fr/chapter3.html#Fichier-de-bootstrap
 */
 
-set_include_path(
-    get_include_path()
-    . PATH_SEPARATOR . realpath(__DIR__ . '/../../')
-);
-
-require 'vendor/autoload.php';
-
+require __DIR__ . '/../../vendor/autoload.php';
 define('TEST_DATA_DIR', __DIR__ . '/../data');
-
-// Génération d'un dossier temporaires pour les tests
-define('TEST_TMP_DIR', __DIR__ . '/../tmp');
-if (!is_dir(TEST_TMP_DIR)) {
-    mkdir(TEST_TMP_DIR);
-}

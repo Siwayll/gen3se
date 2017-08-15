@@ -6,10 +6,9 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace tests\unit\Siwayll\Gen3se;
+namespace Tests\Unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Gen3se\Rand as testedClass;
 
 /**
  * Chargement automatique des classes
@@ -27,22 +26,22 @@ class Rand extends atoum
     public function testConstruct()
     {
         $this
-            ->object(new testedClass())
-                ->isInstanceOf('\Siwayll\Gen3se\Rand')
-            ->object(new testedClass(0))
-                ->isInstanceOf('\Siwayll\Gen3se\Rand')
-            ->object(new testedClass(5, 15))
-                ->isInstanceOf('\Siwayll\Gen3se\Rand')
+            ->object($this->newTestedInstance())
+            ->isInstanceOf('\Siwayll\Gen3se\Rand')
+            ->object($this->newTestedInstance(0))
+            ->isInstanceOf('\Siwayll\Gen3se\Rand')
+            ->object($this->newTestedInstance(5, 15))
+            ->isInstanceOf('\Siwayll\Gen3se\Rand')
             ->exception(function () {
-                $foo = new testedClass(5, 3);
+                $foo = $this->newTestedInstance(5, 3);
             })
-                ->hasMessage('Max doit être supérieur à min')
-                ->hasCode(400)
+            ->hasMessage('Max doit être supérieur à min')
+            ->hasCode(400)
             ->exception(function () {
-                $foo = new testedClass(3);
+                $foo = $this->newTestedInstance(3);
             })
-                ->hasMessage('Max doit être supérieur à min')
-                ->hasCode(400)
+            ->hasMessage('Max doit être supérieur à min')
+            ->hasCode(400)
         ;
     }
 
@@ -54,16 +53,16 @@ class Rand extends atoum
     public function testSetMin()
     {
         $this
-            ->if($rand = new testedClass(5, 30))
+            ->if($rand = $this->newTestedInstance(5, 30))
             ->object($rand->setMin(15))
-                ->isIdenticalTo($rand)
+            ->isIdenticalTo($rand)
             ->object($rand->setMin(0))
-                ->isIdenticalTo($rand)
+            ->isIdenticalTo($rand)
             ->exception(function () use ($rand) {
                 $rand->setMin(0.365);
             })
-                ->hasMessage('Min doit être un entier')
-                ->hasCode(400)
+            ->hasMessage('Min doit être un entier')
+            ->hasCode(400)
         ;
     }
 
@@ -75,14 +74,14 @@ class Rand extends atoum
     public function testRoll()
     {
         $this
-            ->if($rand = new testedClass(5, 30))
+            ->if($rand = $this->newTestedInstance(5, 30))
             ->integer($rand->roll())
-                ->isGreaterThanOrEqualTo(5)
-                ->isLessThanOrEqualTo(30)
-                ->isEqualTo($rand->getResult())
+            ->isGreaterThanOrEqualTo(5)
+            ->isLessThanOrEqualTo(30)
+            ->isEqualTo($rand->getResult())
             ->if($rand->setMin(30))
             ->integer($rand->roll())
-                ->isEqualTo(30)
+            ->isEqualTo(30)
         ;
     }
 }

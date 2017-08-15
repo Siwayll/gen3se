@@ -24,6 +24,8 @@ class Parser implements Visit
             switch ($element->getId()) {
                 case '#choice' :
                     $loader->addChoice($element);
+                    $choice = new ChoiceParser($element);
+                    $loader->addChoice($choice->get());
                     break;
 
                 case '#scenario' :

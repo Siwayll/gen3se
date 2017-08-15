@@ -9,7 +9,6 @@
 namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Gen3se\Choice as TestedClass;
 use Siwayll\Gen3se\ChoiceData;
 use \Siwayll\Gen3se\Modificator\Tag;
 
@@ -144,7 +143,7 @@ class Choice extends atoum
     public function testConstruct()
     {
         $this
-            ->object(new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->object($this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
         ;
     }
 
@@ -156,7 +155,7 @@ class Choice extends atoum
     public function testGetOption()
     {
         $this
-            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->if($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
             ->array($choice->getRules())
                 ->isEqualTo(['storageRule' => ['toto', 'tata']])
             ->array($choice->getOption('y-1'))
@@ -177,7 +176,7 @@ class Choice extends atoum
     public function testGetName()
     {
         $this
-            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->if($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
             ->string($choice->getName())
                 ->isEqualTo('yeux')
         ;
@@ -192,7 +191,7 @@ class Choice extends atoum
     public function testUpdate()
     {
         $this
-            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->if($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
             ->exception(function () use ($choice) {
                 $choice->update('sdfgh', ['$inc' => 50]);
             })
@@ -217,7 +216,7 @@ class Choice extends atoum
     public function testRoll()
     {
         $this
-            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->if($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
             ->variable($choice->getResult())
                 ->isNull()
             ->object($choice->roll())
@@ -245,7 +244,7 @@ class Choice extends atoum
     public function testGetPercent()
     {
         $this
-            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->if($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
             ->array($choice->getPercent())
                 ->isEqualTo(['y-1' => 25, 'y-2' => 64.5 , 'y-3' => 10, 'y-4' => 0.5 ])
         ;
@@ -257,7 +256,7 @@ class Choice extends atoum
     public function testGlobalRules()
     {
         $this
-            ->if($choice = new TestedClass(new ChoiceData($this->getChoiceWithGlobal())))
+            ->if($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceWithGlobal())))
             ->array($choice->getOption('y-1'))
                 ->hasKey('dataGlob')
         ;
@@ -269,7 +268,7 @@ class Choice extends atoum
     public function testModificators()
     {
         $this
-            ->given($choice = new TestedClass(new ChoiceData($this->getChoiceWithTags())))
+            ->given($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceWithTags())))
             ->array($choice->getPercent())
                 ->isEqualTo(['y-1' => '25.000', 'y-2' => '64.500' , 'y-3' => '10.000', 'y-4' => '0.500'])
             ->given($tag = new Tag())
@@ -287,29 +286,23 @@ class Choice extends atoum
     public function testCanIForce()
     {
         $this
-            ->given($choice = new TestedClass(new ChoiceData($this->getChoiceWithTags())))
-            ->boolean($choice->canIForce('y-1'))
-                ->isTrue()
-            ->boolean($choice->canIForce('y-2'))
-                ->isTrue()
-            ->boolean($choice->canIForce('y-3'))
-                ->isTrue()
-            ->boolean($choice->canIForce('y-4'))
-                ->isTrue()
-            ->boolean($choice->canIForce('y-NONEXISTE'))
+            ->given($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceWithTags())))
+            ->string($choice->canIForce('name', 'y-1'))
+                ->isEqualTo('y-1')
+            ->string($choice->canIForce('text', 'bleu'))
+                ->isEqualTo('y-1')
+            ->string($choice->canIForce('name', 'y-3'))
+            ->boolean($choice->canIForce('name', 'y-NONEXISTE'))
                 ->isFalse()
             ->given($tag = new Tag())
             ->and($tag->addTag('nop'))
             ->and($choice->linkToModificator($tag->getRegisterKey()))
             ->and($choice->resetCaches())
-            ->boolean($choice->canIForce('y-1'))
+            ->boolean($choice->canIForce('name', 'y-1'))
                 ->isFalse()
-            ->boolean($choice->canIForce('y-2'))
-                ->isTrue()
-            ->boolean($choice->canIForce('y-3'))
-                ->isTrue()
-            ->boolean($choice->canIForce('y-4'))
-                ->isTrue()
+            ->boolean($choice->canIForce('text', 'bleu'))
+                ->isFalse()
+            ->string($choice->canIForce('name', 'y-3'))
         ;
     }
 
@@ -320,7 +313,7 @@ class Choice extends atoum
     public function testUnsetOption()
     {
         $this
-            ->given($choice = new TestedClass(new ChoiceData($this->getChoiceOne())))
+            ->given($choice = $this->newTestedInstance(new ChoiceData($this->getChoiceOne())))
             ->object($choice->unsetOption('y-2'))
                 ->isIdenticalTo($choice)
             ->array($choice->getPercent())

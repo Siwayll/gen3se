@@ -1,0 +1,6 @@
+Choix qsn001 [050-qsn001]
+    *consume:~
+    *render:"toto"
+  "option1"
+  "option2"
+---

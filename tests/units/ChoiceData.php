@@ -3,7 +3,6 @@
 namespace tests\unit\Siwayll\Gen3se;
 
 use atoum;
-use \Siwayll\Gen3se\ChoiceData as TestedClass;
 
 /**
  *
@@ -98,47 +97,47 @@ class ChoiceData extends atoum
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     unset($data['name']);
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Utilisation d\'un choix sans nom impossible.')
                     ->hasCode(400)
                 ->exception(function () {
-                    new TestedClass([]);
+                    $this->newTestedInstance([]);
                 })
                     ->hasMessage('L\'architecture du choix doit être un tableau non vide.')
                     ->hasCode(400)
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     unset($data['options']);
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Le choix _yeux_ doit avoir des options.')
                     ->hasCode(400)
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     unset($data['options'][0]['name']);
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
                     ->hasCode(400)
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     $data['options'][0]['name'] = '';
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
                     ->hasCode(400)
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     $data['options'][0]['name'] = null;
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Dans _yeux_ l\'option __0__ n\'a pas de nom')
                     ->hasCode(400)
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     unset($data['options'][1]['weight']);
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Dans _yeux_ __weight__ est manquant pour _y-2_')
                     ->hasCode(400)
@@ -154,14 +153,14 @@ class ChoiceData extends atoum
     public function testGetName()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceOne()))
+            ->if($choice = $this->newTestedInstance($this->getChoiceOne()))
             ->string($choice->getName())
                 ->isEqualTo('yeux')
             ->assert('formatage du nom du choix')
                 ->exception(function () {
                     $data = $this->getChoiceOne();
                     $data['name'] = '';
-                    new TestedClass($data);
+                    $this->newTestedInstance($data);
                 })
                     ->hasMessage('Utilisation d\'un choix sans nom impossible.')
                     ->hasCode(400)
@@ -250,7 +249,7 @@ class ChoiceData extends atoum
     public function testGetOptions(array $choiceData)
     {
         $this
-            ->given($data = new TestedClass($choiceData))
+            ->given($data = $this->newTestedInstance($choiceData))
             ->dump($data->getOptions())
             ->given($options = $data->getOptions())
             ->array($options)
@@ -269,7 +268,7 @@ class ChoiceData extends atoum
     public function testGetRules()
     {
         $this
-            ->if($choice = new TestedClass($this->getChoiceWithRules()))
+            ->if($choice = $this->newTestedInstance($this->getChoiceWithRules()))
             ->array($choice->getRules())
                 ->hasKey('storageRule')
                 ->hasSize(1)

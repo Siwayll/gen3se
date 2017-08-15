@@ -23,7 +23,6 @@ class Parser implements Visit
         foreach ($globalElement->getChildren() as $element) {
             switch ($element->getId()) {
                 case '#choice' :
-                    $loader->addChoice($element);
                     $choice = new ChoiceParser($element);
                     $loader->addChoice($choice->get());
                     break;

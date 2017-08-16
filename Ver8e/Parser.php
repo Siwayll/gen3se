@@ -9,6 +9,24 @@ use Siwayll\Gen3se\Loader\FromCompiler as Loader;
 
 class Parser implements Visit
 {
+    private $loader;
+
+    public function __construct()
+    {
+        $this->loader = new Loader();
+    }
+
+    public function compileChoices(Element $globalElement)
+    {
+        foreach ($globalElement->getChildren() as $element) {
+            if ($element->getId() !== '#choice') {
+                continue;
+            }
+            $choice = new ChoiceParser($element);
+            $this->loader->addChoice($choice->get());
+        }
+    }
+
     /**
      * @param Element $globalElement
      * @param null    $handle
@@ -17,15 +35,13 @@ class Parser implements Visit
      */
     public function visit(Element $globalElement, &$handle = null, $eldnah = null)
     {
-        $loader = new Loader();
+
         $render = null;
         $modList = null;
+
+        $this->compileChoices($globalElement);
         foreach ($globalElement->getChildren() as $element) {
             switch ($element->getId()) {
-                case '#choice' :
-                    $choice = new ChoiceParser($element);
-                    $loader->addChoice($choice->get());
-                    break;
 
                 case '#scenario' :
 
@@ -65,6 +81,6 @@ class Parser implements Visit
             }
         }
 
-        return new Generator($scenarioName, $loader, $scenarioList, $render, $modList);
+        return new Generator($scenarioName, $this->loader, $scenarioList, $render, $modList);
     }
 }

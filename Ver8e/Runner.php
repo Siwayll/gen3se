@@ -9,10 +9,12 @@ class Runner
 {
     const LANGUAGE_FILE = __DIR__ . '/Ver8e.pp';
     private $compiler;
+    private $parser;
 
     public function __construct()
     {
         $this->compiler = Llk::load(new Read(self::LANGUAGE_FILE));
+        $this->parser = new Parser();
     }
 
     /**
@@ -27,7 +29,12 @@ class Runner
     public function run(Read $file)
     {
         $ast = $this->compiler->parse($file->readAll());
-        $scenarioLoader = new Parser();
-        return $scenarioLoader->visit($ast);
+        return $this->parser->visit($ast);
+    }
+
+    public function addChoice(Read $file)
+    {
+        $ast = $this->compiler->parse($file->readAll());
+        $this->parser->compileChoices($ast);
     }
 }

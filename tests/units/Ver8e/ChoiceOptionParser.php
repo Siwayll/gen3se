@@ -95,6 +95,7 @@ class ChoiceOptionParser extends atoum
             [$this->getTreeOfFile('simple.ver8'), ['text' => 'option1']],
             [$this->getTreeOfFile('changedMainValue.ver8'), ['toto' => 'option1']],
             [$this->getTreeOfFile('complexValues.ver8'), ['mainValue' => 'option1', 'opt1' =>'Lorem ipsum', 'opt2' => 'MoreData']],
+            [$this->getTreeOfFile('complexEmptyValues.ver8'), ['text' => 'non', 'digestStr' =>'']],
         ];
     }
 
@@ -113,7 +114,7 @@ class ChoiceOptionParser extends atoum
             $this
                 ->array($option->get())
                     ->hasKey($name)
-                    ->string[$name]->isEqualTo($value)
+                    ->variable[$name]->isEqualTo($value)
             ;
         }
     }

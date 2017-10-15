@@ -76,6 +76,9 @@ class ChoiceOptionParser
             if (!is_array($this->formatedData[$value['key']])) {
                 $rawData = [$this->formatedData[$value['key']]];
             }
+            if (!is_array($rawData)) {
+                $rawData = [$rawData];
+            }
             $rawData[] = $value['value'];
         }
         $this->formatedData[$value['key']] = $rawData;

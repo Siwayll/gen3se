@@ -1,17 +1,21 @@
+cache:
+  paths:
+  - vendor/
+
 variables:
   # Timezone will be used both for system and php date.timezone php.ini value
   TIMEZONE: "Europe/Paris"
 
 before_script:
-# Install composer
-  - curl -sS https://getcomposer.org/installer | php
-
-# Install all project dependencies
+  - wget https://composer.github.io/installer.sig -O - -q | tr -d '\n' > installer.sig
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php -r "if (hash_file('SHA384', 'composer-setup.php') === file_get_contents('installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
   - php composer.phar install
 
-php-5.6:
-  image: tetraweb/php:5.6
+test:7.1:
+  image: php:7.1-cli-alpine3.4
   script:
-    - vendor/bin/atoum -d Tests/Units
-    - vendor/bin/coke --ignore="vendor/,Tests/tmp/,build/" ./
     - vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/
+    - vendor/bin/atoum -c tests/units/.atoum.php -d tests/units

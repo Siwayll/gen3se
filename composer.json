@@ -1,13 +1,13 @@
 {
-  "name": "siwayll/gen3se",
-  "type": "module",
+  "name": "gen3se/engine",
+  "type": "lib",
   "description": "random generator of inspiration",
   "keywords": ["write", "generator", "php"],
-  "license": "beerware",
+  "license": "MIT license with beer",
   "authors": [
   {
     "name": "Siwaÿll",
-    "email": "sana.th.labs@gmail.com",
+    "email": "siwayll@doublepsi.fr",
     "role": "Developer"
   }
   ],
@@ -26,7 +26,7 @@
   },
   "autoload": {
       "psr-4": {
-          "Siwayll\\Gen3se\\": ""
+          "Gen3se\\Engine\\": "lib/"
       }
   }
 }

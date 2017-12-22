@@ -3,6 +3,7 @@
 namespace Gen3se\Engine\Choice;
 
 use \Exception;
+use Gen3se\Engine\Exception\RuleDoesNotExist;
 use Gen3se\Engine\Register;
 
 class Choice
@@ -105,9 +106,9 @@ class Choice
     public function getRule(string $ruleName)
     {
         if (!isset($this->rules[$ruleName])) {
-            throw new Exception(
-                'Dans _' . $this->getName() . '_ la regle __' . $ruleName . '__ n\'existe pas',
-                400
+            throw new RuleDoesNotExist(
+                $this->getName(),
+                $ruleName
             );
         }
 

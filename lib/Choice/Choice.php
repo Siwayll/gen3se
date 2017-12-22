@@ -1,22 +1,10 @@
 <?php
-/**
- *
- *
- * @author  Siwaÿll <sana.th.labs@gmail.com>
- * @license beerware http://wikipedia.org/wiki/Beerware
- */
 
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine\Choice;
 
 use \Exception;
-use Siwayll\Gen3se\Register;
+use Gen3se\Engine\Register;
 
-/**
- *
- *
- * @author  Siwaÿll <sana.th.labs@gmail.com>
- * @license beerware http://wikipedia.org/wiki/Beerware
- */
 class Choice
 {
     /**

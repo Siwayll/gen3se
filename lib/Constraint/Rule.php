@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Gen3se\Constraint;
+namespace Gen3se\Engine\Constraint;
 
-use Siwayll\Gen3se\Choice;
-use Siwayll\Gen3se\Engine;
+use Gen3se\Engine\Choice;
+use Gen3se\Engine\Engine;
 
 abstract class Rule
 {

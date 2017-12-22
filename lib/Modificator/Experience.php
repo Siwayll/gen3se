@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se\Modificator;
+namespace Gen3se\Engine\Modificator;
 
 /**
  * Ajout de la notion d'experience

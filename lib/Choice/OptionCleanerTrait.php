@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se\Choice;
+namespace Gen3se\Engine\Choice;
 
 
 trait OptionCleanerTrait

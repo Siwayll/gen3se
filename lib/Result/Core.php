@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se\Result;
+namespace Gen3se\Engine\Result;
 
 use ArrayAccess;
 

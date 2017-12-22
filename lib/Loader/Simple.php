@@ -1,10 +1,10 @@
 <?php
 
-namespace Siwayll\Gen3se\Loader;
+namespace Gen3se\Engine\Loader;
 
 use \Exception;
-use Siwayll\Gen3se\Choice;
-use Siwayll\Gen3se\ChoiceData;
+use Gen3se\Engine\Choice;
+use Gen3se\Engine\ChoiceData;
 
 class Simple
 {

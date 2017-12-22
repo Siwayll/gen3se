@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Gen3se\Modificator;
+namespace Gen3se\Engine\Modificator;
 
 use \Exception;
-use \Siwayll\Gen3se\Error\Level;
+use Gen3se\Engine\Error\Level;
 
 /**
  * Ajout de la notion de Tags

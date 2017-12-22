@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine;
 
 Trait RegisterTrait
 {

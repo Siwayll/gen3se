@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se\Error;
+namespace Gen3se\Engine\Error;
 
 /**
  * Description of Level

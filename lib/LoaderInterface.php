@@ -1,10 +1,10 @@
 <?php
 
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine;
 
 /**
  * Interface LoaderInterface
- * @package Siwayll\Gen3se
+ * @package Gen3se\Engine
  */
 interface LoaderInterface
 {

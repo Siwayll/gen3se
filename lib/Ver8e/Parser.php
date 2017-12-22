@@ -1,11 +1,11 @@
 <?php
 
-namespace Siwayll\Gen3se\Ver8e;
+namespace Gen3se\Engine\Ver8e;
 
 use Hoa\Visitor\Element;
 use Hoa\Visitor\Visit;
-use Siwayll\Gen3se\Generator\Generic as Generator;
-use Siwayll\Gen3se\Loader\FromCompiler as Loader;
+use Gen3se\Engine\Generator\Generic as Generator;
+use Gen3se\Engine\Loader\FromCompiler as Loader;
 
 class Parser implements Visit
 {

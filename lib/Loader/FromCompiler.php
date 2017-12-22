@@ -1,13 +1,13 @@
 <?php
 
-namespace Siwayll\Gen3se\Loader;
+namespace Gen3se\Engine\Loader;
 
 use \Exception;
 use Hoa\Compiler\Llk\TreeNode;
-use Siwayll\Gen3se\Choice;
-use Siwayll\Gen3se\ChoiceData;
-use Siwayll\Gen3se\LoaderInterface;
-use Siwayll\Gen3se\RegisterTrait;
+use Gen3se\Engine\Choice;
+use Gen3se\Engine\ChoiceData;
+use Gen3se\Engine\LoaderInterface;
+use Gen3se\Engine\RegisterTrait;
 
 class FromCompiler implements LoaderInterface
 {

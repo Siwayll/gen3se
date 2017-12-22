@@ -1,10 +1,10 @@
 <?php
 
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine;
 
-use Siwayll\Gen3se\Choice\OptionCleanerTrait;
-use Siwayll\Gen3se\Result\Core;
-use Siwayll\Gen3se\Result\CoreInterface;
+use Gen3se\Engine\Choice\OptionCleanerTrait;
+use Gen3se\Engine\Result\Core;
+use Gen3se\Engine\Result\CoreInterface;
 use Solire\Conf\Conf;
 use Solire\Conf\Loader\ArrayToConf;
 

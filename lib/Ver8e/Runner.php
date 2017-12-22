@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se\Ver8e;
+namespace Gen3se\Engine\Ver8e;
 
 use Hoa\Compiler\Llk\Llk;
 use Hoa\File\Read;
@@ -22,7 +22,7 @@ class Runner
      *
      * @param Read $file Fichier en ver8e a éxécuter
      *
-     * @return \Siwayll\Gen3se\Generator\Generic
+     * @return \Gen3se\Engine\Generator\Generic
      * @throws \Hoa\Compiler\Exception
      * @throws \Hoa\Compiler\Exception\UnexpectedToken
      */

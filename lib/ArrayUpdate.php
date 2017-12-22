@@ -1,6 +1,6 @@
 <?php
 
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine;
 
 use \Exception;
 
@@ -9,7 +9,7 @@ use \Exception;
  *
  * Execution d'un ensemble de commandes pour éditer un tableau
  *
- * @package Siwayll\Gen3se\Updater
+ * @package Gen3se\Engine\Updater
  */
 class ArrayUpdate
 {

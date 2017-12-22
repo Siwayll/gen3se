@@ -1,9 +1,9 @@
 <?php
 
-namespace Siwayll\Gen3se\Loader;
+namespace Gen3se\Engine\Loader;
 
 use \Exception;
-use Siwayll\Gen3se\Choice;
+use Gen3se\Engine\Choice;
 use Symfony\Component\Yaml\Yaml;
 
 class MultiFiles

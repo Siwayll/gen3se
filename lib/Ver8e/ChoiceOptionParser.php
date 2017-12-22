@@ -6,7 +6,7 @@
  * Time: 08:52
  */
 
-namespace Siwayll\Gen3se\Ver8e;
+namespace Gen3se\Engine\Ver8e;
 
 
 use Hoa\Compiler\Llk\TreeNode;

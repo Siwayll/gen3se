@@ -6,7 +6,7 @@ use \Exception;
 use Gen3se\Engine\Exception\RuleDoesNotExist;
 use Gen3se\Engine\Exception\RuleHasNotOption;
 use Gen3se\Engine\Register;
-use Siwayll\Gen3se\ChoiceData;
+use Gen3se\Engine\ChoiceData;
 
 class Choice
 {
@@ -198,7 +198,7 @@ class Choice
     public function update($name, $parameter)
     {
         $option = $this->getOption($name);
-        $updater = new ArrayUpdate($option);
+        $updater = new Arr($option);
         $updater->exec($parameter);
 
         $this

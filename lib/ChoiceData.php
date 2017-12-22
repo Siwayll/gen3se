@@ -1,8 +1,8 @@
 <?php
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine;
 
 use \Exception;
-use Siwayll\Gen3se\Register;
+use Gen3se\Engine\Register;
 
 /**
  * Données pour Choice

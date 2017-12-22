@@ -1,11 +1,11 @@
 <?php
 
-namespace Siwayll\Gen3se;
+namespace Gen3se\Engine;
 
 use \Exception;
 use Monolog\Logger;
-use Siwayll\Gen3se\Choice;
-use Siwayll\Gen3se\Error\Level;
+use Gen3se\Engine\Choice;
+use Gen3se\Engine\Error\Level;
 
 /**
  * Moteur de génération
@@ -333,7 +333,7 @@ class Engine
     /**
      * Contrôle la présence de contrainte pour le choix en cours
      *
-     * @param \Siwayll\Gen3se\Choice $choice Choix en cours
+     * @param \Gen3se\Engine\Choice $choice Choix en cours
      *
      * @return bool
      */

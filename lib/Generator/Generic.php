@@ -1,19 +1,19 @@
 <?php
 
-namespace Siwayll\Gen3se\Generator;
+namespace Gen3se\Engine\Generator;
 
-use Siwayll\Gen3se\Choice;
-use Siwayll\Gen3se\Constraint;
-use Siwayll\Gen3se\Factory;
-use Siwayll\Gen3se\LoaderInterface;
-use Siwayll\Gen3se\RegisterTrait;
+use Gen3se\Engine\Choice;
+use Gen3se\Engine\Constraint;
+use Gen3se\Engine\Factory;
+use Gen3se\Engine\LoaderInterface;
+use Gen3se\Engine\RegisterTrait;
 
-use Siwayll\Gen3se\Modificator\Data;
-use Siwayll\Gen3se\Modificator\NameSound;
-use Siwayll\Gen3se\Modificator\Tag;
+use Gen3se\Engine\Modificator\Data;
+use Gen3se\Engine\Modificator\NameSound;
+use Gen3se\Engine\Modificator\Tag;
 
-use Siwayll\Gen3se\Result\Core;
-use Siwayll\Gen3se\Ver8e\ModList;
+use Gen3se\Engine\Result\Core;
+use Gen3se\Engine\Ver8e\ModList;
 use Solire\Conf\Conf;
 
 class Generic

@@ -6,7 +6,7 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace Tests\Unit\Siwayll\Gen3se;
+namespace Tests\Unit\Gen3se\Engine;
 
 use atoum;
 
@@ -27,11 +27,11 @@ class Rand extends atoum
     {
         $this
             ->object($this->newTestedInstance())
-            ->isInstanceOf('\Siwayll\Gen3se\Rand')
+            ->isInstanceOf('\Gen3se\Engine\Rand')
             ->object($this->newTestedInstance(0))
-            ->isInstanceOf('\Siwayll\Gen3se\Rand')
+            ->isInstanceOf('\Gen3se\Engine\Rand')
             ->object($this->newTestedInstance(5, 15))
-            ->isInstanceOf('\Siwayll\Gen3se\Rand')
+            ->isInstanceOf('\Gen3se\Engine\Rand')
             ->exception(function () {
                 $foo = $this->newTestedInstance(5, 3);
             })

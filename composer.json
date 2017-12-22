@@ -21,7 +21,7 @@
   },
   "require-dev": {
     "siwayll/deuton": "dev-develop",
-    "atoum/atoum": "3.0.*"
+    "atoum/atoum": "3.2.*"
   },
   "autoload": {
       "psr-4": {

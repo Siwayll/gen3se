@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\Siwayll\Gen3se;
+namespace tests\unit\Gen3se\Engine;
 
 use atoum;
 

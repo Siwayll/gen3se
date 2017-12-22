@@ -13,10 +13,9 @@
   ],
   "require": {
     "php": ">=7.1",
-    "symfony/yaml": "^3.0",
-    "phpmd/phpmd": "^2.3",
-    "mustache/mustache": "^2.10",
-    "monolog/monolog": "~1.12",
+    "symfony/yaml": "4.0.*",
+    "mustache/mustache": "^2.12",
+    "monolog/monolog": "~1.23",
     "hoa/compiler": "~3.0"
   },
   "require-dev": {

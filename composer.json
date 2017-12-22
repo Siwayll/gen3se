@@ -12,7 +12,7 @@
   }
   ],
   "require": {
-    "php": ">=5.5.0",
+    "php": ">=7.1",
     "symfony/yaml": "^3.0",
     "phpmd/phpmd": "^2.3",
     "mustache/mustache": "^2.10",
@@ -20,7 +20,6 @@
     "hoa/compiler": "~3.0"
   },
   "require-dev": {
-    "php": ">=5.5.0",
     "siwayll/deuton": "dev-develop",
     "atoum/atoum": "3.0.*"
   },

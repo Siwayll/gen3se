@@ -4,7 +4,9 @@ namespace Gen3se\Engine\Choice;
 
 use \Exception;
 use Gen3se\Engine\Exception\RuleDoesNotExist;
+use Gen3se\Engine\Exception\RuleHasNotOption;
 use Gen3se\Engine\Register;
+use Siwayll\Gen3se\ChoiceData;
 
 class Choice
 {
@@ -125,15 +127,15 @@ class Choice
      * @return array
      * @throws Exception si aucune option ne répond au nom demandé
      */
-    public function getOption($name)
+    public function getOption(string $name)
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
         }
 
-        throw new Exception(
-            'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
-            400
+        throw new RuleHasNotOption(
+            $this->getName(),
+            $name
         );
     }
 
@@ -159,9 +161,9 @@ class Choice
     protected function setOption($name, $newValues)
     {
         if (!isset($this->options[$name])) {
-            throw new Exception(
-                'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
-                400
+            throw new RuleHasNotOption(
+                $this->getName(),
+                $name
             );
         }
 
@@ -220,9 +222,9 @@ class Choice
     protected function setLoadedOption($name, $newValues)
     {
         if (!isset($this->loaded[$name])) {
-            throw new Exception(
-                'Dans _' . $this->getName() . '_ l\'option __' . $name . '__ n\'existe pas',
-                400
+            throw new RuleHasNotOption(
+                $this->getName(),
+                $name
             );
         }
 

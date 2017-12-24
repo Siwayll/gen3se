@@ -19,7 +19,8 @@
     "hoa/compiler": "~3.0"
   },
   "require-dev": {
-    "atoum/atoum": "3.2.*"
+    "atoum/atoum": "3.2.*",
+    "phpmd/phpmd": "^2.6"
   },
   "autoload": {
       "psr-4": {

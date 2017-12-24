@@ -19,4 +19,4 @@ test:7.1:
     - test
   image: php:7.1-cli-alpine3.4
   script:
-    - /bin/php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/
+    - php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/

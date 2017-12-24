@@ -15,6 +15,8 @@ before_script:
   - php composer.phar install
 
 test:7.1:
+  tags:
+    - test
   image: php:7.1-cli-alpine3.4
   script:
     - /bin/php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/

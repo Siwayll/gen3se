@@ -337,7 +337,7 @@ class Choice
 
         $this->load();
         $total = 0;
-        array_walk($this->loaded, function($value, $key) use (&$total) {
+        array_walk($this->loaded, function($value) use (&$total) {
             $total += $value['weight'];
         });
         $this->total = $total;

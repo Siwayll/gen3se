@@ -38,20 +38,24 @@ class Factory
         self::$mods[] = $mod;
     }
 
-    public static function loadEngine()
+    private static function loadElement(string $elementName)
     {
-        $varNames = ['loader', 'order', 'result'];
-        foreach ($varNames as $varName) {
-            ${$varName} = self::${$varName};
-            if (${$varName} === null) {
-                $className = __NAMESPACE__ . '\\' . ucfirst($varName);
-                ${$varName} = new $className();
-            }
+        if (self::$elementName !== null) {
+            return self::$elementName;
         }
 
-        if (self::$logger !== null) {
-            $logger = self::$logger;
-        } else {
+        $className = __NAMESPACE__ . '\\' . ucfirst($elementName);
+        return new $className();
+    }
+
+    public static function loadEngine()
+    {
+        $loader = self::loadElement('loader');
+        $order = self::loadElement('order');
+        $result = self::loadElement('result');
+
+        $logger = self::$logger;
+        if ($logger === null) {
             file_put_contents(__DIR__ . '/log/engine.log', '');
             $logger = new Logger('engine');
             $stream = new Streamhandler(__DIR__ . '/log/engine.log', Logger::DEBUG);

@@ -206,7 +206,7 @@ class Tag extends Base
     protected function rmTagWithStar($key)
     {
         $key = preg_replace('/\*$/', '', $key);
-        foreach ($this->tags as $tagName => $mod) {
+        foreach (array_keys($this->tags) as $tagName) {
             if (strpos($tagName, $key) === false) {
                 continue;
             }

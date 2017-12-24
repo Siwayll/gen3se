@@ -49,9 +49,11 @@ class Engine
     public function __construct($loader, Order $order, Result $result, Logger $logger)
     {
         $this->logger = $logger;
+        $this->loader = $loader;
+        $this->order = $order;
+        $this->result = $result;
         $varNames = ['loader', 'order', 'result'];
         foreach ($varNames as $varName) {
-            $this->{$varName} = ${$varName};
             if ($this->{$varName}->hasModificators() === true) {
                 foreach ($this->{$varName}->getInstructions() as $code => $callback) {
                     $this->instructions[$code] = $callback;

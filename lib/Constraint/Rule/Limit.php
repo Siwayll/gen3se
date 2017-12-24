@@ -14,6 +14,7 @@ class Limit extends Rule
     {
         $this->field = $field;
         $this->value = $value;
+        $this->operator = $operator;
     }
 
     public function selectResult(Engine $engine, Choice $choice)

@@ -48,40 +48,49 @@ class Mark extends Base
 
         foreach ($options['marks'] as $mark) {
             $mark = strtoupper($mark);
-            switch ($this->getSymbole($mark)) {
-                case '!':
-                    // interdit
-                    if (isset($this->marks[$mark])) {
-                        $options['weight'] = 0;
-                    }
-                    break;
-                case '#':
-                    // obligatoire
-                    if (!isset($this->marks[$mark])) {
-                        $options['weight'] = 0;
-                    } else {
-                        $options['weight'] += 2 * (int) $this->marks[$mark];
-                    }
-                    break;
-                case '-':
-                    // négatif
-                    if (isset($this->marks[$mark])) {
-                        $options['weight'] -= (int) $this->marks[$mark];
-                        if ($options['weight'] < 0) {
-                            $options['weight'] = 0;
-                        }
-                    }
-                    break;
-
-                default:
-                    if (isset($this->marks[$mark])) {
-                        $options['weight'] += (int) $this->marks[$mark];
-                    }
-                    break;
-            }
+            $this->applyOneMake($mark, $options);
         }
 
         return $options;
+    }
+
+    /**
+     * @param string $mark
+     * @param array $options
+     */
+    private function applyOneMake(string $mark, array $options)
+    {
+        switch ($this->getSymbole($mark)) {
+            case '!':
+                // forbidden
+                if (isset($this->marks[$mark])) {
+                    $options['weight'] = 0;
+                }
+                return;
+            case '#':
+                // mandatory
+                if (!isset($this->marks[$mark])) {
+                    $options['weight'] = 0;
+                    return;
+                }
+                $options['weight'] += 2 * (int) $this->marks[$mark];
+                return;
+            case '-':
+                // negative
+                if (isset($this->marks[$mark])) {
+                    $options['weight'] -= (int) $this->marks[$mark];
+                    if ($options['weight'] < 0) {
+                        $options['weight'] = 0;
+                    }
+                }
+                return;
+
+            default:
+                if (isset($this->marks[$mark])) {
+                    $options['weight'] += (int) $this->marks[$mark];
+                }
+                return;
+        }
     }
 
     /**

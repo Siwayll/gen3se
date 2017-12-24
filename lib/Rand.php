@@ -120,7 +120,7 @@ class Rand
         $bits = (int) $log + 1;
         $filter = (int) (1 << $bits) - 1;
         do {
-            $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes, $s)));
+            $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
             $rnd = $rnd & $filter;
         } while ($rnd > $range);
 

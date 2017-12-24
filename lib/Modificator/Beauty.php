@@ -117,13 +117,9 @@ class Beauty extends Base
     protected function smooth($div)
     {
         if ($this->value > 1000) {
-            $value = (($this->value - 1000) / $div) + 1000;
-        } else {
-            $value = (($this->value + 1000) / $div) - 1000;
+            return (($this->value - 1000) / $div) + 1000;
         }
-
-        return $value;
-
+        return (($this->value + 1000) / $div) - 1000;
     }
 
     /**

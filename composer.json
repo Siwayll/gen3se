@@ -21,7 +21,8 @@
   "require-dev": {
     "atoum/atoum": "3.2.*",
     "phpmd/phpmd": "^2.6",
-    "atoum/stubs": "^2.5"
+    "atoum/stubs": "^2.5",
+    "atoum/bdd-extension": "^2.1"
   },
   "autoload": {
       "psr-4": {

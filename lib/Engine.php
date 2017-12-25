@@ -287,12 +287,6 @@ class Engine
         return $this;
     }
 
-    public function init()
-    {
-        $this->current = $this->order->getNext();
-        return $this;
-    }
-
     /**
      * Résolution d'un choix
      *

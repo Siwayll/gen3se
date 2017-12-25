@@ -106,30 +106,40 @@ class Result
         $this->dirty[] = [$name => $datas];
 
         if (isset($this->stow[$name])) {
-            if (count($datas) == 1) {
-                $datas = array_shift($datas);
-            }
-            // classement des données lorsqu'il y en a plusieurs
-            if (is_array($datas)) {
-                $datas = $this->arrayConvert(null, $datas);
-            }
-            if ($this->storage->has(...$this->stow[$name]) === true) {
-                $alreadyPresent = $this->storage->get(...$this->stow[$name]);
-                if (!is_array($alreadyPresent)) {
-                    $alreadyPresent = [$alreadyPresent];
-                }
-                $alreadyPresent[] = $datas;
-                $datas = $alreadyPresent;
-            }
-            if (!empty($rules)) {
-                if (!is_array($datas)) {
-                    $datas = [$datas];
-                }
-                $datas['_rules'] = $rules;
-            }
-            $this->storage->set($datas, ...$this->stow[$name]);
+            $this->saveWithStow($name, $datas, $rules);
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param array $datas
+     * @param array $rules
+     */
+    private function saveWithStow(string $name, array $datas, array $rules)
+    {
+        if (count($datas) == 1) {
+            $datas = array_shift($datas);
+        }
+        // classement des données lorsqu'il y en a plusieurs
+        if (is_array($datas)) {
+            $datas = $this->arrayConvert(null, $datas);
+        }
+        if ($this->storage->has(...$this->stow[$name]) === true) {
+            $alreadyPresent = $this->storage->get(...$this->stow[$name]);
+            if (!is_array($alreadyPresent)) {
+                $alreadyPresent = [$alreadyPresent];
+            }
+            $alreadyPresent[] = $datas;
+            $datas = $alreadyPresent;
+        }
+        if (!empty($rules)) {
+            if (!is_array($datas)) {
+                $datas = [$datas];
+            }
+            $datas['_rules'] = $rules;
+        }
+        $this->storage->set($datas, ...$this->stow[$name]);
     }
 }

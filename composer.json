@@ -20,11 +20,17 @@
   },
   "require-dev": {
     "atoum/atoum": "3.2.*",
-    "phpmd/phpmd": "^2.6"
+    "phpmd/phpmd": "^2.6",
+    "atoum/stubs": "^2.5"
   },
   "autoload": {
       "psr-4": {
           "Gen3se\\Engine\\": "lib/"
       }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Gen3se\\Engine\\Tests\\Units\\": "./tests/units"
+    }
   }
 }

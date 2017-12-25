@@ -14,9 +14,16 @@ before_script:
   - php -r "unlink('composer-setup.php'); unlink('installer.sig');" 2> /dev/null
   - php composer.phar install 2> /dev/null
 
-test:7.1:
+test:qualityControl:
   tags:
     - test
-  image: php:7.1-cli-alpine3.4
+  image: php:7.2-cli-alpine3.4
   script:
     - php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/
+
+test:atoum:
+  tags:
+    - test
+  image: php:7.2-cli-alpine3.4
+  script:
+    - php -f vendor/bin/atoum

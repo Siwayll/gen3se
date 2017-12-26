@@ -62,5 +62,4 @@ class Choice extends Test
                 ->isEqualTo($name)
         ;
     }
-
 }

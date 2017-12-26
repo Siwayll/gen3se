@@ -40,7 +40,7 @@ class Option implements \ArrayAccess
      * @param mixed $offset
      * @return bool
      */
-    public function offsetExists($offset): bool 
+    public function offsetExists($offset): bool
     {
         return isset($this->$offset);
     }

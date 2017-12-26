@@ -26,4 +26,36 @@ class Option extends Test
                 ->isEqualTo('foo')
         ;
     }
+
+    public function shouldBeManipulatedAsAnArray()
+    {
+        $this
+            ->given(
+                $name = 'name-1',
+                $weight = 300,
+                $option = $this->newTestedInstance($name, $weight)
+            )
+            ->class(get_class($option))
+                ->hasInterface('\ArrayAccess')
+            ->boolean(isset($option['name']))
+                ->isTrue()
+            ->boolean(isset($option['falseName']))
+                ->isFalse()
+            ->string($option['name'])
+                ->isEqualTo($name)
+            ->integer($option['weight'])
+                ->isEqualTo($weight)
+
+            ->given($option['customField'] = 'foo')
+            ->string($option['customField'])
+                ->isEqualTo('foo')
+
+
+            ->exception(function () {
+                unset($this->testedInstance['name']);
+            })
+                ->hasMessage('Option ' . $name . ' cant unset andatory data')
+                ->hasCode(400)
+        ;
+    }
 }

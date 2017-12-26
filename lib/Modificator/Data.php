@@ -164,8 +164,12 @@ class Data extends Base
 
         $mustacheEngine = new \Mustache_Engine();
         $mustacheEngine->addHelper('case', [
-            'lower' => function($value) { return strtolower((string) $value); },
-            'upper' => function($value) { return strtoupper((string) $value); },
+            'lower' => function ($value) {
+                return strtolower((string) $value);
+            },
+            'upper' => function ($value) {
+                return strtoupper((string) $value);
+            },
         ]);
 
         $current = $engine->getCurrent()->getName();
@@ -180,7 +184,6 @@ class Data extends Base
             $result = $engine->update($result);
 
             $data = array_merge($data, $result);
-
         }
         foreach ($finalResult as $key => $value) {
             if (!is_string($value)) {

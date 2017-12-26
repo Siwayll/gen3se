@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine\Choice;
 
-
 trait OptionCleanerTrait
 {
     public final function cleanOption(array $option)

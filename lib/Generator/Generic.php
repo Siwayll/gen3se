@@ -93,8 +93,12 @@ class Generic
 
         $engine = new \Mustache_Engine();
         $engine->addHelper('case', [
-            'lower' => function($value) { return strtolower((string) $value); },
-            'upper' => function($value) { return strtoupper((string) $value); },
+            'lower' => function ($value) {
+                return strtolower((string) $value);
+            },
+            'upper' => function ($value) {
+                return strtoupper((string) $value);
+            },
         ]);
 
         $toArray = function ($conf) use (&$toArray) {

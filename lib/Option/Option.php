@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine\Option;
 
-
 use Gen3se\Engine\Exception\OptionMustHaveNonEmptyName;
 
 class Option

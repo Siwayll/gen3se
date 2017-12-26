@@ -33,7 +33,6 @@ class FromCompiler implements LoaderInterface
 
     public function __construct()
     {
-
     }
 
     public function addChoice(array $choiceData)

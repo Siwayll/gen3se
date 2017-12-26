@@ -8,7 +8,6 @@
 
 namespace Gen3se\Engine;
 
-
 use Gen3se\Engine\Constraint\Rule;
 
 class Constraint

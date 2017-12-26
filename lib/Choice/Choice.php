@@ -337,7 +337,7 @@ class Choice
 
         $this->load();
         $total = 0;
-        array_walk($this->loaded, function($value) use (&$total) {
+        array_walk($this->loaded, function ($value) use (&$total) {
             $total += $value['weight'];
         });
         $this->total = $total;
@@ -408,7 +408,7 @@ class Choice
      * @param string $optionName Valeur à forcer
      * @return bool/string
      */
-    public function canIForce(string $fieldName = 'name', string $optionName)
+    public function canIForce(string $fieldName, string $optionName)
     {
         $this->load();
 

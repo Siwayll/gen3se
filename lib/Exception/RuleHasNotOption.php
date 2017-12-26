@@ -27,4 +27,3 @@ class RuleHasNotOption extends \Exception
         $this->optionName = $optionName;
     }
 }
-

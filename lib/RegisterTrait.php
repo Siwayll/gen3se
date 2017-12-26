@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine;
 
-Trait RegisterTrait
+trait RegisterTrait
 {
     protected $registerKey = '';
     protected $registerPrefix = '';

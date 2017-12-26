@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine\Modificator;
 
-
 /**
  * Aide au paramétrage des enchaînements de génération pour les noms
  *

@@ -27,4 +27,3 @@ class RuleDoesNotExist extends \Exception
         $this->ruleName = $ruleName;
     }
 }
-

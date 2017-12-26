@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine\Choice;
 
-
 interface ContextDataInterface
 {
     /**

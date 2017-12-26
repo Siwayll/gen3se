@@ -14,7 +14,7 @@ class OptionMustHaveNonEmptyName extends \Exception
     /**
      * OptionMustHaveNonEmptyName constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 }
-

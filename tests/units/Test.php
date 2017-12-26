@@ -14,7 +14,13 @@ class Test extends atoum\spec
         test\assertion\manager $assertionManager = null,
         \closure $reflectionClassFactory = null
     ) {
-        parent::__construct($adapter, $annotationExtractor, $asserterGenerator, $assertionManager, $reflectionClassFactory);
+        parent::__construct(
+            $adapter,
+            $annotationExtractor,
+            $asserterGenerator,
+            $assertionManager,
+            $reflectionClassFactory
+        );
         $this->getAsserterGenerator()->addNamespace('Siwayll\Kapow\Atoum');
     }
 

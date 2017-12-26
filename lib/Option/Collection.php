@@ -8,7 +8,7 @@ use Gen3se\Engine\Exception\OptionNotFound;
  * Class Collection
  * @package Gen3se\Engine\Option
  */
-class Collection
+class Collection implements \Countable
 {
     /**
      * @var array
@@ -37,5 +37,13 @@ class Collection
             throw new OptionNotFound($optionName);
         }
         return isset($this->container[$optionName])? $this->container[$optionName]: null;
+    }
+
+    /**
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->container);
     }
 }

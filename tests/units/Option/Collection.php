@@ -50,4 +50,19 @@ class Collection extends Test
                 ->hasCode(400)
         ;
     }
+
+    public function shouldBeCountable()
+    {
+        $this
+            ->given(
+                $optionName = 'opt-1',
+                $this->newTestedInstance()
+            )
+            ->integer(count($this->testedInstance))
+                ->isEqualTo(0)
+            ->if($this->testedInstance->add($this->createMockOption($optionName)))
+            ->integer(count($this->testedInstance))
+                ->isEqualTo(1)
+        ;
+    }
 }

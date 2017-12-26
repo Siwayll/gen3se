@@ -16,7 +16,8 @@
     "symfony/yaml": "4.0.*",
     "mustache/mustache": "^2.12",
     "monolog/monolog": "~1.23",
-    "hoa/compiler": "~3.0"
+    "hoa/compiler": "~3.0",
+    "siwayll/kapow": "^1.0"
   },
   "require-dev": {
     "atoum/atoum": "3.2.*",

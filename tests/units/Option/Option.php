@@ -37,25 +37,51 @@ class Option extends Test
             )
             ->class(get_class($option))
                 ->hasInterface('\ArrayAccess')
-            ->boolean(isset($option['name']))
-                ->isTrue()
-            ->boolean(isset($option['falseName']))
-                ->isFalse()
-            ->string($option['name'])
-                ->isEqualTo($name)
-            ->integer($option['weight'])
-                ->isEqualTo($weight)
+            ->assert('it should test if field exists normaly')
+                ->boolean(isset($option['name']))
+                    ->isTrue()
+                ->boolean(isset($option['falseName']))
+                    ->isFalse()
 
-            ->given($option['customField'] = 'foo')
-            ->string($option['customField'])
-                ->isEqualTo('foo')
+            ->assert('it should return data normaly')
+                ->string($option['name'])
+                    ->isEqualTo($name)
+                ->integer($option['weight'])
+                    ->isEqualTo($weight)
+                ->variable($option['falsField'])
+                    ->isNull()
+
+            ->assert('it should agree to create a new field')
+                ->given($option['customField'] = 'foo')
+                ->string($option['customField'])
+                    ->isEqualTo('foo')
+                 ->boolean(isset($option['customField']))
+                    ->isTrue()
+
+            ->assert('it should unset data normaly')
+                ->given($option['customField'] = 'foo')
+                ->boolean(isset($option['customField']))
+                    ->isTrue()
+                ->when(
+                    function () use ($option) {
+                        unset($option['customField']);
+                    }
+                )
+                ->boolean(isset($option['customField']))
+                    ->isFalse()
 
 
-            ->exception(function () {
-                unset($this->testedInstance['name']);
-            })
-                ->hasMessage('Option ' . $name . ' cant unset andatory data')
-                ->hasCode(400)
+            ->assert('it shouldn\'t accept to break mandatory data')
+                ->exception(function () {
+                    $this->testedInstance['name'] = '';
+                })
+                    ->hasMessage('Option must have a non-empty name')
+                    ->hasCode(400)
+                ->exception(function () {
+                    unset($this->testedInstance['name']);
+                })
+                    ->hasMessage('Option {optionName} cant unset mandatory data')
+                    ->hasCode(400)
         ;
     }
 }

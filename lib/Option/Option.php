@@ -19,33 +19,65 @@ class Option implements \ArrayAccess
      */
     public function __construct(string $name, int $weight)
     {
-        if (empty($name)) {
-            throw new OptionMustHaveNonEmptyName();
-        }
-        $this->name = $name;
+        $this->name = $this->controledNameValue($name);
         $this->weight = $weight;
     }
 
-    public function offsetExists($offset)
+    /**
+     * @param string $value
+     * @return string
+     * @throws OptionMustHaveNonEmptyName
+     */
+    private function controledNameValue(string $value): string
+    {
+        if (empty($value)) {
+            throw new OptionMustHaveNonEmptyName();
+        }
+        return $value;
+    }
+
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset): bool 
     {
         return isset($this->$offset);
     }
 
+    /**
+     * @param mixed $offset
+     * @return mixed|null
+     */
     public function offsetGet($offset)
     {
         return isset($this->$offset) ? $this->$offset : null;
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     * @throws OptionMustHaveNonEmptyName
+     */
     public function offsetSet($offset, $value)
     {
-        // TODO: Implement offsetSet() method.
+        if ($offset === 'name') {
+            $this->name = $this->controledNameValue($value);
+            return;
+        }
+        $this->$offset = $value;
     }
 
+    /**
+     * @param mixed $offset
+     * @throws OptionCantUnsetMandatoryData
+     */
     public function offsetUnset($offset)
     {
         if ($offset === 'name' || $offset === 'weight') {
             throw new OptionCantUnsetMandatoryData($this->name);
         }
-        // TODO: Implement offsetUnset() method.
+
+        unset($this->$offset);
     }
 }

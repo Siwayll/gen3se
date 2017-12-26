@@ -7,7 +7,7 @@ use mageekguy\atoum\mock;
 
 class Test extends atoum\spec
 {
-    function beforeTestMethod($method)
+    public function beforeTestMethod($method)
     {
         mock\controller::disableAutoBindForNewMock();
 

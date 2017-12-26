@@ -2,11 +2,13 @@
 
 namespace Gen3se\Engine\Exception;
 
+use Siwayll\Kapow\Exception;
+
 /**
  * Class OptionNotFound
  * @package Gen3se\Engine\Exception
  */
-class OptionNotFound extends \Exception
+class OptionNotFound extends Exception
 {
     protected $optionName;
 

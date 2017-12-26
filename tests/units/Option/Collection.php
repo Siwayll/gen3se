@@ -41,12 +41,13 @@ class Collection extends Test
             )
             ->if($this->testedInstance->add($this->createMockOption($optionName)))
             ->object($this->testedInstance->get($optionName))
-            ->exception(
+            ->KapowException(
                 function () {
                     $this->testedInstance->get('non-opt');
                 }
             )
                 ->hasMessage('Option {optionName} not found')
+                ->hasKapowMessage('Option non-opt not found')
                 ->hasCode(400)
         ;
     }

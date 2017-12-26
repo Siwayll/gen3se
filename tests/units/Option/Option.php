@@ -83,10 +83,11 @@ class Option extends Test
                 })
                     ->hasMessage('Option must have a non-empty name')
                     ->hasCode(400)
-                ->exception(function () {
+                ->KapowException(function () {
                     unset($this->testedInstance['name']);
                 })
                     ->hasMessage('Option {optionName} cant unset mandatory data')
+                    ->hasKapowMessage('Option name-1 cant unset mandatory data')
                     ->hasCode(400)
         ;
     }

@@ -2,16 +2,18 @@
 
 namespace Gen3se\Engine\Exception;
 
+use Siwayll\Kapow\Exception;
+
 /**
  * Class OptionCantUnsetMandatoryData
  * @package Gen3se\Engine\Exception
  */
-class OptionCantUnsetMandatoryData extends \Exception
+class OptionCantUnsetMandatoryData extends Exception
 {
     /**
      * @var string
      */
-    private $optionName;
+    protected $optionName;
 
     /**
      * @var string

@@ -27,11 +27,12 @@ class Choice extends Test
     public function shouldHaveACollectionOfOptions(CollectionOfOptions $collection)
     {
         $this
-            ->exception(function () {
+            ->KapowException(function () {
                 $collection = new CollectionOfOptions();
                 $this->newTestedInstance('EmptyCollection', $collection);
             })
                 ->hasMessage('Choice {choiceName} must have a non-empty collection of Option')
+                ->hasKapowMessage('Choice EmptyCollection must have a non-empty collection of Option')
                 ->hasCode(400)
             ->given(
                 $name = 'choice',

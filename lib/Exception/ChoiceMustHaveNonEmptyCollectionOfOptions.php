@@ -2,16 +2,18 @@
 
 namespace Gen3se\Engine\Exception;
 
+use Siwayll\Kapow\Exception;
+
 /**
  * Class ChoiceMustHaveNonEmptyCollectionOfOptions
  * @package Gen3se\Engine\Exception
  */
-class ChoiceMustHaveNonEmptyCollectionOfOptions extends \Exception
+class ChoiceMustHaveNonEmptyCollectionOfOptions extends Exception
 {
     /**
      * @var string
      */
-    public $choiceName;
+    protected $choiceName;
 
     /**
      * @var string

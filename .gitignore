@@ -1,8 +1,3 @@
-# Ignore propre aux éditeur #
-#############################
-/nbproject/
-.idea
-
 # Numerous always-ignore extensions #
 #####################################
 *.diff
@@ -43,11 +38,5 @@ Thumbs.db
 composer.lock
 vendor/
 *.tmp
-*.csv
-conf.ini
-Tests/coverage
-tags
-log/
-deuton.ini
-build/coverHtml
-build/atoum.clover.xml
+
+bin/

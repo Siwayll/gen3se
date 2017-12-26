@@ -14,6 +14,12 @@ class Option extends Test
             })
                 ->hasMessage('Option must have a non-empty name')
                 ->hasCode(400)
+            ->given(
+                $optionName = 'opt-1',
+                $this->newTestedInstance($optionName, 100)
+            )
+            ->string($this->testedInstance->getName())
+                ->isEqualTo($optionName)
         ;
     }
 

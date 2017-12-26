@@ -24,6 +24,14 @@ class Option implements \ArrayAccess
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * @param string $value
      * @return string
      * @throws OptionMustHaveNonEmptyName

@@ -29,11 +29,12 @@ class Scenario extends Test
                 ],
                 $this->newTestedInstance()
             )
-            ->object($this->testedInstance
-                ->append($choiceList[0])
-                ->append($choiceList[1])
-                ->append($choiceList[2])
-                ->append($choiceList[3])
+            ->object(
+                $this->testedInstance
+                    ->append($choiceList[0])
+                    ->append($choiceList[1])
+                    ->append($choiceList[2])
+                    ->append($choiceList[3])
             )
                 ->isTestedInstance()
 
@@ -64,16 +65,18 @@ class Scenario extends Test
                 ],
                 $this->newTestedInstance()
             )
-            ->object($this->testedInstance
-                ->append($choiceList[0])
-                ->append($choiceList[1])
+            ->object(
+                $this->testedInstance
+                    ->append($choiceList[0])
+                    ->append($choiceList[1])
             )
                 ->isTestedInstance()
             ->integer(count($this->testedInstance))
                 ->isEqualTo(2)
-            ->object($this->testedInstance
-                ->append($choiceList[2])
-                ->append($choiceList[2])
+            ->object(
+                $this->testedInstance
+                    ->append($choiceList[2])
+                    ->append($choiceList[2])
             )
                 ->isTestedInstance()
             ->integer(count($this->testedInstance))

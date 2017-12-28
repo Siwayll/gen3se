@@ -2,7 +2,10 @@
 
 namespace Gen3se\Engine;
 
-
+/**
+ * Interface ScenarioInterface
+ * @package Gen3se\Engine
+ */
 interface ScenarioInterface extends \Countable
 {
     /**

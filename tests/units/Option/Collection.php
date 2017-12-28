@@ -4,6 +4,7 @@ namespace Gen3se\Engine\Specs\Units\Option;
 
 use Gen3se\Engine\Tests\Units\Test;
 use Gen3se\Engine\Option\Option;
+use Siwayll\Kapow\Level;
 
 class Collection extends Test
 {
@@ -49,7 +50,7 @@ class Collection extends Test
             )
                 ->hasMessage('Option {optionName} not found')
                 ->hasKapowMessage('Option non-opt not found')
-                ->hasCode(400)
+                ->hasCode(Level::ERROR)
         ;
     }
 
@@ -80,6 +81,81 @@ class Collection extends Test
                 ->isEqualTo(2)
             ->integer($this->testedInstance->getTotalWeight())
                 ->isEqualTo(1000)
+        ;
+    }
+
+    public function shouldFindAnOptionByPositionInTheStack()
+    {
+        $this
+            ->given(
+                $optionOne = new Option('opt1', 500),
+                $optionTwo = new Option('opt2', 500),
+                $optionThree = new Option('opt3', 0),
+                $optionFour = new Option('opt4', 10),
+                $this->newTestedInstance()
+            )
+            ->if($this->testedInstance->add($optionOne))
+            ->and($this->testedInstance->add($optionTwo))
+            ->and($this->testedInstance->add($optionThree))
+            ->and($this->testedInstance->add($optionFour))
+            ->object($this->testedInstance->findByPositonInStack(485))
+                ->isIdenticalTo($optionOne)
+            ->object($this->testedInstance->findByPositonInStack(893))
+                ->isIdenticalTo($optionTwo)
+            ->object($this->testedInstance->findByPositonInStack(1000))
+                ->isIdenticalTo($optionTwo)
+            ->object($this->testedInstance->findByPositonInStack(1001))
+                ->isIdenticalTo($optionFour)
+            ->object($this->testedInstance->findByPositonInStack(1010))
+                ->isIdenticalTo($optionFour)
+
+            ->given(
+                $optionOne = new Option('opt1', 0),
+                $optionTwo = new Option('opt2', 0),
+                $optionThree = new Option('opt3', 0),
+                $this->newTestedInstance()
+            )
+            ->if($this->testedInstance->add($optionOne))
+            ->and($this->testedInstance->add($optionTwo))
+            ->and($this->testedInstance->add($optionThree))
+            ->KapowException(
+                function () {
+                    $this->testedInstance->findByPositonInStack(0);
+                }
+            )
+                ->hasKapowMessage(
+                    'Cannot find options in collection at stack position "0" for {choiceName}'
+                )
+                ->hasCode(Level::ERROR)
+        ;
+    }
+
+    public function shouldNotAcceptIrelevantPosition()
+    {
+        $this
+            ->given(
+                $optionOne = new Option('opt1', 500),
+                $this->newTestedInstance()
+            )
+            ->if($this->testedInstance->add($optionOne))
+            ->exception(function () {
+                $this->testedInstance->findByPositonInStack('foo');
+            })
+                ->isInstanceOf('\TypeError')
+            ->KapowException(
+                function () {
+                    $this->testedInstance->findByPositonInStack(-1);
+                }
+            )
+                ->hasKapowMessage('Position "-1" must be relevant in [0,500] for {choiceName}')
+                ->hasCode(Level::CRITICAL)
+            ->KapowException(
+                function () {
+                    $this->testedInstance->findByPositonInStack(550);
+                }
+            )
+                ->hasKapowMessage('Position "550" must be relevant in [0,500] for {choiceName}')
+                ->hasCode(Level::CRITICAL)
         ;
     }
 }

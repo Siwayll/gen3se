@@ -3,6 +3,8 @@
 namespace Gen3se\Engine\Option;
 
 use Gen3se\Engine\Exception\OptionNotFound;
+use Gen3se\Engine\Exception\OptionNotFoundInStack;
+use Gen3se\Engine\Exception\PositionMustBeRelevent;
 
 /**
  * Class Collection
@@ -58,5 +60,31 @@ class Collection implements \Countable
         });
 
         return $total;
+    }
+
+    /**
+     * @param int $position
+     * @return Option
+     * @throws OptionNotFoundInStack
+     * @throws PositionMustBeRelevent
+     */
+    public function findByPositonInStack(int $position): Option
+    {
+        if ($position < 0 || $position > $this->getTotalWeight()) {
+            throw new PositionMustBeRelevent($position, $this->getTotalWeight());
+        }
+
+        $cursor = 0;
+        foreach ($this->container as $option) {
+            if ($option->getWeight() === 0) {
+                continue;
+            }
+            $cursor += $option->getWeight();
+            if ($cursor >= $position) {
+                return $option;
+            }
+        }
+
+        throw new OptionNotFoundInStack($position);
     }
 }

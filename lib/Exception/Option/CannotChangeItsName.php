@@ -1,14 +1,15 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Option;
 
 use Siwayll\Kapow\Exception;
+use Siwayll\Kapow\Level;
 
 /**
- * Class OptionCantUnsetMandatoryData
+ * Class OptionsCannotChangeItsName
  * @package Gen3se\Engine\Exception
  */
-class OptionCantUnsetMandatoryData extends Exception
+class CannotChangeItsName extends Exception
 {
     /**
      * @var string
@@ -18,15 +19,15 @@ class OptionCantUnsetMandatoryData extends Exception
     /**
      * @var string
      */
-    protected $message = 'Option {optionName} cant unset mandatory data';
+    public $message = 'Option {optionName} cannot change its name';
 
     /**
      * @var int
      */
-    protected $code = 400;
+    public $code = Level::ERROR;
 
     /**
-     * OptionCantUnsetMandatoryData constructor.
+     * OptionsCannotChangeItsName constructor.
      * @param string $optionName
      */
     public function __construct(string $optionName)

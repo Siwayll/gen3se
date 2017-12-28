@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Option;
 
 use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
@@ -9,7 +9,7 @@ use Siwayll\Kapow\Level;
  * Class OptionMustHaveWeightGreaterThanZero
  * @package Gen3se\Engine\Exception
  */
-class OptionMustHaveWeightGreaterThanZero extends Exception
+class MustHaveWeightGreaterThanZero extends Exception
 {
     /**
      * @var string

@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Gen3se\Engine\Option;
 
-use Gen3se\Engine\Exception\OptionCantUnsetMandatoryData;
-use Gen3se\Engine\Exception\OptionMustHaveNonEmptyName;
-use Gen3se\Engine\Exception\OptionMustHaveWeightGreaterThanZero;
-use Gen3se\Engine\Exception\OptionsCannotChangeItsName;
+use Gen3se\Engine\Exception\Option\CantUnsetMandatoryData;
+use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
+use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
+use Gen3se\Engine\Exception\Option\CannotChangeItsName;
 
 class Option implements \ArrayAccess
 {
@@ -18,8 +18,8 @@ class Option implements \ArrayAccess
      * Option constructor.
      * @param string $name
      * @param int $weight
-     * @throws OptionMustHaveNonEmptyName
-     * @throws OptionMustHaveWeightGreaterThanZero
+     * @throws MustHaveNonEmptyName
+     * @throws MustHaveWeightGreaterThanZero
      */
     public function __construct(string $name, int $weight)
     {
@@ -46,12 +46,12 @@ class Option implements \ArrayAccess
     /**
      * @param int $value
      * @return Option
-     * @throws OptionMustHaveWeightGreaterThanZero
+     * @throws MustHaveWeightGreaterThanZero
      */
     public function setWeight(int $value): self
     {
         if ($value < 0) {
-            throw new OptionMustHaveWeightGreaterThanZero($this->getName());
+            throw new MustHaveWeightGreaterThanZero($this->getName());
         }
         $this->weight = $value;
         return $this;
@@ -60,12 +60,12 @@ class Option implements \ArrayAccess
     /**
      * @param string $value
      * @return string
-     * @throws OptionMustHaveNonEmptyName
+     * @throws MustHaveNonEmptyName
      */
     private function controledNameValue(string $value): string
     {
         if (empty($value)) {
-            throw new OptionMustHaveNonEmptyName();
+            throw new MustHaveNonEmptyName();
         }
         return $value;
     }
@@ -92,7 +92,7 @@ class Option implements \ArrayAccess
     public function offsetSet($offset, $value): void
     {
         if ($offset === 'name') {
-            throw new OptionsCannotChangeItsName($this->getName());
+            throw new CannotChangeItsName($this->getName());
         }
         if ($offset === 'weight') {
             $this->setWeight($value);
@@ -103,12 +103,12 @@ class Option implements \ArrayAccess
 
     /**
      * @param mixed $offset
-     * @throws OptionCantUnsetMandatoryData
+     * @throws CantUnsetMandatoryData
      */
     public function offsetUnset($offset): void
     {
         if ($offset === 'name' || $offset === 'weight') {
-            throw new OptionCantUnsetMandatoryData($this->name);
+            throw new CantUnsetMandatoryData($this->name);
         }
 
         unset($this->$offset);

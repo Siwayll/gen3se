@@ -1,11 +1,11 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Option;
 
 /**
  * class Exception
  */
-class OptionMustHaveNonEmptyName extends \Exception
+class MustHaveNonEmptyName extends \Exception
 {
     public $message = 'Option must have a non-empty name';
 

@@ -46,4 +46,17 @@ class Collection implements \Countable
     {
         return count($this->container);
     }
+
+    /**
+     * @return int
+     */
+    public function getTotalWeight(): int
+    {
+        $total = 0;
+        array_walk($this->container, function (Option $option) use (&$total) {
+            $total += $option->getWeight();
+        });
+
+        return $total;
+    }
 }

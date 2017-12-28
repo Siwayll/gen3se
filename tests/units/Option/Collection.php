@@ -3,6 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Option;
 
 use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Option\Option;
 
 class Collection extends Test
 {
@@ -64,6 +65,21 @@ class Collection extends Test
             ->if($this->testedInstance->add($this->createMockOption($optionName)))
             ->integer(count($this->testedInstance))
                 ->isEqualTo(1)
+        ;
+    }
+
+    public function shouldCalculateTheTotalWeightOptionS()
+    {
+        $this
+            ->given(
+                $this->newTestedInstance()
+            )
+            ->if($this->testedInstance->add(new Option('opt1', 500)))
+            ->and($this->testedInstance->add(new Option('opt2', 500)))
+            ->integer(count($this->testedInstance))
+                ->isEqualTo(2)
+            ->integer($this->testedInstance->getTotalWeight())
+                ->isEqualTo(1000)
         ;
     }
 }

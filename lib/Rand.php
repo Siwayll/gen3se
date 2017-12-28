@@ -1,114 +1,59 @@
 <?php
-/**
- *
- *
- * @author  Siwaÿll <sana.th.labs@gmail.com>
- * @license beerware http://wikipedia.org/wiki/Beerware
- */
 namespace Gen3se\Engine;
 
 use \Exception;
+use Gen3se\Engine\Exception\Rand\MinMustBeInferiorToMax;
 
 /**
- *
- *
- * @author  Siwaÿll <sana.th.labs@gmail.com>
- * @license beerware http://wikipedia.org/wiki/Beerware
+ * Class Rand
+ * @package Gen3se\Engine
  */
 class Rand
 {
     /**
-     * Résultat du dernier "jet" aléatoire
-     *
      * @var int
      */
     protected $result;
 
+    /**
+     * @var int
+     */
     private $min = 0;
+
+    /**
+     * @var int
+     */
     private $max = 0;
 
 
     /**
-     *
-     *
-     * @param int $min Plus petite valeur à retourner
-     * @param int $max Plus grande valeur à retourner
+     * Rand constructor.
+     * @param int $min
+     * @param int $max
+     * @throws Exception
      */
-    public function __construct($min = 0, $max = 0)
+    public function __construct(int $min = 0, int $max = 0)
     {
-        $this
-            ->setMax($max)
-            ->setMin($min)
-            ->controlRange()
-        ;
+        $this->min = $min;
+        $this->max = $max;
+        $this->controlRange();
     }
 
     /**
-     * Test si une valeur est un entier
-     *
-     * @param mixed  $value Valeur à tester
-     * @param string $name  Nom du test (pour ientification)
-     *
-     * @return self
-     * @throws Exception si la valeur n'est pas un entier
-     */
-    private function isInteger($value, $name)
-    {
-        if ($value != (int) $value) {
-            throw new Exception($name . ' doit être un entier', 400);
-        }
-
-        return $this;
-    }
-
-    /**
-     *
-     * @return self
-     * @throws Exception si l'écart entre min et max n'est pas correcte
+     * @throws MinMustBeInferiorToMax
      */
     private function controlRange()
     {
         if ($this->max < $this->min) {
-            throw new Exception('Max doit être supérieur à min', 400);
+            throw new MinMustBeInferiorToMax($this->min, $this->max);
         }
-
-        return $this;
     }
 
     /**
-     *
-     * @param int $min Plus petite valeur à retourner
-     * @return self
-     */
-    public function setMin($min)
-    {
-        $this->isInteger($min, 'Min');
-
-        $this->min = (int) $min;
-        return $this;
-    }
-
-    /**
-     *
-     * @param int $max Plus grande valeur à retourner
-     * @return self
-     */
-    public function setMax($max)
-    {
-        $this->isInteger($max, 'Max');
-
-        $this->max = (int) $max;
-        return $this;
-    }
-
-    /**
-     *
      * @return int
      */
-    public function roll()
+    public function roll(): int
     {
-        $this->controlRange();
-
         $range = $this->max - $this->min;
         if ($range == 0) {
             $this->result = $this->min;
@@ -129,10 +74,9 @@ class Rand
     }
 
     /**
-     *
      * @return int
      */
-    public function getResult()
+    public function getResult(): int
     {
         return $this->result;
     }

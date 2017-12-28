@@ -6,82 +6,63 @@
  * @license beerware http://wikipedia.org/wiki/Beerware
  */
 
-namespace Tests\Unit\Gen3se\Engine;
+namespace Gen3se\Engine\Specs\Units;
 
-use atoum;
+use Gen3se\Engine\Tests\Units\Test;
+use Siwayll\Kapow\Level;
 
-/**
- * Chargement automatique des classes
- *
- * @author  Siwaÿll <sana.th.labs@gmail.com>
- * @license beerware http://wikipedia.org/wiki/Beerware
- */
-class Rand extends atoum
+class Rand extends Test
 {
-    /**
-     * Contrôle d'initialisation de la classe
-     *
-     * @return void
-     */
-    public function testConstruct()
+    public function shouldBeConstructWithVariusParametrage()
     {
         $this
             ->object($this->newTestedInstance())
-            ->isInstanceOf('\Gen3se\Engine\Rand')
             ->object($this->newTestedInstance(0))
-            ->isInstanceOf('\Gen3se\Engine\Rand')
             ->object($this->newTestedInstance(5, 15))
-            ->isInstanceOf('\Gen3se\Engine\Rand')
-            ->exception(function () {
-                $foo = $this->newTestedInstance(5, 3);
+
+            ->KapowException(function () {
+                $this->newTestedInstance(5, 3);
             })
-            ->hasMessage('Max doit être supérieur à min')
-            ->hasCode(400)
-            ->exception(function () {
-                $foo = $this->newTestedInstance(3);
+                ->hasMessage('Min ({min}) must be inferior to Max ({max})')
+                ->hasKapowMessage('Min (5) must be inferior to Max (3)')
+                ->hasCode(Level::ERROR)
+
+            ->KapowException(function () {
+                $this->newTestedInstance(3);
             })
-            ->hasMessage('Max doit être supérieur à min')
-            ->hasCode(400)
+                ->hasKapowMessage('Min (3) must be inferior to Max (0)')
+                ->hasCode(Level::ERROR)
         ;
     }
 
     /**
-     * Enregistrement de la valeur min
-     *
-     * @return void
+     * @return array
      */
-    public function testSetMin()
+    protected function minMaxProvider()
     {
-        $this
-            ->if($rand = $this->newTestedInstance(5, 30))
-            ->object($rand->setMin(15))
-            ->isIdenticalTo($rand)
-            ->object($rand->setMin(0))
-            ->isIdenticalTo($rand)
-            ->exception(function () use ($rand) {
-                $rand->setMin(0.365);
-            })
-            ->hasMessage('Min doit être un entier')
-            ->hasCode(400)
-        ;
+        return [
+            [0, 1],
+            [0, 0],
+            [-10, -1],
+            [0, 400],
+            [500, 500]
+        ];
     }
 
     /**
-     * Contrôle rapide d'une génération aléatoire
-     *
-     * @return void
+     * @param int $min
+     * @param int $max
+     * @dataProvider minMaxProvider
      */
-    public function testRoll()
+    public function shouldGetRandomIntegerBetweenMinAndMax(int $min, int $max)
     {
         $this
-            ->if($rand = $this->newTestedInstance(5, 30))
-            ->integer($rand->roll())
-            ->isGreaterThanOrEqualTo(5)
-            ->isLessThanOrEqualTo(30)
-            ->isEqualTo($rand->getResult())
-            ->if($rand->setMin(30))
-            ->integer($rand->roll())
-            ->isEqualTo(30)
+            ->if($this->newTestedInstance($min, $max))
+            ->integer($this->testedInstance->roll())
+                ->isGreaterThanOrEqualTo($min)
+                ->isLessThanOrEqualTo($max)
+                ->isEqualTo($this->testedInstance->getResult())
+            ->dump($this->testedInstance->getResult())
         ;
     }
 }

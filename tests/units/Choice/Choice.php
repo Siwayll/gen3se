@@ -24,7 +24,7 @@ class Choice extends Test
      * @throws \Gen3se\Engine\Exception\OptionNotFound
      * @dataProvider collectionProvider
      */
-    public function shouldHaveACollectionOfOptions(CollectionOfOptions $collection)
+    public function shouldHaveANonEmptyCollectionOfOptions(CollectionOfOptions $collection)
     {
         $this
             ->KapowException(function () {

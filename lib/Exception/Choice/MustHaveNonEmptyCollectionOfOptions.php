@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Choice;
 
 use Siwayll\Kapow\Exception;
 
@@ -8,7 +8,7 @@ use Siwayll\Kapow\Exception;
  * Class ChoiceMustHaveNonEmptyCollectionOfOptions
  * @package Gen3se\Engine\Exception
  */
-class ChoiceMustHaveNonEmptyCollectionOfOptions extends Exception
+class MustHaveNonEmptyCollectionOfOptions extends Exception
 {
     /**
      * @var string

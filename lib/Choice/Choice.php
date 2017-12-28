@@ -2,8 +2,8 @@
 
 namespace Gen3se\Engine\Choice;
 
-use Gen3se\Engine\Exception\ChoiceMustHaveNonEmptyCollectionOfOptions;
-use Gen3se\Engine\Exception\ChoiceMustHaveNonEmptyName;
+use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyCollectionOfOptions;
+use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
 use Gen3se\Engine\Option\Collection as OptionCollection;
 use Gen3se\Engine\ChoiceData;
 
@@ -22,18 +22,18 @@ class Choice
      * Choice constructor.
      * @param string $choiceName
      * @param OptionCollection $optionCollection
-     * @throws ChoiceMustHaveNonEmptyCollectionOfOptions
-     * @throws ChoiceMustHaveNonEmptyName
+     * @throws MustHaveNonEmptyCollectionOfOptions
+     * @throws MustHaveNonEmptyName
      */
     public function __construct(string $choiceName, OptionCollection $optionCollection)
     {
         if (empty($choiceName)) {
-            throw new ChoiceMustHaveNonEmptyName();
+            throw new MustHaveNonEmptyName();
         }
         $this->name = $choiceName;
 
         if (count($optionCollection) < 1) {
-            throw new ChoiceMustHaveNonEmptyCollectionOfOptions($this->name);
+            throw new MustHaveNonEmptyCollectionOfOptions($this->name);
         }
 
         $this->optionCollection = $optionCollection;

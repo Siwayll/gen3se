@@ -2,9 +2,9 @@
 
 namespace Gen3se\Engine\Option;
 
-use Gen3se\Engine\Exception\OptionNotFound;
-use Gen3se\Engine\Exception\OptionNotFoundInStack;
-use Gen3se\Engine\Exception\PositionMustBeRelevent;
+use Gen3se\Engine\Exception\Option\NotFound;
+use Gen3se\Engine\Exception\Option\NotFoundInStack;
+use Gen3se\Engine\Exception\Option\PositionMustBeRelevent;
 
 /**
  * Class Collection
@@ -31,12 +31,12 @@ class Collection implements \Countable
     /**
      * @param string $optionName
      * @return Option
-     * @throws OptionNotFound
+     * @throws NotFound
      */
     public function get(string $optionName): Option
     {
         if (!isset($this->container[$optionName])) {
-            throw new OptionNotFound($optionName);
+            throw new NotFound($optionName);
         }
         return isset($this->container[$optionName])? $this->container[$optionName]: null;
     }
@@ -65,7 +65,7 @@ class Collection implements \Countable
     /**
      * @param int $position
      * @return Option
-     * @throws OptionNotFoundInStack
+     * @throws NotFoundInStack
      * @throws PositionMustBeRelevent
      */
     public function findByPositonInStack(int $position): Option
@@ -85,6 +85,6 @@ class Collection implements \Countable
             }
         }
 
-        throw new OptionNotFoundInStack($position);
+        throw new NotFoundInStack($position);
     }
 }

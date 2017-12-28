@@ -21,7 +21,7 @@ class Choice extends Test
 
     /**
      * @param CollectionOfOptions $collection
-     * @throws \Gen3se\Engine\Exception\OptionNotFound
+     * @throws \Gen3se\Engine\Exception\NotFound
      * @dataProvider collectionProvider
      */
     public function shouldHaveANonEmptyCollectionOfOptions(CollectionOfOptions $collection)

@@ -1,7 +1,8 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Option;
 
+use Gen3se\Engine\Exception\ChoiceNameTrait;
 use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
 
@@ -9,7 +10,7 @@ use Siwayll\Kapow\Level;
  * Class OptionNotFoundInStack
  * @package Gen3se\Engine\Exception
  */
-class OptionNotFoundInStack extends Exception
+class NotFoundInStack extends Exception
 {
     use ChoiceNameTrait;
 

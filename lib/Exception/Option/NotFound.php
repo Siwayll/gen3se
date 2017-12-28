@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Option;
 
 use Siwayll\Kapow\Exception;
 
@@ -8,7 +8,7 @@ use Siwayll\Kapow\Exception;
  * Class OptionNotFound
  * @package Gen3se\Engine\Exception
  */
-class OptionNotFound extends Exception
+class NotFound extends Exception
 {
     protected $optionName;
 

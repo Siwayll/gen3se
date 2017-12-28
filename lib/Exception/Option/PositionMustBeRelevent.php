@@ -1,7 +1,8 @@
 <?php
 
-namespace Gen3se\Engine\Exception;
+namespace Gen3se\Engine\Exception\Option;
 
+use Gen3se\Engine\Exception\ChoiceNameTrait;
 use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
 

@@ -21,7 +21,7 @@ class Choice extends Test
 
     /**
      * @param CollectionOfOptions $collection
-     * @throws \Gen3se\Engine\Exception\NotFound
+     * @throws \Gen3se\Engine\Exception\Option\NotFound
      * @dataProvider collectionProvider
      */
     public function shouldHaveANonEmptyCollectionOfOptions(CollectionOfOptions $collection)
@@ -38,6 +38,8 @@ class Choice extends Test
                 $name = 'choice',
                 $this->newTestedInstance($name, $collection)
             )
+            ->object($this->testedInstance->getOptionCollection())
+                ->isIdenticalTo($collection)
             ->object($this->testedInstance->getOptionCollection()->get('opt-1'))
                 ->isIdenticalTo($collection->get('opt-1'))
         ;

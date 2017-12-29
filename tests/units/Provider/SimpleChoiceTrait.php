@@ -36,4 +36,29 @@ trait SimpleChoiceTrait
 
         return $choice;
     }
+
+    protected function getHairColorChoice()
+    {
+        $optCollection = new Collection();
+        $optCollection->add(
+            (new Option('noir', 300))
+                ->set('text', 'les cheveux noirs')
+        );
+        $optCollection->add(
+            (new Option('blond', 100))
+                ->set('text', 'les cheveux blonds')
+        );
+        $optCollection->add(
+            (new Option('vert', 5))
+                ->set('text', 'les cheveux verts')
+        );
+        $optCollection->add(
+            (new Option('violet', 1))
+                ->set('text', 'les cheveux violets')
+        );
+
+        $choice = new Choice('cheveux', $optCollection);
+
+        return $choice;
+    }
 }

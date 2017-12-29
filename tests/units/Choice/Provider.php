@@ -14,7 +14,8 @@ class Provider extends Test
     protected function choiceProvider()
     {
         return [
-            $this->getEyeColorChoice()
+            $this->getEyeColorChoice(),
+            $this->getHairColorChoice()
         ];
     }
 

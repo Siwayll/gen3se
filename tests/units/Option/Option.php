@@ -71,13 +71,13 @@ class Option extends Test
     public function shouldAcceptCustomFields()
     {
         $this
-            ->given($option = $this->newTestedInstance('name-1', 300))
+            ->given($this->newTestedInstance('name-1', 300))
             ->object($this->testedInstance->set('custom1', 'value'))
                 ->isTestedInstance()
             ->string($this->testedInstance->get('custom1'))
                 ->isEqualTo('value')
-            ->if($option->customField = 'foo')
-            ->string($option->customField)
+            ->if($this->testedInstance->customField = 'foo')
+            ->string($this->testedInstance->customField)
                 ->isEqualTo('foo')
         ;
     }
@@ -85,7 +85,7 @@ class Option extends Test
     public function shouldBeCapableToExportCleanData()
     {
         $this
-            ->given($option = $this->newTestedInstance('name-1', 300))
+            ->given($this->newTestedInstance('name-1', 300))
             ->object(
                 $this->testedInstance
                     ->set('text', 'Lorem ipsum set dolor')

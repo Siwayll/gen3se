@@ -36,11 +36,29 @@ class DataExporter extends Test
     {
         $this
             ->given(
-                $option = $choice->getOptionCollection()->findByPositonInStack(0),
+                $optCollection = $choice->getOptionCollection(),
+                $option = $optCollection->findByPositonInStack(0),
+                $anotherOption = $optCollection->findByPositonInStack($optCollection->getTotalWeight()),
                 $this->newTestedInstance()
             )
             ->object($this->testedInstance->saveFor($choice, $option))
                 ->isTestedInstance()
+            ->array($this->testedInstance->get($choice->getName()))
+                ->isEqualTo($option->exportCleanFields())
+            ->object($this->testedInstance->saveFor($choice, $option))
+                ->isTestedInstance()
+            ->array($this->testedInstance->get($choice->getName()))
+                ->contains($option->exportCleanFields())
+                ->size->isEqualTo(2)
+
+            ->object($this->testedInstance->saveFor($choice, $anotherOption))
+                ->isTestedInstance()
+            ->array($this->testedInstance->get($choice->getName()))
+                ->contains($option->exportCleanFields())
+                ->contains($anotherOption->exportCleanFields())
+                ->size->isEqualTo(3)
+
+
         ;
     }
 }

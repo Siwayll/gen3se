@@ -79,9 +79,25 @@ class Option extends Test
             ->if($option->customField = 'foo')
             ->string($option->customField)
                 ->isEqualTo('foo')
-            ->array($this->testedInstance->exportCustomFields())
-                ->string['custom1']->isEqualTo('value')
-                ->string['customField']->isEqualTo('foo')
+        ;
+    }
+
+    public function shouldBeCapableToExportCleanData()
+    {
+        $this
+            ->given($option = $this->newTestedInstance('name-1', 300))
+            ->object(
+                $this->testedInstance
+                    ->set('text', 'Lorem ipsum set dolor')
+                    ->set('custom', 'value')
+                    ->set('data.toto', 1)
+            )
+                ->isTestedInstance()
+            ->array($this->testedInstance->exportCleanFields())
+                ->notHasKeys(['name', 'weight'])
+                ->string['text']->isEqualTo('Lorem ipsum set dolor')
+                ->string['custom']->isEqualTo('value')
+                ->integer['data.toto']->isEqualTo(1)
         ;
     }
 

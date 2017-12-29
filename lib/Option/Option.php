@@ -29,7 +29,7 @@ class Option implements \ArrayAccess
         $this->setWeight($weight);
     }
 
-    public function exportCustomFields(): array
+    public function exportCleanFields(): array
     {
         return $this->custom;
     }
@@ -75,27 +75,6 @@ class Option implements \ArrayAccess
             throw new MustHaveNonEmptyName();
         }
         return $value;
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return Option
-     * @throws CannotChangeItsName
-     * @throws MustHaveWeightGreaterThanZero
-     */
-    public function __set($name, $value)
-    {
-        return $this->set($name, $value);
-    }
-
-    /**
-     * @param $name
-     * @return int|mixed|null|string
-     */
-    public function __get($name)
-    {
-        return $this->get($name);
     }
 
     /**

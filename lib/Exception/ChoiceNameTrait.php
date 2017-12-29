@@ -15,11 +15,10 @@ trait ChoiceNameTrait
 
     /**
      * @param string $choiceName
-     * @return self
+     * @return void
      */
-    final public function setChoiceName(string $choiceName): self
+    final public function setChoiceName(string $choiceName): void
     {
         $this->choiceName = $choiceName;
-        return $this;
     }
 }

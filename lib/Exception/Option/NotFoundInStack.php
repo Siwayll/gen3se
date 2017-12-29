@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Exception\Option;
 
+use Gen3se\Engine\Exception\ChoiceNameInterface;
 use Gen3se\Engine\Exception\ChoiceNameTrait;
 use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
@@ -10,7 +11,7 @@ use Siwayll\Kapow\Level;
  * Class OptionNotFoundInStack
  * @package Gen3se\Engine\Exception
  */
-class NotFoundInStack extends Exception
+class NotFoundInStack extends Exception implements ChoiceNameInterface
 {
     use ChoiceNameTrait;
 

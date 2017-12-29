@@ -9,5 +9,5 @@ namespace Gen3se\Engine\Exception;
 interface ChoiceNameInterface
 {
 
-    function setChoiceName(string $choiceName): void;
+    public function setChoiceName(string $choiceName): void;
 }

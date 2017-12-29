@@ -15,5 +15,4 @@ interface ChoiceProviderInterface
      * @return Choice
      */
     public function get(string $choiceName): Choice;
-
 }

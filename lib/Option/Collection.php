@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Option;
 
+use Gen3se\Engine\Exception\Option\AlreadyPresent;
 use Gen3se\Engine\Exception\Option\NotFound;
 use Gen3se\Engine\Exception\Option\NotFoundInStack;
 use Gen3se\Engine\Exception\Option\PositionMustBeRelevent;
@@ -20,9 +21,13 @@ class Collection implements \Countable
     /**
      * @param Option $option
      * @return Collection
+     * @throws AlreadyPresent
      */
     public function add(Option $option): self
     {
+        if (isset($this->container[$option->getName()])) {
+            throw new AlreadyPresent($option->getName());
+        }
         $this->container[$option->getName()] = $option;
 
         return $this;

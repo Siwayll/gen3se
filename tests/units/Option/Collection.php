@@ -69,6 +69,22 @@ class Collection extends Test
         ;
     }
 
+    public function shouldNotAcceptMultipleChoicesWithTheSameName()
+    {
+        $this
+            ->given($this->newTestedInstance())
+            ->object($this->testedInstance->add($this->createMockOption('opt1')))
+                ->isTestedInstance()
+            ->KapowException(
+                function () {
+                    $this->testedInstance->add($this->createMockOption('opt1'));
+                }
+            )
+                ->hasKapowMessage('Cannot add opt1 in {choiceName}, it\'s already present')
+                ->hasCode(Level::ERROR)
+        ;
+    }
+
     public function shouldCalculateTheTotalWeightOptionS()
     {
         $this

@@ -14,6 +14,8 @@ class Option implements \ArrayAccess
 
     private $weight;
 
+    private $custom = [];
+
     /**
      * Option constructor.
      * @param string $name
@@ -25,6 +27,11 @@ class Option implements \ArrayAccess
     {
         $this->name = $this->controledNameValue($name);
         $this->setWeight($weight);
+    }
+
+    public function exportCustomFields(): array
+    {
+        return $this->custom;
     }
 
     /**
@@ -71,12 +78,72 @@ class Option implements \ArrayAccess
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @return Option
+     * @throws CannotChangeItsName
+     * @throws MustHaveWeightGreaterThanZero
+     */
+    public function __set($name, $value)
+    {
+        return $this->set($name, $value);
+    }
+
+    /**
+     * @param $name
+     * @return int|mixed|null|string
+     */
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+     * @param string $name
+     * @param $value
+     * @return Option
+     * @throws CannotChangeItsName
+     * @throws MustHaveWeightGreaterThanZero
+     */
+    public function set(string $name, $value): self
+    {
+        if ($name === 'name') {
+            throw new CannotChangeItsName($this->getName());
+        }
+        if ($name === 'weight') {
+            $this->setWeight($value);
+            return $this;
+        }
+        $this->custom[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return int|mixed|null|string
+     */
+    public function get(string $name)
+    {
+        if ($name === 'name') {
+            return $this->getName();
+        }
+        if ($name === 'weight') {
+            return $this->getWeight();
+        }
+        return isset($this->custom[$name]) ? $this->custom[$name] : null;
+    }
+
+    /**
      * @param mixed $offset
      * @return bool
      */
     public function offsetExists($offset): bool
     {
-        return isset($this->$offset);
+        if ($offset === 'name' || $offset === 'weight') {
+            return true;
+        }
+        return isset($this->custom[$offset]);
     }
 
     /**
@@ -85,20 +152,18 @@ class Option implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->$offset) ? $this->$offset : null;
+        return $this->get($offset);
     }
 
-
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     * @throws CannotChangeItsName
+     * @throws MustHaveWeightGreaterThanZero
+     */
     public function offsetSet($offset, $value): void
     {
-        if ($offset === 'name') {
-            throw new CannotChangeItsName($this->getName());
-        }
-        if ($offset === 'weight') {
-            $this->setWeight($value);
-            return;
-        }
-        $this->$offset = $value;
+        $this->set($offset, $value);
     }
 
     /**
@@ -111,6 +176,6 @@ class Option implements \ArrayAccess
             throw new CantUnsetMandatoryData($this->name);
         }
 
-        unset($this->$offset);
+        unset($this->custom[$offset]);
     }
 }

@@ -72,9 +72,16 @@ class Option extends Test
     {
         $this
             ->given($option = $this->newTestedInstance('name-1', 300))
+            ->object($this->testedInstance->set('custom1', 'value'))
+                ->isTestedInstance()
+            ->string($this->testedInstance->get('custom1'))
+                ->isEqualTo('value')
             ->if($option->customField = 'foo')
             ->string($option->customField)
                 ->isEqualTo('foo')
+            ->array($this->testedInstance->exportCustomFields())
+                ->string['custom1']->isEqualTo('value')
+                ->string['customField']->isEqualTo('foo')
         ;
     }
 
@@ -142,6 +149,11 @@ class Option extends Test
                 ->hasKapowMessage('Option '.$name.' cannot change its name')
                 ->hasCode(Level::ERROR)
             ->KapowException(function () {
+                $this->testedInstance->set('name', 'newName');
+            })
+                ->hasKapowMessage('Option '.$name.' cannot change its name')
+                ->hasCode(Level::ERROR)
+            ->KapowException(function () {
                 unset($this->testedInstance['name']);
             })
                 ->hasMessage('Option {optionName} cant unset mandatory data')
@@ -150,6 +162,10 @@ class Option extends Test
 
             ->exception(function () {
                 $this->testedInstance['weight'] = 'toto';
+            })
+                ->isInstanceOf('\TypeError')
+            ->exception(function () {
+                $this->testedInstance->set('weight', 'toto');
             })
                 ->isInstanceOf('\TypeError')
 

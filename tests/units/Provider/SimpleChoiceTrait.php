@@ -12,16 +12,25 @@ use Gen3se\Engine\Option\Option;
  */
 trait SimpleChoiceTrait
 {
-    /**
-     * @return Choice
-     */
     protected function getEyeColorChoice()
     {
         $optCollection = new Collection();
-        $optCollection->add(new Option('bleu', 30));
-        $optCollection->add(new Option('vert', 15));
-        $optCollection->add(new Option('marron', 150));
-        $optCollection->add(new Option('violet', 1));
+        $optCollection->add(
+            (new Option('bleu', 30))
+                ->set('text', 'les yeux bleus')
+        );
+        $optCollection->add(
+            (new Option('vert', 15))
+                ->set('text', 'les yeux verts')
+        );
+        $optCollection->add(
+            (new Option('marron', 150))
+                ->set('text', 'les yeux marrons')
+        );
+        $optCollection->add(
+            (new Option('violet', 1))
+                ->set('text', 'les yeux violets')
+        );
 
         $choice = new Choice('yeux', $optCollection);
 

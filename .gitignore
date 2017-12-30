@@ -28,15 +28,13 @@
 ehthumbs.db
 Thumbs.db
 
-# dossiers de documentations #
-##############################
-~*/
+# Documentation dir #
+#####################
+doc/
 
 
 # application ignore #
 ######################
 composer.lock
 vendor/
-*.tmp
-
 bin/

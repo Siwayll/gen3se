@@ -45,11 +45,11 @@ class Provider extends Test
                 ->isIdenticalTo($choice)
             ->KapowException(
                 function () {
-                    $this->testedInstance->get('<notFoundChoice>');
+                    $this->testedInstance->get('notFoundChoice');
                 }
             )
-                ->hasMessage('Choice {choiceName} not found')
-                ->hasKapowMessage('Choice <notFoundChoice> not found')
+                ->hasMessage('Choice "{choiceName}" not found')
+                ->hasKapowMessage('Choice "notFoundChoice" not found')
                 ->hasCode(Level::ERROR)
         ;
     }

@@ -18,7 +18,7 @@ class NotFound extends Exception
     /**
      * Message of the exception
      */
-    public $message = 'Choice {choiceName} not found';
+    public $message = 'Choice "{choiceName}" not found';
 
     public $code = Level::ERROR;
 

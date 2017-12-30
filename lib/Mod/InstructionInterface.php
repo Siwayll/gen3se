@@ -17,5 +17,5 @@ interface InstructionInterface
     /**
      * Run the instruction
      */
-    public function __invoke();
+    public function __invoke($value);
 }

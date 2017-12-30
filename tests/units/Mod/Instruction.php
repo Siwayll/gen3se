@@ -62,15 +62,20 @@ class Instruction extends Test
                 $code = 'instructionCode',
                 $validator = function () {
                 },
-                $runner = function () {
-                    return 'IRunMyInstruction';
+                $runner = function ($value) {
+                    if ($value === 'goodValue') {
+                        return 'IRunMyInstruction';
+                    }
+                    return 'iNotRunInstruction';
                 },
                 $this->newTestedInstance($code, $validator, $runner)
             )
             ->object($this->testedInstance)
                 ->isCallable()
-            ->string(call_user_func($this->testedInstance))
+            ->string(call_user_func($this->testedInstance, 'goodValue'))
                 ->isEqualTo('IRunMyInstruction')
+            ->string(call_user_func($this->testedInstance, 'badValue'))
+                ->isEqualTo('iNotRunInstruction')
         ;
     }
 }

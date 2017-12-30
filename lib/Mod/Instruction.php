@@ -29,9 +29,9 @@ class Instruction implements InstructionInterface
         $this->runner = $runner;
     }
 
-    public function __invoke()
+    public function __invoke($value)
     {
-        return call_user_func($this->runner);
+        return call_user_func($this->runner, $value);
     }
 
     public function getCode(): string

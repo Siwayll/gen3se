@@ -6,19 +6,17 @@ use Gen3se\Engine\ChoiceProviderInterface;
 use Gen3se\Engine\Exception\Choice\NotFound;
 
 /**
- * Class Collection
- * @package Gen3se\Engine\Option
+ * Simple Choice Provider
  */
 class Provider implements ChoiceProviderInterface
 {
     /**
-     * @var array
+     * List of choices
      */
     private $container = [];
 
     /**
-     * @param Choice $choice
-     * @return Provider
+     * Add a Choice to the Provider
      */
     public function add(Choice $choice): self
     {
@@ -28,9 +26,9 @@ class Provider implements ChoiceProviderInterface
     }
 
     /**
-     * @param string $choiceName
-     * @return Choice
-     * @throws NotFound
+     * Get a choice by it's name
+     * # Exceptions
+     * if the choice can't be loaded
      */
     public function get(string $choiceName): Choice
     {
@@ -38,5 +36,16 @@ class Provider implements ChoiceProviderInterface
             throw new NotFound($choiceName);
         }
         return $this->container[$choiceName];
+    }
+
+    /**
+     * Say if the choice is present in the provider
+     */
+    public function hasChoice(string $choiceName): bool
+    {
+        if (isset($this->container[$choiceName])) {
+            return true;
+        }
+        return false;
     }
 }

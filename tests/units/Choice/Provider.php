@@ -20,7 +20,6 @@ class Provider extends Test
     }
 
     /**
-     * @param Choice $choice
      * @dataProvider choiceProvider
      */
     public function shouldBeCapableOfAddAChoice(Choice $choice)
@@ -33,7 +32,6 @@ class Provider extends Test
     }
 
     /**
-     * @param Choice $choice
      * @dataProvider choiceProvider
      */
     public function shouldReturnChoiceByName(Choice $choice)
@@ -53,6 +51,21 @@ class Provider extends Test
                 ->hasMessage('Choice {choiceName} not found')
                 ->hasKapowMessage('Choice <notFoundChoice> not found')
                 ->hasCode(Level::ERROR)
+        ;
+    }
+
+    public function shouldAddSayIfAChoiceNameExist()
+    {
+        $this
+            ->given(
+                $choice = $this->getEyeColorChoice(),
+                $this->newTestedInstance()
+            )
+            ->if($this->testedInstance->add($choice))
+            ->boolean($this->testedInstance->hasChoice($choice->getName()))
+                ->isTrue()
+            ->boolean($this->testedInstance->hasChoice('notFound'))
+                ->isFalse()
         ;
     }
 }

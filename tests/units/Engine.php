@@ -19,9 +19,7 @@ class Engine extends Test
             ->given(
                 $eyeChoice = $this->getEyeColorChoice(),
                 $hairChoire = $this->getHairColorChoice(),
-                $choiceProvider = new Provider(),
-                $choiceProvider->add($hairChoire),
-                $choiceProvider->add($eyeChoice),
+                $choiceProvider = $this->getProviderWithSimpleChoices(),
                 $scenario = new Scenario(),
                 $scenario->append($eyeChoice->getName()),
                 $scenario->append($eyeChoice->getName()),

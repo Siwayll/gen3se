@@ -12,6 +12,18 @@ class Collection extends Test
         return $mock;
     }
 
+    protected function createMockModStepable(string $stepName)
+    {
+        $mock = new \mock\Gen3se\Engine\Mod\StepableInterface();
+        $mock->getMockController()->isUpForStep = function ($name) use ($stepName) {
+            if ($name === $stepName) {
+                return true;
+            }
+            return false;
+        };
+        return $mock;
+    }
+
     public function shouldBeCapableOfAddAMod()
     {
         $this
@@ -41,8 +53,21 @@ class Collection extends Test
     {
         $this
             ->given(
-                $this->newTestedInstance()
+                $this->newTestedInstance(),
+                $modOne = $this->createMockMod(),
+                $modTwo = $this->createMockModStepable('prepare'),
+                $modThree = $this->createMockModStepable('prepare'),
+                $this->testedInstance->add($modOne),
+                $this->testedInstance->add($modTwo),
+                $this->testedInstance->add($modThree)
             )
+            ->generator($this->testedInstance->getModForStep('noMod'))
+                ->hasSize(0)
+            ->generator($this->testedInstance->getModForStep('prepare'))
+                ->yields->object->isInstanceOf($modTwo)
+                ->yields->object->isInstanceOf($modThree)
+            ->generator($this->testedInstance->getModForStep('prepare'))
+                ->hasSize(2)
         ;
     }
 }

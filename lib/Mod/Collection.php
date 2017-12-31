@@ -29,4 +29,20 @@ class Collection implements \Countable
     {
         return count($this->container);
     }
+
+    /**
+     * Yield all the mods for the step $stepName
+     */
+    public function getModForStep(string $stepName): \Generator
+    {
+        foreach ($this->container as $mod) {
+            if (!$mod instanceof StepableInterface) {
+                continue;
+            }
+            if (!$mod->isUpForStep($stepName)) {
+                continue;
+            }
+            yield $mod;
+        }
+    }
 }

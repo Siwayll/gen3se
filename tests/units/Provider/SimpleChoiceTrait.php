@@ -20,23 +20,23 @@ trait SimpleChoiceTrait
     {
         $optCollection = new Collection();
         $optCollection->add(
-            (new Option('bleu', 30))
-                ->set('text', 'les yeux bleus')
+            (new Option('blue', 30))
+                ->set('text', 'bleu')
         );
         $optCollection->add(
-            (new Option('vert', 15))
-                ->set('text', 'les yeux verts')
+            (new Option('green', 15))
+                ->set('text', 'vert')
         );
         $optCollection->add(
             (new Option('marron', 150))
-                ->set('text', 'les yeux marrons')
+                ->set('text', 'marron')
         );
         $optCollection->add(
-            (new Option('violet', 1))
-                ->set('text', 'les yeux violets')
+            (new Option('purple', 1))
+                ->set('text', 'violet')
         );
 
-        $choice = new Choice('yeux', $optCollection);
+        $choice = new Choice('eyeColor', $optCollection);
 
         return $choice;
     }

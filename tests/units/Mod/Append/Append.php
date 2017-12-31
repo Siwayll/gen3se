@@ -52,9 +52,10 @@ class Append extends Test
         $this
             ->given(
                 $this->newTestedInstance(),
+                $choiceName = $this->getEyeColorChoice()->getName(),
                 $this->testedInstance->setProvider($this->getProviderWithSimpleChoices())
             )
-            ->boolean($this->testedInstance->dataValidator('yeux'))
+            ->boolean($this->testedInstance->dataValidator($choiceName))
                 ->isTrue()
             ->exception(function () {
                 $this->testedInstance->dataValidator(new \stdClass());
@@ -85,16 +86,17 @@ class Append extends Test
             ->given(
                 $this->newTestedInstance(),
                 $scenario = new Scenario(),
+                $choiceName = $this->getEyeColorChoice()->getName(),
                 $this->testedInstance->setProvider($this->getProviderWithSimpleChoices()),
                 $this->testedInstance->setScenario($scenario)
             )
             ->boolean($scenario->hasNext())
                 ->isFalse()
-            ->if($this->testedInstance->run('yeux'))
+            ->if($this->testedInstance->run($choiceName))
             ->boolean($scenario->hasNext())
                 ->isTrue()
             ->string($scenario->next())
-                ->isEqualTo('yeux')
+                ->isEqualTo($choiceName)
             ->boolean($scenario->hasNext())
                 ->isFalse()
         ;

@@ -26,7 +26,7 @@ class Scenario implements ScenarioInterface
      * @param string $choiceName
      * @return Scenario
      */
-    public function append(string $choiceName): self
+    public function append(string $choiceName): ScenarioInterface
     {
         $this->list[] = $choiceName;
         return $this;

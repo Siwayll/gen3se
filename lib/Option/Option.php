@@ -10,18 +10,31 @@ use Gen3se\Engine\Exception\Option\CannotChangeItsName;
 
 class Option implements \ArrayAccess
 {
+    /**
+     * Name of the option.
+     *
+     * The name must be unique in the Choice to witch it
+     * is attached
+     */
     private $name;
 
+    /**
+     * Weight of the option
+     *
+     * The weight is used to calculate the importance of
+     * the option when resolving the choice.
+     */
     private $weight;
 
+    /**
+     * Custom data
+     *
+     * Anything that is not the name or the weight
+     */
     private $custom = [];
 
     /**
-     * Option constructor.
-     * @param string $name
-     * @param int $weight
-     * @throws MustHaveNonEmptyName
-     * @throws MustHaveWeightGreaterThanZero
+     * Create a new Option whith a name and a weight
      */
     public function __construct(string $name, int $weight)
     {
@@ -29,31 +42,29 @@ class Option implements \ArrayAccess
         $this->setWeight($weight);
     }
 
+    /**
+     * Return all the custom data
+     */
     public function exportCleanFields(): array
     {
         return $this->custom;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
     public function getWeight(): int
     {
         return $this->weight;
     }
 
     /**
-     * @param int $value
-     * @return Option
-     * @throws MustHaveWeightGreaterThanZero
+     * Change the weight
+     *
+     * # Exceptions
+     * If the new value is not a integer greater than zero.
      */
     public function setWeight(int $value): self
     {

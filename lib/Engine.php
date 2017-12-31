@@ -95,7 +95,6 @@ class Engine
         while ($this->scenario->hasNext()) {
             $choice = $this->choiceProvider->get($this->scenario->next());
             $preparer = new Preparer($choice);
-            $preparer->execStep($this->modList);
             $resolver = new Resolver($preparer->getLoadedChoice());
             unset($preparer);
             $resultOpt = $resolver->getPickedOption();

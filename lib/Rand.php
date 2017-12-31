@@ -1,37 +1,29 @@
 <?php
 namespace Gen3se\Engine;
 
-use \Exception;
 use Gen3se\Engine\Exception\Rand\MinMustBeInferiorToMax;
 
 /**
- * Class Rand
- * @package Gen3se\Engine
+ * Random integer between min & max
  */
 class Rand
 {
     /**
-     * @var int
+     * Result of the random generation
      */
     protected $result;
 
     /**
-     * @var int
+     * Minimum for the random generation
      */
     private $min = 0;
 
     /**
-     * @var int
+     * Maximum for the random generation
      */
     private $max = 0;
 
 
-    /**
-     * Rand constructor.
-     * @param int $min
-     * @param int $max
-     * @throws Exception
-     */
     public function __construct(int $min = 0, int $max = 0)
     {
         $this->min = $min;
@@ -40,7 +32,8 @@ class Rand
     }
 
     /**
-     * @throws MinMustBeInferiorToMax
+     * #exception
+     * if _min_ > _max_
      */
     private function controlRange()
     {
@@ -50,7 +43,7 @@ class Rand
     }
 
     /**
-     * @return int
+     * Generate a random integer between _min_ and _max_
      */
     public function roll(): int
     {
@@ -74,7 +67,7 @@ class Rand
     }
 
     /**
-     * @return int
+     * Return the result of the random generation
      */
     public function getResult(): int
     {

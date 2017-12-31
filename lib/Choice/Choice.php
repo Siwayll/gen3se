@@ -54,4 +54,9 @@ class Choice
     {
         return $this->optionCollection;
     }
+
+    public function __clone()
+    {
+        $this->optionCollection = clone $this->optionCollection;
+    }
 }

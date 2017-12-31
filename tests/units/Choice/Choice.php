@@ -5,6 +5,7 @@ namespace Gen3se\Engine\Specs\Units\Choice;
 use Gen3se\Engine\Option\Option;
 use Gen3se\Engine\Tests\Units\Test;
 use Gen3se\Engine\Option\Collection as CollectionOfOptions;
+use Siwayll\Kapow\Level;
 
 class Choice extends Test
 {
@@ -20,8 +21,6 @@ class Choice extends Test
     }
 
     /**
-     * @param CollectionOfOptions $collection
-     * @throws \Gen3se\Engine\Exception\Option\NotFound
      * @dataProvider collectionProvider
      */
     public function shouldHaveANonEmptyCollectionOfOptions(CollectionOfOptions $collection)
@@ -33,7 +32,7 @@ class Choice extends Test
             })
                 ->hasMessage('Choice {choiceName} must have a non-empty collection of Option')
                 ->hasKapowMessage('Choice EmptyCollection must have a non-empty collection of Option')
-                ->hasCode(400)
+                ->hasCode(Level::ERROR)
             ->given(
                 $name = 'choice',
                 $this->newTestedInstance($name, $collection)
@@ -46,7 +45,6 @@ class Choice extends Test
     }
 
     /**
-     * @param CollectionOfOptions $collection
      * @dataProvider collectionProvider
      */
     public function shouldHaveAName(CollectionOfOptions $collection)
@@ -55,14 +53,31 @@ class Choice extends Test
             ->exception(function () use ($collection) {
                 $this->newTestedInstance('', $collection);
             })
-            ->hasMessage('Choice must have a non-empty name')
-                ->hasCode(400)
+                ->hasMessage('Choice must have a non-empty name')
+                ->hasCode(Level::ERROR)
             ->given(
                 $name = 'choice',
                 $this->newTestedInstance($name, $collection)
             )
             ->string($this->testedInstance->getName())
                 ->isEqualTo($name)
+        ;
+    }
+
+    /**
+     * @dataProvider collectionProvider
+     */
+    public function shouldBeClonable(CollectionOfOptions $collection)
+    {
+        $this
+            ->given(
+                $this->newTestedInstance('choice', $collection),
+                $clone = clone $this->testedInstance
+            )
+            ->object($clone)
+                ->isCloneOf($this->testedInstance)
+            ->object($clone->getOptionCollection())
+                ->isCloneOf($collection)
         ;
     }
 }

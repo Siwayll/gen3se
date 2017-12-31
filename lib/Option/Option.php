@@ -34,6 +34,11 @@ class Option implements \ArrayAccess
     private $custom = [];
 
     /**
+     * Fields
+     */
+    private $fieldsToClean = [];
+
+    /**
      * Create a new Option whith a name and a weight
      */
     public function __construct(string $name, int $weight)
@@ -43,11 +48,26 @@ class Option implements \ArrayAccess
     }
 
     /**
-     * Return all the custom data
+     * Add a fieldName to the cleanList
+     */
+    public function cleanField(string $fieldName): self
+    {
+        $this->fieldsToClean[$fieldName] = true;
+        return $this;
+    }
+
+    /**
+     * Return all the custom data without fields in the cleanList
      */
     public function exportCleanFields(): array
     {
-        return $this->custom;
+        $cleanedFields = $this->custom;
+        foreach ($this->custom as $fieldName => $value) {
+            if (isset($this->fieldsToClean[$fieldName])) {
+                unset($cleanedFields[$fieldName]);
+            }
+        }
+        return $cleanedFields;
     }
 
     public function getName(): string

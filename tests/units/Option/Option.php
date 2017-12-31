@@ -82,6 +82,26 @@ class Option extends Test
         ;
     }
 
+    public function shouldSaveDataToClean()
+    {
+        $this
+            ->given($this->newTestedInstance('name-1', 300))
+            ->object(
+                $this->testedInstance
+                    ->set('text', 'Lorem ipsum set dolor')
+                    ->set('custom', 'value')
+                    ->set('data.toto', 1)
+            )
+                ->isTestedInstance()
+            ->object($this->testedInstance->cleanField('data.toto'))
+                ->isTestedInstance()
+            ->object($this->testedInstance->cleanField('unpresentField'))
+                ->isTestedInstance()
+            ->array($this->testedInstance->exportCleanFields())
+                ->notHasKey('data.toto')
+        ;
+    }
+
     public function shouldBeCapableToExportCleanData()
     {
         $this

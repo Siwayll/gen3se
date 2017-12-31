@@ -4,6 +4,9 @@ namespace Gen3se\Engine;
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Option\Option;
 
+/**
+ * List of Choices names to solve
+ */
 class Scenario implements ScenarioInterface
 {
     private $list = [];

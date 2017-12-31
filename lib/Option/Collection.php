@@ -19,6 +19,18 @@ class Collection implements \Countable
     private $container = [];
 
     /**
+     * Clone all the Option in the container
+     */
+    public function __clone()
+    {
+        $oldContainer = $this->container;
+        $this->container = [];
+        foreach ($oldContainer as $option) {
+            $this->container[$option->getName()] = clone $option;
+        }
+    }
+
+    /**
      * @param Option $option
      * @return Collection
      * @throws AlreadyPresent

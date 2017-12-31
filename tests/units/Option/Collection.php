@@ -174,4 +174,24 @@ class Collection extends Test
                 ->hasCode(Level::CRITICAL)
         ;
     }
+
+    public function shouldCloneAllTheOptionsWhenItsCloned()
+    {
+        $this
+            ->given(
+                $optionOne = new Option('opt1', 500),
+                $optionTwo = new Option('opt2', 500),
+                $this->newTestedInstance(),
+                $this->testedInstance->add($optionOne),
+                $this->testedInstance->add($optionTwo),
+                $clone = clone $this->testedInstance
+            )
+            ->object($clone)
+                ->isCloneOf($this->testedInstance)
+            ->object($clone->get('opt1'))
+                ->isCloneOf($optionOne)
+            ->object($clone->get('opt2'))
+                ->isCloneOf($optionTwo)
+        ;
+    }
 }

@@ -6,14 +6,14 @@ use Gen3se\Engine\ChoiceProviderInterface;
 use Gen3se\Engine\Exception\Choice\NotFound;
 use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Mod\ModInterface;
-use Gen3se\Engine\Mod\NeedProviderInterface;
+use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
 use Gen3se\Engine\Mod\NeedScenarioInterface;
 use Gen3se\Engine\ScenarioInterface;
 
 /**
  * Mod who add "addAtTheEnd" instruction to Option
  */
-class Append implements ModInterface, NeedProviderInterface, NeedScenarioInterface
+class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioInterface
 {
     const INSTRUCTION = 'scenario.append';
 
@@ -30,7 +30,7 @@ class Append implements ModInterface, NeedProviderInterface, NeedScenarioInterfa
     /**
      * Send the list of instructions specific to the Mod
      */
-    public function getInstructions()
+    public function getInstructions(): array
     {
         return [
             new Instruction(
@@ -41,7 +41,7 @@ class Append implements ModInterface, NeedProviderInterface, NeedScenarioInterfa
         ];
     }
 
-    public function setProvider(ChoiceProviderInterface $provider): NeedProviderInterface
+    public function setChoiceProvider(ChoiceProviderInterface $provider): NeedChoiceProviderInterface
     {
         $this->provider = $provider;
 

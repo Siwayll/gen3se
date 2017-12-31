@@ -25,7 +25,7 @@ class Append extends Test
         $this
             ->given($this->newTestedInstance)
             ->testedClass
-                ->hasInterface('Gen3se\Engine\Mod\NeedProviderInterface')
+                ->hasInterface('Gen3se\Engine\Mod\NeedChoiceProviderInterface')
                 ->hasInterface('Gen3se\Engine\Mod\NeedScenarioInterface')
         ;
     }
@@ -53,7 +53,7 @@ class Append extends Test
             ->given(
                 $this->newTestedInstance(),
                 $choiceName = $this->getEyeColorChoice()->getName(),
-                $this->testedInstance->setProvider($this->getProviderWithSimpleChoices())
+                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices())
             )
             ->boolean($this->testedInstance->dataValidator($choiceName))
                 ->isTrue()
@@ -87,7 +87,7 @@ class Append extends Test
                 $this->newTestedInstance(),
                 $scenario = new Scenario(),
                 $choiceName = $this->getEyeColorChoice()->getName(),
-                $this->testedInstance->setProvider($this->getProviderWithSimpleChoices()),
+                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices()),
                 $this->testedInstance->setScenario($scenario)
             )
             ->boolean($scenario->hasNext())

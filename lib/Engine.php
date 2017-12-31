@@ -2,15 +2,28 @@
 
 namespace Gen3se\Engine;
 
+use Gen3se\Engine\Exception\Engine\InstructionAlreadyPresent;
+use Gen3se\Engine\Mod\InstructionInterface;
+use Gen3se\Engine\Mod\ModInterface;
+use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
+use Gen3se\Engine\Mod\NeedScenarioInterface;
+use Gen3se\Engine\Option\Option;
+
 /**
- * Class Engine
- * @package Gen3se\Engine
+ * Resolution Engine of Gen3se
  */
 class Engine
 {
     protected $choiceProvider;
     protected $scenario;
     protected $dataExporter;
+
+    /**
+     * List of mods enabled for the engine
+     */
+    protected $modList = [];
+
+    protected $instructions = [];
 
     public function __construct(
         ChoiceProviderInterface $choiceProvider,
@@ -22,7 +35,36 @@ class Engine
         $this->dataExporter = $dataExporter;
     }
 
-    public function run()
+    /**
+     * add a mod to the engine
+     */
+    public function addMod(ModInterface $mod): self
+    {
+        if ($mod instanceof NeedScenarioInterface) {
+            $mod->setScenario($this->scenario);
+        }
+
+        if ($mod instanceof NeedChoiceProviderInterface) {
+            $mod->setChoiceProvider($this->choiceProvider);
+        }
+
+        foreach ($mod->getInstructions() as $instruction) {
+            /** @var $instruction InstructionInterface */
+            if (!$instruction instanceof InstructionInterface) {
+                // @todo throw error
+            }
+            if (isset($this->instructions[$instruction->getCode()])) {
+                throw new InstructionAlreadyPresent($instruction->getCode());
+            }
+            $this->instructions[$instruction->getCode()] = $instruction;
+        }
+        return $this;
+    }
+
+    /**
+     * Resolve all choices in the Scenario
+     */
+    public function run(): self
     {
         while ($this->scenario->hasNext()) {
             $choice = $this->choiceProvider->get($this->scenario->next());
@@ -30,7 +72,27 @@ class Engine
             $resolver = new Resolver($choice);
             $resultOpt = $resolver->getPickedOption();
 
+            $this->executeModInstructions($resultOpt);
+
             $this->dataExporter->saveFor($choice, $resultOpt);
+        }
+
+        return $this;
+    }
+
+    private function executeModInstructions(Option $option): self
+    {
+        $fields = $option->exportCleanFields();
+        foreach ($fields as $instructionCode => $value) {
+            if (!isset($this->instructions[$instructionCode])) {
+                continue;
+            }
+            /** @var $instruction InstructionInterface */
+            $instruction = $this->instructions[$instructionCode];
+            if ($instruction->validate($value)) {
+                $instruction($value);
+                $option->cleanField($instruction->getCode());
+            }
         }
 
         return $this;

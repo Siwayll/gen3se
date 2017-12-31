@@ -62,7 +62,7 @@ class Option implements \ArrayAccess
     public function exportCleanFields(): array
     {
         $cleanedFields = $this->custom;
-        foreach ($this->custom as $fieldName => $value) {
+        foreach (array_keys($this->custom) as $fieldName) {
             if (isset($this->fieldsToClean[$fieldName])) {
                 unset($cleanedFields[$fieldName]);
             }

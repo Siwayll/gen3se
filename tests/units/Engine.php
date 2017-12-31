@@ -41,7 +41,6 @@ class Engine extends Test
         $this
             ->given(
                 $eyeArchChoice = $this->getEyeArchChoice(),
-                $eyeChoice = $this->getEyeColorChoice(),
                 $choiceProvider = $this->getProviderWithAppendModChoices(),
                 $scenario = new Scenario(),
                 $scenario->append($eyeArchChoice->getName()),

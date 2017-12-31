@@ -47,7 +47,7 @@ class Append extends Test
         ;
     }
 
-    public function shouldOnlyAcceptChoiceNameAsInstructionData()
+    public function shouldAcceptChoiceNameAsInstructionData()
     {
         $this
             ->given(
@@ -61,6 +61,10 @@ class Append extends Test
                 $this->testedInstance->dataValidator(new \stdClass());
             })
                 ->isInstanceOf('\TypeError')
+                ->hasMessage(
+                    'Argument 1 passed to Gen3se\Engine\Mod\Append\Append::dataValidator()'
+                    . ' must be of the type string or array of strings, object given'
+                )
             ->KapowException(
                 function () {
                     $this->testedInstance->dataValidator('notFoundChoice');
@@ -77,6 +81,35 @@ class Append extends Test
                 ->hasMessage('Choice "{choiceName}" not found')
                 ->hasKapowMessage('Choice "" not found')
                 ->hasCode(Level::ERROR)
+        ;
+    }
+
+    public function shouldAcceptChoiceNameListAsInstructionData()
+    {
+        $this
+            ->given(
+                $this->newTestedInstance(),
+                $choiceName = $this->getEyeColorChoice()->getName(),
+                $secondChoiceName = $this->getHairColorChoice()->getName(),
+                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices())
+            )
+            ->boolean($this->testedInstance->dataValidator([$choiceName]))
+                ->isTrue()
+            ->boolean($this->testedInstance->dataValidator([$choiceName, $secondChoiceName]))
+            ->KapowException(
+                function () use ($choiceName) {
+                    $this->testedInstance->dataValidator([$choiceName, 'notFoundChoice']);
+                }
+            )
+                ->hasMessage('Choice "{choiceName}" not found')
+                ->hasKapowMessage('Choice "notFoundChoice" not found')
+                ->hasCode(Level::ERROR)
+            ->exception(
+                function () use ($choiceName) {
+                    $this->testedInstance->dataValidator([$choiceName, new \stdClass()]);
+                }
+            )
+                ->isInstanceOf('\TypeError')
         ;
     }
 
@@ -97,6 +130,31 @@ class Append extends Test
                 ->isTrue()
             ->string($scenario->next())
                 ->isEqualTo($choiceName)
+            ->boolean($scenario->hasNext())
+                ->isFalse()
+        ;
+    }
+
+    public function shouldAddAListOfChoicesAtTheEndOfTheSenario()
+    {
+        $this
+            ->given(
+                $this->newTestedInstance(),
+                $scenario = new Scenario(),
+                $choiceName = $this->getEyeColorChoice()->getName(),
+                $secondChoiceName = $this->getHairColorChoice()->getName(),
+                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices()),
+                $this->testedInstance->setScenario($scenario)
+            )
+            ->boolean($scenario->hasNext())
+                ->isFalse()
+            ->if($this->testedInstance->run([$choiceName, $secondChoiceName]))
+            ->boolean($scenario->hasNext())
+                ->isTrue()
+            ->string($scenario->next())
+                ->isEqualTo($choiceName)
+            ->string($scenario->next())
+                ->isEqualTo($secondChoiceName)
             ->boolean($scenario->hasNext())
                 ->isFalse()
         ;

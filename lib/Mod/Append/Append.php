@@ -59,19 +59,44 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
      * # Exceptions
      * if $value is not a string choiceName
      */
-    public function dataValidator(string $value): bool
+    public function dataValidator($value): bool
     {
-        if (!$this->provider->hasChoice($value)) {
-            throw new NotFound($value);
+        $choiceNames = $this->formatValue($value, __METHOD__);
+
+        foreach ($choiceNames as $choiceName) {
+            if (!$this->provider->hasChoice($choiceName)) {
+                throw new NotFound($choiceName);
+            }
         }
+
         return true;
+    }
+
+    private function formatValue($value, string $method): array
+    {
+        if (!is_string($value) && !is_array($value)) {
+            throw new \TypeError(
+                'Argument 1 passed to ' . $method . '() must be of the type string or array of strings, '
+                . gettype($value) . ' given'
+            );
+        }
+
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+
+        return $value;
     }
 
     /**
      * Add the choiceName at the end of the current scenario
      */
-    public function run(string $choiceName)
+    public function run($value)
     {
-        $this->scenario->append($choiceName);
+        $choiceNames = $this->formatValue($value, __METHOD__);
+
+        foreach ($choiceNames as $choiceName) {
+            $this->scenario->append($choiceName);
+        }
     }
 }

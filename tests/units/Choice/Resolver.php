@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Specs\Units;
+namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Option\Collection;

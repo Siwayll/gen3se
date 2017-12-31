@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine;
 
+use Gen3se\Engine\Choice\Resolver;
 use Gen3se\Engine\Exception\Engine\InstructionAlreadyPresent;
 use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Mod\ModInterface;

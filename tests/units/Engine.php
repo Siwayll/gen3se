@@ -4,6 +4,7 @@ namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Mod\Append\Append;
+use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Tests\Units\Provider\AppendChoiceTrait;
 use Gen3se\Engine\Tests\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Tests\Units\Test;
@@ -36,7 +37,7 @@ class Engine extends Test
         ;
     }
 
-    public function shouldRegistersMods()
+    public function shouldRegistersModsAndInstructions()
     {
         $this
             ->given(
@@ -64,6 +65,16 @@ class Engine extends Test
                 ->hasMessage('Instruction "{newInstructionCode}" is already present')
                 ->hasKapowMessage('Instruction "' . Append::INSTRUCTION . '" is already present')
                 ->hasCode(Level::ERROR)
+            ->if(
+                $badMod = new \mock\Gen3se\Engine\Mod\ModInterface(),
+                $badMod->getMockController()->getInstructions = function () {
+                    return [new \stdClass()];
+                }
+            )
+            ->exception(function () use ($badMod) {
+                $this->testedInstance->addMod($badMod);
+            })
+                ->isInstanceOf('\TypeError')
         ;
     }
 

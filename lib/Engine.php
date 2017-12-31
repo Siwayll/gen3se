@@ -52,7 +52,10 @@ class Engine
         foreach ($mod->getInstructions() as $instruction) {
             /** @var $instruction InstructionInterface */
             if (!$instruction instanceof InstructionInterface) {
-                // @todo throw error
+                throw new \TypeError(
+                    'Argument 1 passed to ' . __METHOD__ . '() must be of the type ModInterface, '
+                    . gettype($instruction) . ' given'
+                );
             }
             if (isset($this->instructions[$instruction->getCode()])) {
                 throw new InstructionAlreadyPresent($instruction->getCode());

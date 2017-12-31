@@ -2,8 +2,10 @@
 
 namespace Gen3se\Engine;
 
+use Gen3se\Engine\Choice\Preparer;
 use Gen3se\Engine\Choice\Resolver;
 use Gen3se\Engine\Exception\Engine\InstructionAlreadyPresent;
+use Gen3se\Engine\Mod\Collection as ModCollection;
 use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
@@ -22,7 +24,7 @@ class Engine
     /**
      * List of mods enabled for the engine
      */
-    protected $modList = [];
+    protected $modList;
 
     protected $instructions = [];
 
@@ -34,6 +36,7 @@ class Engine
         $this->choiceProvider = $choiceProvider;
         $this->scenario = $scenario;
         $this->dataExporter = $dataExporter;
+        $this->modList = new ModCollection();
     }
 
     /**
@@ -49,7 +52,25 @@ class Engine
             $mod->setChoiceProvider($this->choiceProvider);
         }
 
-        foreach ($mod->getInstructions() as $instruction) {
+        $this
+            ->saveInstructions($mod->getInstructions())
+            ->modList->add($mod)
+        ;
+
+        return $this;
+    }
+
+    /**
+     * Save new instructions in the custom instructions list
+     *
+     * #exception
+     * if the array $instructions does not contains only Instruction
+     *
+     * if the code of an instruction is already in use
+     */
+    private function saveInstructions(array $instructions): self
+    {
+        foreach ($instructions as $instruction) {
             /** @var $instruction InstructionInterface */
             if (!$instruction instanceof InstructionInterface) {
                 throw new \TypeError(
@@ -62,6 +83,7 @@ class Engine
             }
             $this->instructions[$instruction->getCode()] = $instruction;
         }
+
         return $this;
     }
 
@@ -72,8 +94,10 @@ class Engine
     {
         while ($this->scenario->hasNext()) {
             $choice = $this->choiceProvider->get($this->scenario->next());
-
-            $resolver = new Resolver($choice);
+            $preparer = new Preparer($choice);
+            $preparer->execStep($this->modList);
+            $resolver = new Resolver($preparer->getLoadedChoice());
+            unset($preparer);
             $resultOpt = $resolver->getPickedOption();
 
             $this->executeModInstructions($resultOpt);

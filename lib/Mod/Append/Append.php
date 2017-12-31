@@ -15,7 +15,7 @@ use Gen3se\Engine\ScenarioInterface;
  */
 class Append implements ModInterface, NeedProviderInterface, NeedScenarioInterface
 {
-    const INSTRUCTION = 'addAtEnd';
+    const INSTRUCTION = 'scenario.append';
 
     /**
      * @var ChoiceProviderInterface

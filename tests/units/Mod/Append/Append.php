@@ -37,7 +37,7 @@ class Append extends Test
             ->testedClass
                 ->hasConstant('INSTRUCTION')
             ->string($this->testedInstance::INSTRUCTION)
-                ->isEqualTo('addAtEnd')
+                ->isEqualTo('scenario.append')
             ->array($this->testedInstance->getInstructions())
                 ->size->isEqualTo(1)
             ->class(get_class($this->testedInstance->getInstructions()[0]))

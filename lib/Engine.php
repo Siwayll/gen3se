@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine;
 
-use Gen3se\Engine\Choice\Preparer;
 use Gen3se\Engine\Choice\Resolver;
 use Gen3se\Engine\Exception\Engine\InstructionAlreadyPresent;
 use Gen3se\Engine\Mod\Collection as ModCollection;
@@ -11,6 +10,7 @@ use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
 use Gen3se\Engine\Mod\NeedScenarioInterface;
 use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Step\Prepare;
 
 /**
  * Resolution Engine of Gen3se
@@ -99,8 +99,8 @@ class Engine
     {
         while ($this->scenario->hasNext()) {
             $choice = $this->choiceProvider->get($this->scenario->next());
-            $preparer = new Preparer($choice);
-            $resolver = new Resolver($preparer());
+            $prepareStep = new Prepare($choice, $this->modList);
+            $resolver = new Resolver($prepareStep());
             unset($preparer);
             $resultOpt = $resolver->getPickedOption();
 

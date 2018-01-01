@@ -101,7 +101,7 @@ class Engine
             $choice = $this->choiceProvider->get($this->scenario->next());
             $prepareStep = new Prepare($choice, $this->modList);
             $resolver = new Resolver($prepareStep());
-            unset($preparer);
+            unset($prepareStep);
             $resultOpt = $resolver->getPickedOption();
 
             $this->executeModInstructions($resultOpt);

@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Tests\Units\Provider;
 
-Trait ModCollectionTrait
+trait ModCollectionTrait
 {
     protected function createMockMod()
     {

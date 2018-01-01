@@ -46,6 +46,6 @@ class DataExporter implements DataExporterInterface
      */
     public function get($choiceName)
     {
-        return $this->storage[$choiceName] ? $this->storage[$choiceName] : null;
+        return isset($this->storage[$choiceName]) ? $this->storage[$choiceName] : null;
     }
 }

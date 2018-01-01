@@ -76,9 +76,10 @@ class Option extends Test
                 ->isTestedInstance()
             ->string($this->testedInstance->get('custom1'))
                 ->isEqualTo('value')
-            ->if($this->testedInstance->customField = 'foo')
-            ->string($this->testedInstance->customField)
-                ->isEqualTo('foo')
+            ->boolean($this->testedInstance->exists('custom1'))
+                ->isTrue()
+            ->boolean($this->testedInstance->exists('customField'))
+                ->isFalse()
         ;
     }
 

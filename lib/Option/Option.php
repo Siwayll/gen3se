@@ -145,15 +145,23 @@ class Option implements \ArrayAccess
     }
 
     /**
+     * Check if a field name exists in the option data
+     */
+    public function exists(string $name): bool
+    {
+        if ($name === 'name' || $name === 'weight') {
+            return true;
+        }
+        return isset($this->custom[$name]);
+    }
+
+    /**
      * @param mixed $offset
      * @return bool
      */
     public function offsetExists($offset): bool
     {
-        if ($offset === 'name' || $offset === 'weight') {
-            return true;
-        }
-        return isset($this->custom[$offset]);
+        return $this->exists($offset);
     }
 
     /**

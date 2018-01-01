@@ -104,4 +104,14 @@ class Collection implements \Countable
 
         throw new NotFoundInStack($position);
     }
+
+    /**
+     * Iterates over options list
+     */
+    public function each(): \Generator
+    {
+        foreach ($this->container as $option) {
+            yield $option;
+        }
+    }
 }

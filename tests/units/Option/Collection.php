@@ -194,4 +194,22 @@ class Collection extends Test
                 ->isCloneOf($optionTwo)
         ;
     }
+
+    public function shouldHaveAnIterateMethod()
+    {
+        $this
+            ->given(
+                $optionOne = new Option('opt1', 500),
+                $optionTwo = new Option('opt2', 500),
+                $this->newTestedInstance(),
+                $this->testedInstance->add($optionOne),
+                $this->testedInstance->add($optionTwo)
+            )
+            ->generator($this->testedInstance->each())
+                ->hasSize(2)
+            ->generator($this->testedInstance->each())
+                ->yields->object->isInstanceOf($optionOne)
+                ->yields->object->isInstanceOf($optionTwo)
+        ;
+    }
 }

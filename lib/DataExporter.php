@@ -4,23 +4,20 @@ namespace Gen3se\Engine;
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Option\Option;
 
+/**
+ * Stock & Export data from Engine
+ */
 class DataExporter implements DataExporterInterface
 {
     private $storage = [];
 
-    /**
-     * @param $array
-     * @return bool
-     */
     private function hasNonNumericKeys($array): bool
     {
         return count(array_filter(array_keys($array), 'is_string')) > 0;
     }
 
     /**
-     * @param Choice $choice
-     * @param Option $option
-     * @return DataExporter
+     * Save Custom data of Option with Choice name for path
      */
     public function saveFor(Choice $choice, Option $option): self
     {
@@ -45,8 +42,7 @@ class DataExporter implements DataExporterInterface
     }
 
     /**
-     * @param $choiceName
-     * @return mixed|null
+     * Get all data associated with the Choice Name
      */
     public function get($choiceName)
     {

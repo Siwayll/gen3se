@@ -31,14 +31,14 @@ class Preparer extends Test
                 $option = $choice->getOptionCollection()->findByPositonInStack(1)
             )
             ->object($this->newTestedInstance($choice))
-            ->object($this->testedInstance->getLoadedChoice())
+            ->object(call_user_func($this->testedInstance))
                 ->isInstanceOf('Gen3se\Engine\Choice\Choice')
                 ->isCloneOf($choice)
-            ->string($this->testedInstance->getLoadedChoice()->getName())
+            ->string(call_user_func($this->testedInstance)->getName())
                 ->isEqualTo($choice->getName())
-            ->object($this->testedInstance->getLoadedChoice()->getOptionCollection())
+            ->object(call_user_func($this->testedInstance)->getOptionCollection())
                 ->isCloneOf($choice->getOptionCollection())
-            ->object($this->testedInstance->getLoadedChoice()->getOptionCollection()->get($option->getName()))
+            ->object(call_user_func($this->testedInstance)->getOptionCollection()->get($option->getName()))
                 ->isCloneOf($option)
         ;
     }

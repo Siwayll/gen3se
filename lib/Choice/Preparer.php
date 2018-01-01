@@ -1,11 +1,9 @@
 <?php
 namespace Gen3se\Engine\Choice;
 
-use Gen3se\Engine\Exception\ChoiceNameInterface;
-use Gen3se\Engine\Option\Option;
-use Gen3se\Engine\Rand;
-use Siwayll\Kapow\Exception;
-
+/**
+ * Prepares Choice for its resolution
+ */
 class Preparer
 {
     private $choice;
@@ -15,7 +13,10 @@ class Preparer
         $this->choice = clone $choice;
     }
 
-    public function getLoadedChoice(): Choice
+    /**
+     * Get the prepared choice
+     */
+    public function __invoke(): Choice
     {
         return $this->choice;
     }

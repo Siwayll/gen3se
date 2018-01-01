@@ -48,11 +48,10 @@ class Tag extends Test
     public function shouldEnsureThatTheTagIsWellFormated()
     {
         $this
-            ->skip('tag format in progress')
             ->given(
                 $this->newTestedInstance()
             )
-            ->boolean($this->testedInstance->validateAddTag('TAGNAME'))
+            ->boolean($this->testedInstance->validateAddTag('tagName'))
                 ->isTrue()
             ->boolean($this->testedInstance->validateAddTag('TAG_NAME'))
                 ->isTrue()
@@ -60,32 +59,19 @@ class Tag extends Test
                 ->isTrue()
             ->KapowException(
                 function () {
-                    $this->testedInstance->validateAddTag('toto');
-                }
-            )
-                ->hasKapowMessage(
-                    'Tag "toto" is not at the good format ' . \Gen3se\Engine\Mod\Tag\Tag::TAGNAME_VALIDATOR
-                )
-                ->hasCode(Level::ERROR)
-            ->KapowException(
-                function () {
                     $this->testedInstance->validateAddTag('créé rapidement');
                 }
             )
-                ->hasKapowMessage(
-                    'Tag "créé rapidement" is not at the good format '
-                    . \Gen3se\Engine\Mod\Tag\Tag::TAGNAME_VALIDATOR
-                )
+                ->hasMessage('The tag "{tag}" is invalid in {optionName} in {choiceName}')
+                ->hasKapowMessage('The tag "créé rapidement" is invalid in {optionName} in {choiceName}')
                 ->hasCode(Level::ERROR)
             ->KapowException(
                 function () {
-                    $this->testedInstance->validateAddTag('créé rapidement');
+                    $this->testedInstance->validateAddTag('TAG NAME');
                 }
             )
-                ->hasKapowMessage(
-                    'Tag "créé rapidement" is not at the good format '
-                    . \Gen3se\Engine\Mod\Tag\Tag::TAGNAME_VALIDATOR
-                )
+                ->hasMessage('The tag "{tag}" is invalid in {optionName} in {choiceName}')
+                ->hasKapowMessage('The tag "TAG NAME" is invalid in {optionName} in {choiceName}')
                 ->hasCode(Level::ERROR)
         ;
     }
@@ -215,6 +201,14 @@ class Tag extends Test
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
             ->integer($optionWithTag->getWeight())
                 ->isEqualTo(98)
+        ;
+    }
+
+    public function shouldWorkInPrepareStep()
+    {
+        $this
+            ->testedClass
+                ->hasInterface('Gen3se\Engine\Step\IsPrepareReady')
         ;
     }
 }

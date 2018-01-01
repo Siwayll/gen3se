@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Step;
 
+use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Mod\StepableInterface;
 
 /**

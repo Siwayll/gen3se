@@ -2,6 +2,7 @@
 namespace Gen3se\Engine\Step;
 
 use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Exception\Step\ModIsNotMadeForPrepareStep;
 use Gen3se\Engine\Mod\Collection as ModCollection;
 use Gen3se\Engine\Mod\StepableInterface;
 
@@ -21,7 +22,7 @@ class Prepare
         /** @var StepableInterface $mod */
         foreach ($modCollection->getModForStep(self::STEP_NAME) as $mod) {
             if (!$mod instanceof IsPrepareReady) {
-                continue;
+                throw new ModIsNotMadeForPrepareStep($mod);
             }
             $mod->execPrepare($this->choice);
         }

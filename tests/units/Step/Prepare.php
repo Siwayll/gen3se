@@ -7,6 +7,7 @@ use Gen3se\Engine\Mod\Collection as ModCollection;
 use Gen3se\Engine\Tests\Units\Provider\ModCollectionTrait;
 use Gen3se\Engine\Tests\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Tests\Units\Test;
+use Siwayll\Kapow\Level;
 
 class Prepare extends Test
 {
@@ -18,6 +19,14 @@ class Prepare extends Test
             $this->getEyeColorChoice(),
             $this->getHairColorChoice()
         ];
+    }
+
+    public function shouldHaveConstantWithItsName()
+    {
+        $this
+            ->testedClass
+                ->hasConstant('STEP_NAME')
+        ;
     }
 
     /**
@@ -43,19 +52,47 @@ class Prepare extends Test
         ;
     }
 
+    protected function createMockModPrepareReady()
+    {
+        $mock = new \mock\Gen3se\Engine\Step\IsPrepareReady();
+        $mock->getMockController()->isUpForStep = function ($name) {
+            if ($name === \Gen3se\Engine\Step\Prepare::STEP_NAME) {
+                return true;
+            }
+            return false;
+        };
+        return $mock;
+    }
+
     public function shouldExecuteMod()
     {
         $this
             ->given(
                 $choice = $this->getEyeColorChoice(),
-//                $choice->getOptionCollection()->findByPositonInStack(1)
                 $modCollection = new ModCollection(),
                 $modMock = $this->createMockModStepable('>prepare'),
                 $modCollection->add($modMock)
             )
-            ->object($this->newTestedInstance($choice, $modCollection))
+
+            ->KapowException(
+                function () use ($choice, $modCollection) {
+                    $this->newTestedInstance($choice, $modCollection);
+                }
+            )
+                ->hasMessage('Mod {modClass} is not made for Prepare step')
+                ->hasCode(Level::ERROR)
             ->mock($modMock)
                 ->call('isUpForStep')->once()
+
+            ->given(
+                $modCollection = new ModCollection(),
+                $modMock = $this->createMockModPrepareReady(),
+                $modCollection->add($modMock)
+            )
+            ->if($this->newTestedInstance($choice, $modCollection))
+            ->mock($modMock)
+                ->call('isUpForStep')->once()
+                ->call('execPrepare')->once()
         ;
     }
 }

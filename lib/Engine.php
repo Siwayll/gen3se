@@ -26,6 +26,9 @@ class Engine
      */
     protected $modList;
 
+    /**
+     * List of custom instructions
+     */
     protected $instructions = [];
 
     public function __construct(
@@ -40,7 +43,9 @@ class Engine
     }
 
     /**
-     * add a mod to the engine
+     * Add a mod to the engine
+     * Give access to Scenario or ChoiceProvider if needed
+     * Extracts Instructions and add them to the instructionList
      */
     public function addMod(ModInterface $mod): self
     {
@@ -95,7 +100,7 @@ class Engine
         while ($this->scenario->hasNext()) {
             $choice = $this->choiceProvider->get($this->scenario->next());
             $preparer = new Preparer($choice);
-            $resolver = new Resolver($preparer->getLoadedChoice());
+            $resolver = new Resolver($preparer());
             unset($preparer);
             $resultOpt = $resolver->getPickedOption();
 

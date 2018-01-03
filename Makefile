@@ -37,5 +37,5 @@ bin/atoum: bin
 	&& $(call executable,bin/atoum)
 
 .PHONY: install
-install: bin/composer
+install: bin/composer bin/atoum bin/phpcs bin/phpmd bin/doc
 	./bin/composer install

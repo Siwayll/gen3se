@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Option\Option;
-use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Option\Collection as CollectionOfOptions;
 use Siwayll\Kapow\Level;
 

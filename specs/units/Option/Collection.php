@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Option;
 
-use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Option\Option;
 use Siwayll\Kapow\Level;
 

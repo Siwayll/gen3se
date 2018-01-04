@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Tests\Units\Provider;
+namespace Gen3se\Engine\Specs\Units\Provider;
 
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Choice\Provider;

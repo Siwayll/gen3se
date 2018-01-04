@@ -34,7 +34,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Gen3se\\Engine\\Tests\\Units\\": "./tests/units"
+      "Gen3se\\Engine\\Specs\\Units\\": "./specs/units"
     }
   }
 }

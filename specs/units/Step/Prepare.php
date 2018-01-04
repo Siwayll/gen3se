@@ -4,9 +4,9 @@ namespace Gen3se\Engine\Specs\Units\Step;
 
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Mod\Collection as ModCollection;
-use Gen3se\Engine\Tests\Units\Provider\ModCollectionTrait;
-use Gen3se\Engine\Tests\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Specs\Units\Provider\ModCollectionTrait;
+use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Prepare extends Test

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Tests\Units;
+namespace Gen3se\Engine\Specs\Units;
 
 use mageekguy\atoum;
 use mageekguy\atoum\mock;

@@ -3,8 +3,8 @@
 namespace Gen3se\Engine\Specs\Units\Mod\Append;
 
 use Gen3se\Engine\Scenario;
-use Gen3se\Engine\Tests\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Append extends Test

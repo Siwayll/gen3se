@@ -8,7 +8,7 @@
 
 namespace Gen3se\Engine\Specs\Units;
 
-use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Rand extends Test

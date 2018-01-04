@@ -3,8 +3,8 @@
 namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice\Choice;
-use Gen3se\Engine\Tests\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Tests\Units\Test;
+use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Test;
 
 class Scenario extends Test
 {

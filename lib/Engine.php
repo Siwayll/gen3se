@@ -93,25 +93,46 @@ class Engine
     }
 
     /**
-     * Resolve all choices in the Scenario
+     * Resolve the main scenario
      */
     public function run(): self
     {
-        while ($this->scenario->hasNext()) {
-            $choice = $this->choiceProvider->get($this->scenario->next());
+        return $this->resolve($this->scenario);
+    }
+
+    /**
+     * Resolve all choices given by the specified scenario
+     */
+    private function resolve(ScenarioInterface $scenario): self
+    {
+        while ($scenario->hasNext()) {
+            // get the Choice requested by the Scenario
+            $choice = $this->choiceProvider->get($scenario->next());
+            // first main step : Choice preparation
             $prepareStep = new Prepare($choice, $this->modList);
+
+            // Choice resolution
             $resolver = new Resolver($prepareStep());
             unset($prepareStep);
+
+            // Get all data in the selected Option
             $resultOpt = $resolver->getPickedOption();
 
+            // Post resolution step
             $this->executeModInstructions($resultOpt);
 
+            // Data save
             $this->dataExporter->saveFor($choice, $resultOpt);
         }
+
+        // @todo #16 add post resolution step
 
         return $this;
     }
 
+    /**
+     * Run Mods given by the instructions of the option
+     */
     private function executeModInstructions(Option $option): self
     {
         $fields = $option->exportCleanFields();

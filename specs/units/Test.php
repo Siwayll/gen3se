@@ -5,7 +5,7 @@ namespace Gen3se\Engine\Specs\Units;
 use mageekguy\atoum;
 use mageekguy\atoum\mock;
 
-class Test extends atoum\spec
+abstract class Test extends atoum\spec
 {
     public function __construct(
         adapter $adapter = null,

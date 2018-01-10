@@ -80,4 +80,40 @@ class Choice extends Test
                 ->isCloneOf($collection)
         ;
     }
+
+    /**
+     * @dataProvider collectionProvider
+     */
+    public function shouldAcceptCustomFields(CollectionOfOptions $collection)
+    {
+        $this
+            ->given($this->newTestedInstance('choice', $collection))
+            ->object($this->testedInstance->set('custom1', 'value'))
+                ->isTestedInstance()
+            ->string($this->testedInstance->get('custom1'))
+                ->isEqualTo('value')
+            ->boolean($this->testedInstance->exists('custom1'))
+                ->isTrue()
+            ->boolean($this->testedInstance->exists('customField'))
+                ->isFalse()
+        ;
+    }
+
+    /**
+     * @dataProvider collectionProvider
+     */
+    public function shouldNotAcceptToBreakMandatoryData(CollectionOfOptions $collection)
+    {
+        $this
+            ->given(
+                $name = 'name-1',
+                $this->newTestedInstance($name, $collection)
+            )
+            ->KapowException(function () {
+                $this->testedInstance->set('name', 'newName');
+            })
+                ->hasKapowMessage('Choice '.$name.' cannot change its name')
+                ->hasCode(Level::ERROR)
+        ;
+    }
 }

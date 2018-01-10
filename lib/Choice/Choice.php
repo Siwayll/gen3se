@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Choice;
 
+use Gen3se\Engine\Exception\Choice\CannotChangeItsName;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyCollectionOfOptions;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
 use Gen3se\Engine\Option\Collection as OptionCollection;
@@ -18,12 +19,10 @@ class Choice
 
     protected $optionCollection;
 
+    private $custom = [];
+
     /**
      * Choice constructor.
-     * @param string $choiceName
-     * @param OptionCollection $optionCollection
-     * @throws MustHaveNonEmptyCollectionOfOptions
-     * @throws MustHaveNonEmptyName
      */
     public function __construct(string $choiceName, OptionCollection $optionCollection)
     {
@@ -40,7 +39,7 @@ class Choice
     }
 
     /**
-     * @return string
+     * Get Name of the Choice
      */
     public function getName(): string
     {
@@ -48,11 +47,31 @@ class Choice
     }
 
     /**
-     * @return OptionCollection
+     * Get the collection of Option in the Choice
      */
     public function getOptionCollection(): OptionCollection
     {
         return $this->optionCollection;
+    }
+
+    public function set($name, $value): self
+    {
+        if ($name === 'name') {
+            throw new CannotChangeItsName($this->getName());
+        }
+
+        $this->custom[$name] = $value;
+        return $this;
+    }
+
+    public function get($name)
+    {
+        return isset($this->custom[$name]) ? $this->custom[$name] : null;
+    }
+
+    public function exists(string $name): bool
+    {
+        return isset($this->custom[$name]);
     }
 
     public function __clone()

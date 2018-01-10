@@ -32,8 +32,8 @@ class Engine extends Test
             )
             ->object($this->testedInstance->run())
                 ->isTestedInstance()
-            ->array($this->testedInstance->exportResult()->get($eyeChoice->getName()))
-            ->array($this->testedInstance->exportResult()->get($hairChoire->getName()))
+            ->object($this->testedInstance->exportResult()->get($eyeChoice->getName()))
+            ->object($this->testedInstance->exportResult()->get($hairChoire->getName()))
         ;
     }
 
@@ -77,6 +77,23 @@ class Engine extends Test
                 ->isInstanceOf('\TypeError')
         ;
     }
+
+//    public function shouldRegistersModsAndInstructionsFromDataExporter()
+//    {
+//        $this
+//            ->given(
+//                $eyeArchChoice = $this->getEyeArchChoice(),
+//                $choiceProvider = $this->getProviderWithAppendModChoices(),
+//                $scenario = new Scenario(),
+//                $scenario->append($eyeArchChoice->getName()),
+//                $dataExporter = new DataExporter(),
+//                $this->newTestedInstance($choiceProvider, $scenario, $dataExporter),
+//                $appendMod = new Append()
+//            )
+//            ->object($this->testedInstance->addMod($appendMod))
+//                ->isTestedInstance()
+//        ;
+//    }
 
     public function shouldGiveModAccessToScenarioIfNecessary()
     {
@@ -135,10 +152,10 @@ class Engine extends Test
             ->if($this->testedInstance->addMod($appendMod))
             ->and($this->testedInstance->run())
             ->dump($this->testedInstance->exportResult())
-            ->array($this->testedInstance->exportResult()->get($eyeArchChoice->getName()))
+            ->array((array) $this->testedInstance->exportResult()->get($eyeArchChoice->getName()))
                 ->hasKey('text')
                 ->notHasKey(Append::INSTRUCTION)
-            ->array($this->testedInstance->exportResult()->get($eyeChoice->getName()))
+            ->array((array) $this->testedInstance->exportResult()->get($eyeChoice->getName()))
                 ->size->isGreaterThan(0)
         ;
     }

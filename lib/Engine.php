@@ -36,10 +36,10 @@ class Engine
         ScenarioInterface $scenario,
         DataExporterInterface $dataExporter
     ) {
+        $this->modList = new ModCollection();
         $this->choiceProvider = $choiceProvider;
         $this->scenario = $scenario;
         $this->dataExporter = $dataExporter;
-        $this->modList = new ModCollection();
     }
 
     /**

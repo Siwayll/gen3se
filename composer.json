@@ -18,7 +18,7 @@
     "monolog/monolog": "~1.23",
     "hoa/compiler": "~3.0",
     "siwayll/kapow": "^1.2",
-    "siwayll/rumdata": "^3"
+    "siwayll/rumdata": "^5"
   },
   "require-dev": {
     "atoum/atoum": "3.2.*",

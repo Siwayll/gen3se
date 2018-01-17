@@ -16,7 +16,7 @@ before_script:
 
 test:qualityControl:
   tags:
-    - testvi
+    - test
   image: php:7.2-cli-alpine3.7
   script:
     - php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,bin/,build/

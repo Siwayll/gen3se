@@ -29,4 +29,4 @@ test:atoum:
     - test
   image: php:7.2-cli-alpine3.7
   script:
-    - php -f vendor/bin/atoum -- -ft --debug
+    - php -f vendor/bin/atoum -- -ft

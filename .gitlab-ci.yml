@@ -19,7 +19,7 @@ test:qualityControl:
     - test
   image: php:7.1-cli-alpine3.4
   script:
-    - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | sort | xargs -0 php -l
+    #- find . -path ./vendor -prune -o -type f -name '*.php' -print0 | sort | xargs -0 php -l
     - php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,bin/,build/
     - php vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml lib
     - php vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml specs

@@ -1,31 +1,57 @@
-cache:
-  paths:
-  - vendor/
-
 variables:
   # Timezone will be used both for system and php date.timezone php.ini value
   TIMEZONE: "Europe/Paris"
 
-before_script:
-  - wget https://composer.github.io/installer.sig -O - -q | tr -d '\n' > installer.sig
-  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" 2> /dev/null
-  - php -r "if (hash_file('SHA384', 'composer-setup.php') === file_get_contents('installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" 2> /dev/null
-  - php composer-setup.php 2> /dev/null
-  - php -r "unlink('composer-setup.php'); unlink('installer.sig');" 2> /dev/null
-  - php composer.phar install 2> /dev/null
+stages:
+  - install
+  - check
+  - test
 
-test:qualityControl:
+composer:
+  stage: install
+  image: composer:1.6.2
+  script:
+    - mkdir bin var
+    - composer install --prefer-dist
   tags:
     - test
+  cache:
+    paths:
+      - vendor/
+  artifacts:
+    expire_in: 1 hr
+    paths:
+      - vendor/
+      - var/
+      - bin/
+
+messDetector:
+  stage: check
+  tags:
+    - test
+  dependencies:
+    - composer
   image: php:7.2-cli-alpine3.7
   script:
     - php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,bin/,build/
+
+checkStyle:
+  stage: check
+  tags:
+    - test
+  dependencies:
+    - composer
+  image: php:7.2-cli-alpine3.7
+  script:
     - php vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml lib
     - php vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml specs
 
-test:atoum:
+atoum:
+  stage: test
   tags:
     - test
+  dependencies:
+    - composer
   image: php:7.2-cli-alpine3.7
   script:
     - php -f vendor/bin/atoum -- -ft

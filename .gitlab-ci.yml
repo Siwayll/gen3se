@@ -18,6 +18,12 @@ composer:
   cache:
     paths:
       - vendor/
+  artifacts:
+    expire_in: 1 hr
+    paths:
+      - vendor/
+      - var/
+      - bin/
 
 messDetector:
   stage: check

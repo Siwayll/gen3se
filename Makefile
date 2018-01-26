@@ -48,7 +48,6 @@ bin/atoum: | bin
 	&& $(call export-file,env/bin.tpl,bin/atoum)
 	@$(call executable,bin/atoum)
 
-.PHONY: vendor
 vendor: | bin/composer
 	./bin/composer install
 	sudo chown -R ${USER_ID}:${GROUP_ID} $@

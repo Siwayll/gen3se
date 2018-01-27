@@ -13,6 +13,10 @@ define export-file
 FILE=`mktemp` && trap 'rm -f $$FILE' 0 1 2 3 15 && ( echo 'cat <<EOF'; cat "$1"; echo 'EOF') > $$FILE && export ARGUMENTS='$$@' && $(RM) $2 && . $$FILE > $2
 endef
 
+define ownerCorrection
+sudo chown -R ${USER_ID}:${GROUP_ID} $1
+endef
+
 var/%:
 	@mkdir -p $@
 
@@ -50,7 +54,7 @@ bin/atoum: | bin
 
 vendor: | bin/composer
 	./bin/composer install
-	sudo chown -R ${USER_ID}:${GROUP_ID} $@
+	$(call ownerCorrection, vendor)
 
 .PHONY: install
 install: vendor bin/atoum bin/phpcs bin/phpmd bin/doc ## install dependencies and create binaries
@@ -59,6 +63,10 @@ install: vendor bin/atoum bin/phpcs bin/phpmd bin/doc ## install dependencies an
 .PHONY: doc
 doc: vendor bin/doc ## Render the doc
 	./bin/doc
+
+.PHONY: vendorCorrectOwner
+vendorCorrectOwner:
+	$(call ownerCorrection, vendor)
 
 .PHONY: qualityCheck
 qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls

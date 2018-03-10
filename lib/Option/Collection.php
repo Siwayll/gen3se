@@ -18,6 +18,17 @@ class Collection implements \Countable
      */
     private $container = [];
 
+
+    /**
+     * Create a collection of Options
+     */
+    public function __construct(Option ...$option)
+    {
+        foreach ($option as $optionElmt) {
+            $this->add($optionElmt);
+        }
+    }
+
     /**
      * Clone all the Option in the container
      */

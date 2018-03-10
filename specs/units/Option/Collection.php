@@ -212,4 +212,20 @@ class Collection extends Test
                 ->yields->object->isInstanceOf($optionTwo)
         ;
     }
+
+    public function shouldBeInstanciedWithOptions()
+    {
+        $this
+            ->given(
+                $optionOne = $this->createMockOption(),
+                $optionTwo = $this->createMockOption()
+            )
+            ->if($this->newTestedInstance($optionOne))
+            ->integer(count($this->testedInstance))
+                ->isEqualTo(1)
+            ->if($this->newTestedInstance($optionOne, $optionTwo))
+            ->integer(count($this->testedInstance))
+                ->isEqualTo(2)
+        ;
+    }
 }

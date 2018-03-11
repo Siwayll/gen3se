@@ -5,12 +5,13 @@
   "keywords": ["write", "generator", "php"],
   "license": "MIT license with beer",
   "authors": [
-  {
-    "name": "Siwaÿll",
-    "email": "siwayll@doublepsi.fr",
-    "role": "Developer"
-  }
+    {
+        "name": "Siwaÿll",
+        "email": "siwayll@doublepsi.fr",
+        "role": "Developer"
+    }
   ],
+  "minimum-stability": "dev",
   "require": {
     "php": ">=7.1",
     "symfony/yaml": "4.0.*",
@@ -21,9 +22,8 @@
     "siwayll/rumdata": "^5"
   },
   "require-dev": {
-    "atoum/atoum": "3.2.*",
+    "atoum/atoum": "@dev",
     "phpmd/phpmd": "^2.6",
-    "atoum/stubs": "^2.5",
     "atoum/bdd-extension": "^2.1",
     "hoa/kitab": "^0.10.0",
     "squizlabs/php_codesniffer": "^3.2"

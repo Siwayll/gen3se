@@ -1,0 +1,10 @@
+language: php
+php:
+  - 7.1
+before_script:
+  - composer install
+script:
+  - vendor/bin/phpmd ./ text ./phpmd.xml --exclude vendor/
+  - vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml lib
+  - vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml specs
+  - php specs/units/runner.php

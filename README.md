@@ -19,5 +19,4 @@ make install
 ```
 
 ## License
-Copyright 2017 Siwaÿll
-
+MIT

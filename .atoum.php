@@ -1,6 +1,7 @@
 <?php
 
 use mageekguy\atoum\bdd;
+use atoum\reports;
 
 $extension = new bdd\extension($script);
 $runner->addExtension($extension);

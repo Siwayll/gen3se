@@ -11,4 +11,3 @@ More information on documentation:
 */
 
 require __DIR__ . '/../../vendor/autoload.php';
-define('TEST_DATA_DIR', __DIR__ . '/../data');

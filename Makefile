@@ -45,7 +45,7 @@ bin/composer: | bin
 
 bin/atoum: | bin
 	@export DOCKER_SERVICE="php-cli" \
-	&& export BINARY_OPTIONS="php -f specs/units/runner.php" \
+	&& export BINARY_OPTIONS="php -f specs/units/runner.php --" \
 	&& $(call export-file,env/bin.tpl,bin/atoum)
 	@$(call executable,bin/atoum)
 

@@ -1,28 +1,15 @@
 <?php
 
-namespace Gen3se\Engine\Specs\Units\Provider;
+namespace Gen3se\Engine\Specs\Units\Provider\Mod\Append;
 
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
-use Gen3se\Engine\Scenario\Data\Append;
 
 trait AppendChoiceTrait
 {
-    protected function createMockAppendData(string ...$choiceName)
-    {
-        $mock = new \mock\Gen3se\Engine\Mod\Append\DataInterface();
-
-        $mock->getMockController()->toArray = [];
-        $mock->getMockController()->eachChoice = function () use ($choiceName) {
-            foreach ($choiceName as $name) {
-                yield $name;
-            }
-        };
-        return $mock;
-    }
-
+    use DataTrait;
     /**
      * Get a Choice without any special features
      */

@@ -2,11 +2,16 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice;
 
+use Gen3se\Engine\Choice\Option\Data\Text;
+use Gen3se\Engine\Choice\Option\Data\Simple;
+use Gen3se\Engine\Specs\Units\Provider\OptionDataTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Option extends Test
 {
+    use OptionDataTrait;
+
     public function shouldHaveAName()
     {
         $this
@@ -68,57 +73,51 @@ class Option extends Test
         ;
     }
 
-    public function shouldAcceptCustomFields()
+    public function shouldAcceptData()
     {
         $this
-            ->given($this->newTestedInstance('name-1', 300))
-            ->object($this->testedInstance->set('custom1', 'value'))
+            ->given(
+                $this->newTestedInstance('name-1', 300),
+                $mockData = $this->createMockOptionData()
+            )
+            ->object($this->testedInstance->add($mockData))
                 ->isTestedInstance()
-            ->string($this->testedInstance->get('custom1'))
-                ->isEqualTo('value')
-            ->boolean($this->testedInstance->exists('custom1'))
-                ->isTrue()
-            ->boolean($this->testedInstance->exists('customField'))
-                ->isFalse()
         ;
     }
 
-    public function shouldSaveDataToClean()
+    public function shouldBeCapableToExportData()
     {
         $this
             ->given($this->newTestedInstance('name-1', 300))
             ->object(
                 $this->testedInstance
-                    ->set('text', 'Lorem ipsum set dolor')
-                    ->set('custom', 'value')
-                    ->set('data.toto', 1)
+                    ->add(new Text('Lorem ipsum set dolor'))
+                    ->add(new Simple('custom', 'value'))
+                    ->add(new Simple('data.toto', 1))
             )
                 ->isTestedInstance()
-            ->object($this->testedInstance->cleanField('data.toto'))
-                ->isTestedInstance()
-            ->object($this->testedInstance->cleanField('unpresentField'))
-                ->isTestedInstance()
-            ->array($this->testedInstance->exportCleanFields())
-                ->notHasKey('data.toto')
-        ;
-    }
-
-    public function shouldBeCapableToExportCleanData()
-    {
-        $this
-            ->given($this->newTestedInstance('name-1', 300))
-            ->object(
-                $this->testedInstance
-                    ->set('text', 'Lorem ipsum set dolor')
-                    ->set('custom', 'value')
-                    ->set('data.toto', 1)
-            )
-                ->isTestedInstance()
-            ->array($this->testedInstance->exportCleanFields())
+            ->array($this->testedInstance->dataToArray())
                 ->notHasKeys(['name', 'weight'])
                 ->string['text']->isEqualTo('Lorem ipsum set dolor')
                 ->string['custom']->isEqualTo('value')
                 ->integer['data.toto']->isEqualTo(1)
+        ;
+    }
+
+    public function shouldBeCapableToExportMultipleSameTypeData()
+    {
+        $this
+            ->given(
+                ($this->newTestedInstance('name-1', 300))
+                    ->add(new Text('text one'))
+                    ->add(new Text('text two'))
+            )
+            ->array($this->testedInstance->dataToArray())
+                ->notHasKeys(['name', 'weight'])
+                ->array['text']->isEqualTo([
+                    'text one',
+                    'text two'
+                ])
         ;
     }
 }

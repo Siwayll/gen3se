@@ -2,14 +2,17 @@
 
 namespace Gen3se\Engine\Specs\Units\Mod\Append;
 
+use Gen3se\Engine\Mod\Append\DataInterface;
+use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Scenario;
+use Gen3se\Engine\Specs\Units\Provider\Mod\Append\DataTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Append extends Test
 {
-    use SimpleChoiceTrait;
+    use SimpleChoiceTrait, DataTrait;
 
     public function shouldImplementModInterface()
     {
@@ -34,22 +37,19 @@ class Append extends Test
     {
         $this
             ->given($this->newTestedInstance())
-            ->testedClass
-                ->hasConstant('INSTRUCTION')
-            ->string($this->testedInstance::INSTRUCTION)
-                ->isEqualTo('scenario.append')
             ->array($this->testedInstance->getInstructions())
                 ->size->isEqualTo(1)
             ->class(get_class($this->testedInstance->getInstructions()[0]))
-                ->hasInterface('Gen3se\Engine\Mod\InstructionInterface')
+                ->hasInterface(InstructionInterface::class)
             ->string($this->testedInstance->getInstructions()[0]->getCode())
-                ->isEqualTo($this->testedInstance::INSTRUCTION)
+                ->isEqualTo(DataInterface::class)
         ;
     }
 
     public function shouldAcceptChoiceNameAsInstructionData()
     {
         $this
+            ->skip('move in AppendData')
             ->given(
                 $this->newTestedInstance(),
                 $choiceName = $this->getEyeColorChoice()->getName(),
@@ -87,6 +87,7 @@ class Append extends Test
     public function shouldAcceptChoiceNameListAsInstructionData()
     {
         $this
+            ->skip('move in AppendData')
             ->given(
                 $this->newTestedInstance(),
                 $choiceName = $this->getEyeColorChoice()->getName(),
@@ -119,42 +120,44 @@ class Append extends Test
             ->given(
                 $this->newTestedInstance(),
                 $scenario = new Scenario(),
-                $choiceName = $this->getEyeColorChoice()->getName(),
+                $appendData = $this->createMockAppendData($this->getEyeColorChoice()->getName()),
                 $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices()),
                 $this->testedInstance->setScenario($scenario)
             )
             ->boolean($scenario->hasNext())
                 ->isFalse()
-            ->if($this->testedInstance->run($choiceName))
+            ->if($this->testedInstance->run($appendData))
             ->boolean($scenario->hasNext())
                 ->isTrue()
             ->string($scenario->next())
-                ->isEqualTo($choiceName)
+                ->isEqualTo($this->getEyeColorChoice()->getName())
             ->boolean($scenario->hasNext())
                 ->isFalse()
         ;
     }
 
-    public function shouldAddAListOfChoicesAtTheEndOfTheSenario()
+    public function shouldAddAListOfChoicesAtTheEndOfTheScenario()
     {
         $this
             ->given(
                 $this->newTestedInstance(),
                 $scenario = new Scenario(),
-                $choiceName = $this->getEyeColorChoice()->getName(),
-                $secondChoiceName = $this->getHairColorChoice()->getName(),
+                $appendData = $this->createMockAppendData(
+                    $this->getEyeColorChoice()->getName(),
+                    $this->getHairColorChoice()->getName()
+                ),
                 $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices()),
                 $this->testedInstance->setScenario($scenario)
             )
             ->boolean($scenario->hasNext())
                 ->isFalse()
-            ->if($this->testedInstance->run([$choiceName, $secondChoiceName]))
+            ->if($this->testedInstance->run($appendData))
             ->boolean($scenario->hasNext())
                 ->isTrue()
             ->string($scenario->next())
-                ->isEqualTo($choiceName)
+                ->isEqualTo($this->getEyeColorChoice()->getName())
             ->string($scenario->next())
-                ->isEqualTo($secondChoiceName)
+                ->isEqualTo($this->getHairColorChoice()->getName())
             ->boolean($scenario->hasNext())
                 ->isFalse()
         ;

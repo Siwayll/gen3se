@@ -3,6 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Mod\Tag\TagData;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
@@ -123,11 +124,11 @@ class Tag extends Test
                 $this->newTestedInstance(),
                 $this->testedInstance->addTag('TAGNAME'),
                 $optionWithTag = new Option('optWithTag', 100),
-                $optionWithTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, ['TAGNAME' => 2]),
+                $optionWithTag->add(new TagData('TAGNAME', 2)),
                 $anotherOptionWithTag = new Option('optWithTag', 420),
-                $anotherOptionWithTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, ['TAGNAME' => 0.8]),
+                $anotherOptionWithTag->add(new TagData('TAGNAME', 0.8)),
                 $optionWithAnotherTag = new Option('optWithAnotherTag', 400),
-                $optionWithAnotherTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, ['NOTPRESENT' => 5])
+                $optionWithAnotherTag->add(new TagData('NOTPRESENT', 5))
             )
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
             ->integer($optionWithTag->getWeight())
@@ -148,7 +149,7 @@ class Tag extends Test
                 $this->newTestedInstance(),
                 $this->testedInstance->addTag('TAGNAME'),
                 $optionWithTag = new Option('optWithTag', 10),
-                $optionWithTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, ['TAGNAME' => 0.31])
+                $optionWithTag->add(new TagData('TAGNAME', 0.31))
             )
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
                 ->integer($optionWithTag->getWeight())
@@ -159,6 +160,7 @@ class Tag extends Test
     public function shouldControlTagFormat()
     {
         $this
+            ->skip('This test should be in TagData')
             ->given(
                 $this->newTestedInstance(),
                 $this->testedInstance->addTag('TAGNAME')
@@ -166,7 +168,7 @@ class Tag extends Test
             ->exception(
                 function () {
                     $optionWithTag = new Option('optWithTag', 10);
-                    $optionWithTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, '');
+                    $optionWithTag->add(new TagData('', 3));
                     $this->testedInstance->appliesTagModifications($optionWithTag);
                 }
             )
@@ -181,7 +183,7 @@ class Tag extends Test
                 $this->newTestedInstance(),
                 $this->testedInstance->addTag('TAGNAME'),
                 $optionWithTag = new Option('optWithTag', 100),
-                $optionWithTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, ['TAGNAME' => '+2'])
+                $optionWithTag->add(new TagData('TAGNAME', '+2'))
             )
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
             ->integer($optionWithTag->getWeight())
@@ -196,7 +198,7 @@ class Tag extends Test
                 $this->newTestedInstance(),
                 $this->testedInstance->addTag('TAGNAME'),
                 $optionWithTag = new Option('optWithTag', 100),
-                $optionWithTag->set(\Gen3se\Engine\Mod\Tag\Tag::TAG_FIELDNAME, ['TAGNAME' => '-2'])
+                $optionWithTag->add(new TagData('TAGNAME', '-2'))
             )
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
             ->integer($optionWithTag->getWeight())

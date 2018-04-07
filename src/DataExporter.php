@@ -60,7 +60,7 @@ class DataExporter implements DataExporterInterface, ModInterface
      */
     public function saveFor(Choice $choice, OptionInterface $option): self
     {
-        $dataToSave = (array) $option->exportCleanFields();
+        $dataToSave = $option->dataToArray();
 
         if (empty($dataToSave)) {
             return $this;

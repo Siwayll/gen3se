@@ -4,6 +4,7 @@ namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Mod\Append\Append;
+use Gen3se\Engine\Mod\Append\DataInterface;
 use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Specs\Units\Provider\AppendChoiceTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
@@ -63,7 +64,7 @@ class Engine extends Test
                 $this->testedInstance->addMod($appendMod);
             })
                 ->hasMessage('Instruction "{newInstructionCode}" is already present')
-                ->hasKapowMessage('Instruction "' . Append::INSTRUCTION . '" is already present')
+                ->hasKapowMessage('Instruction "' . DataInterface::class . '" is already present')
                 ->hasCode(Level::ERROR)
             ->if(
                 $badMod = new \mock\Gen3se\Engine\Mod\ModInterface(),
@@ -77,23 +78,6 @@ class Engine extends Test
                 ->isInstanceOf('\TypeError')
         ;
     }
-
-//    public function shouldRegistersModsAndInstructionsFromDataExporter()
-//    {
-//        $this
-//            ->given(
-//                $eyeArchChoice = $this->getEyeArchChoice(),
-//                $choiceProvider = $this->getProviderWithAppendModChoices(),
-//                $scenario = new Scenario(),
-//                $scenario->append($eyeArchChoice->getName()),
-//                $dataExporter = new DataExporter(),
-//                $this->newTestedInstance($choiceProvider, $scenario, $dataExporter),
-//                $appendMod = new Append()
-//            )
-//            ->object($this->testedInstance->addMod($appendMod))
-//                ->isTestedInstance()
-//        ;
-//    }
 
     public function shouldGiveModAccessToScenarioIfNecessary()
     {
@@ -154,7 +138,7 @@ class Engine extends Test
             ->dump($this->testedInstance->exportResult())
             ->array((array) $this->testedInstance->exportResult()->get($eyeArchChoice->getName()))
                 ->hasKey('text')
-                ->notHasKey(Append::INSTRUCTION)
+                ->notHasKey(DataInterface::class)
             ->array((array) $this->testedInstance->exportResult()->get($eyeChoice->getName()))
                 ->size->isGreaterThan(0)
         ;

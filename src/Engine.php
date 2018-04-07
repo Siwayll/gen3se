@@ -135,18 +135,25 @@ class Engine
      */
     private function executeModInstructions(OptionInterface $option): self
     {
-        $fields = $option->exportCleanFields();
-        foreach ($fields as $instructionCode => $value) {
-            if (!isset($this->instructions[$instructionCode])) {
-                continue;
-            }
-            /** @var $instruction InstructionInterface */
-            $instruction = $this->instructions[$instructionCode];
-            if ($instruction->validate($value)) {
-                $instruction($value);
-                $option->cleanField($instruction->getCode());
+        foreach ($this->instructions as $code => $instruction) {
+            foreach ($option->findData($code) as $data) {
+                if ($instruction->validate($data)) {
+                    $instruction($data);
+                }
             }
         }
+//        $fields = $option->exportCleanFields();
+//        foreach ($fields as $instructionCode => $value) {
+//            if (!isset($this->instructions[$instructionCode])) {
+//                continue;
+//            }
+//            /** @var $instruction InstructionInterface */
+//            $instruction = $this->instructions[$instructionCode];
+//            if ($instruction->validate($value)) {
+//                $instruction($value);
+//                $option->cleanField($instruction->getCode());
+//            }
+//        }
 
         return $this;
     }

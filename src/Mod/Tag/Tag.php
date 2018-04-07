@@ -130,19 +130,14 @@ class Tag implements ModInterface, IsPrepareReady
      */
     public function appliesTagModifications(OptionInterface $option): void
     {
-        if (!$option->exists(self::TAG_FIELDNAME)) {
-            return;
-        }
-        $data = $option->get(self::TAG_FIELDNAME);
-        $this->validateTagField($data);
-
-        foreach ($data as $tagName => $revisionValue) {
-            if (!isset($this->tags[$tagName])) {
+        /** @var DataInterface $tag */
+        foreach ($option->findData(DataInterface::class) as $tag) {
+            if (!isset($this->tags[$tag->getTagName()])) {
                 continue;
             }
 
             $option->setWeight(
-                (new Revision($revisionValue, $option->getWeight()))()
+                (new Revision($tag->getRevisionValue(), $option->getWeight()))()
             );
         }
     }

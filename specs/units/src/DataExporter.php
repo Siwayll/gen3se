@@ -5,13 +5,14 @@ namespace Gen3se\Engine\Specs\Units;
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Specs\Units\Provider\OptionTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\RumData\Converter\FromArray;
 
 class DataExporter extends Test
 {
-    use SimpleChoiceTrait;
+    use SimpleChoiceTrait, OptionTrait;
 
     public function shouldImplementDataExporterInterface(): void
     {
@@ -42,20 +43,20 @@ class DataExporter extends Test
     /**
      * @dataProvider choiceProvider
      */
-    public function shouldSaveResultDataForAnOption(Choice $choice): void
+    public function shouldSaveResultDataForAChoice(Choice $choice): void
     {
         $this
             ->given(
                 $optCollection = $choice->getOptionCollection(),
                 $option = $optCollection->findByPositionInStack(0),
-                $rumOption = FromArray::toRumData($option->exportCleanFields()),
+                $rumOption = FromArray::toRumData($option->dataToArray()),
                 $this->newTestedInstance()
             )
             ->object($this->testedInstance->saveFor($choice, $option))
                 ->isTestedInstance()
             ->object($this->testedInstance->get($choice->getName()))
             ->array((array) $this->testedInstance->get($choice->getName()))
-                ->isEqualTo($option->exportCleanFields())
+                ->isEqualTo($option->dataToArray())
             ->object($this->testedInstance->saveFor($choice, $option))
                 ->isTestedInstance()
             ->array((array) $this->testedInstance->get($choice->getName()))
@@ -95,12 +96,12 @@ class DataExporter extends Test
                 $this->testedInstance->saveFor($choice, $option)
             )
             ->object($this->testedInstance->get($choice->getName()))
-                ->isEqualTo(FromArray::toRumData($option->exportCleanFields()))
+                ->isEqualTo(FromArray::toRumData($option->dataToArray()))
             ->if($this->testedInstance->saveFor($choice, $anotherOption))
             ->dump((array) $this->testedInstance->get($choice->getName()))
             ->array((array) $this->testedInstance->get($choice->getName()))
-                ->variable[0]->isEqualTo(FromArray::toRumData($option->exportCleanFields()))
-                ->variable[1]->isEqualTo(FromArray::toRumData($anotherOption->exportCleanFields()))
+                ->variable[0]->isEqualTo(FromArray::toRumData($option->dataToArray()))
+                ->variable[1]->isEqualTo(FromArray::toRumData($anotherOption->dataToArray()))
                 ->size->isEqualTo(2)
         ;
     }
@@ -111,7 +112,7 @@ class DataExporter extends Test
             ->given(
                 $storageRule = 'x.un.deux.trois',
                 $option = new Option('opt1', 500),
-                $option->set('data', 'toto'),
+                $option->add(new Option\Data\Simple('data', 'toto')),
                 $optCollection = new Collection(),
                 $optCollection->add($option),
                 $choice = new Choice('choice-1', $optCollection),

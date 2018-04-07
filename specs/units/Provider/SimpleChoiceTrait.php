@@ -13,6 +13,7 @@ use Gen3se\Engine\Choice\Option;
  */
 trait SimpleChoiceTrait
 {
+    use OptionDataTrait;
     /**
      * Get a Choice without any special features
      */
@@ -21,19 +22,19 @@ trait SimpleChoiceTrait
         $optCollection = new Collection();
         $optCollection->add(
             (new Option('blue', 30))
-                ->set('text', 'bleu')
+                ->add($this->createMockOptionData('bleu'))
         );
         $optCollection->add(
             (new Option('green', 15))
-                ->set('text', 'vert')
+                ->add(new Option\Data\Text('vert'))
         );
         $optCollection->add(
             (new Option('marron', 150))
-                ->set('text', 'marron')
+                ->add(new Option\Data\Text('marron'))
         );
         $optCollection->add(
             (new Option('purple', 1))
-                ->set('text', 'violet')
+                ->add(new Option\Data\Text('violet'))
         );
 
         $choice = new Choice('eyeColor', $optCollection);
@@ -49,19 +50,19 @@ trait SimpleChoiceTrait
         $optCollection = new Collection();
         $optCollection->add(
             (new Option('noir', 300))
-                ->set('text', 'les cheveux noirs')
+                ->add(new Option\Data\Text('les cheveux noirs'))
         );
         $optCollection->add(
             (new Option('blond', 100))
-                ->set('text', 'les cheveux blonds')
+                ->add(new Option\Data\Text('les cheveux blonds'))
         );
         $optCollection->add(
             (new Option('vert', 5))
-                ->set('text', 'les cheveux verts')
+                ->add(new Option\Data\Text('les cheveux verts'))
         );
         $optCollection->add(
             (new Option('violet', 1))
-                ->set('text', 'les cheveux violets')
+                ->add(new Option\Data\Text('les cheveux violets'))
         );
 
         $choice = new Choice('cheveux', $optCollection);

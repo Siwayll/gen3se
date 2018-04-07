@@ -8,6 +8,7 @@ use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
 use Gen3se\Engine\Mod\NeedScenarioInterface;
+use Gen3se\Engine\Mod\Append\DataInterface as AppendInterface;
 use Gen3se\Engine\ScenarioInterface;
 
 /**
@@ -15,8 +16,6 @@ use Gen3se\Engine\ScenarioInterface;
  */
 class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioInterface
 {
-    const INSTRUCTION = 'scenario.append';
-
     /**
      * @var ChoiceProviderInterface
      */
@@ -34,7 +33,7 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
     {
         return [
             new Instruction(
-                self::INSTRUCTION,
+                AppendInterface::class,
                 [$this, 'dataValidator'],
                 [$this, 'run']
             )
@@ -59,11 +58,9 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
      * # Exceptions
      * if $value is not a string choiceName
      */
-    public function dataValidator($value): bool
+    public function dataValidator(AppendInterface $instruction): bool
     {
-        $choiceNames = $this->formatValue($value, __METHOD__);
-
-        foreach ($choiceNames as $choiceName) {
+        foreach ($instruction->eachChoice() as $choiceName) {
             if (!$this->provider->hasChoice($choiceName)) {
                 throw new NotFound($choiceName);
             }
@@ -72,30 +69,12 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
         return true;
     }
 
-    private function formatValue($value, string $method): array
-    {
-        if (!is_string($value) && !is_array($value)) {
-            throw new \TypeError(
-                'Argument 1 passed to ' . $method . '() must be of the type string or array of strings, '
-                . gettype($value) . ' given'
-            );
-        }
-
-        if (!is_array($value)) {
-            $value = [$value];
-        }
-
-        return $value;
-    }
-
     /**
      * Add the choiceName at the end of the current scenario
      */
-    public function run($value)
+    public function run(AppendInterface $instruction)
     {
-        $choiceNames = $this->formatValue($value, __METHOD__);
-
-        foreach ($choiceNames as $choiceName) {
+        foreach ($instruction->eachChoice() as $choiceName) {
             $this->scenario->append($choiceName);
         }
     }

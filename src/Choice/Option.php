@@ -3,10 +3,12 @@ declare(strict_types = 1);
 
 namespace Gen3se\Engine\Choice;
 
+use Gen3se\Engine\Choice\Option\DataInterface;
 use Gen3se\Engine\Exception\Option\CantUnsetMandatoryData;
 use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
 use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
 use Gen3se\Engine\Exception\Option\CannotChangeItsName;
+use Siwayll\RumData\RumData;
 
 class Option implements OptionInterface
 {
@@ -27,16 +29,9 @@ class Option implements OptionInterface
     private $weight;
 
     /**
-     * Custom data
-     *
-     * Anything that is not the name or the weight
+     * Data carry by the option
      */
-    private $custom = [];
-
-    /**
-     * Fields
-     */
-    private $fieldsToClean = [];
+    private $data = [];
 
     /**
      * Create a new Option whith a name and a weight
@@ -45,29 +40,6 @@ class Option implements OptionInterface
     {
         $this->name = $this->controledNameValue($name);
         $this->setWeight($weight);
-    }
-
-    /**
-     * Add a fieldName to the cleanList
-     */
-    public function cleanField(string $fieldName): OptionInterface
-    {
-        $this->fieldsToClean[$fieldName] = true;
-        return $this;
-    }
-
-    /**
-     * Return all the custom data without fields in the cleanList
-     */
-    public function exportCleanFields(): array
-    {
-        $cleanedFields = $this->custom;
-        foreach (array_keys($this->custom) as $fieldName) {
-            if (isset($this->fieldsToClean[$fieldName])) {
-                unset($cleanedFields[$fieldName]);
-            }
-        }
-        return $cleanedFields;
     }
 
     public function getName(): string
@@ -108,27 +80,34 @@ class Option implements OptionInterface
         return $value;
     }
 
-    public function set(string $name, $value): OptionInterface
+    /**
+     * Add data to the option
+     */
+    public function add(DataInterface $data): OptionInterface
     {
-        $this->custom[$name] = $value;
-
+        $this->data[] = $data;
         return $this;
     }
 
     /**
-     * @param string $name
-     * @return int|mixed|null|string
+     * Convert data of the option in array
+     * Doesn't take $name & $weight
      */
-    public function get(string $name)
+    public function dataToArray(): array
     {
-        return isset($this->custom[$name]) ? $this->custom[$name] : null;
+        $arrayToReturn = [];
+        foreach ($this->data as $data) {
+            $arrayToReturn = array_merge_recursive($arrayToReturn, $data->toArray());
+        }
+        return $arrayToReturn;
     }
 
-    /**
-     * Check if a field name exists in the option data
-     */
-    public function exists(string $name): bool
+    public function findData($interface)
     {
-        return isset($this->custom[$name]);
+        foreach ($this->data as $data) {
+            if (in_array($interface, class_implements($data))) {
+                yield $data;
+            }
+        }
     }
 }

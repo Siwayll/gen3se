@@ -46,28 +46,29 @@ class Append extends Test
         ;
     }
 
-    public function shouldAcceptChoiceNameAsInstructionData()
+    public function shouldAcceptAppendDataAsInstructionData()
     {
         $this
-            ->skip('move in AppendData')
             ->given(
                 $this->newTestedInstance(),
-                $choiceName = $this->getEyeColorChoice()->getName(),
-                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices())
+                $choiceName = $this->createMockAppendData($this->getEyeColorChoice()->getName()),
+                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices()),
+                $secondChoiceName = $this->createMockAppendData(
+                    $this->getHairColorChoice()->getName(),
+                    $this->getEyeColorChoice()->getName()
+                )
             )
             ->boolean($this->testedInstance->dataValidator($choiceName))
+                ->isTrue()
+            ->boolean($this->testedInstance->dataValidator($secondChoiceName))
                 ->isTrue()
             ->exception(function () {
                 $this->testedInstance->dataValidator(new \stdClass());
             })
                 ->isInstanceOf('\TypeError')
-                ->hasMessage(
-                    'Argument 1 passed to Gen3se\Engine\Mod\Append\Append::dataValidator()'
-                    . ' must be of the type string or array of strings, object given'
-                )
             ->KapowException(
                 function () {
-                    $this->testedInstance->dataValidator('notFoundChoice');
+                    $this->testedInstance->dataValidator($this->createMockAppendData('notFoundChoice'));
                 }
             )
                 ->hasMessage('Choice "{choiceName}" not found')
@@ -75,42 +76,12 @@ class Append extends Test
                 ->hasCode(Level::ERROR)
             ->KapowException(
                 function () {
-                    $this->testedInstance->dataValidator('');
+                    $this->testedInstance->dataValidator($this->createMockAppendData(''));
                 }
             )
                 ->hasMessage('Choice "{choiceName}" not found')
                 ->hasKapowMessage('Choice "" not found')
                 ->hasCode(Level::ERROR)
-        ;
-    }
-
-    public function shouldAcceptChoiceNameListAsInstructionData()
-    {
-        $this
-            ->skip('move in AppendData')
-            ->given(
-                $this->newTestedInstance(),
-                $choiceName = $this->getEyeColorChoice()->getName(),
-                $secondChoiceName = $this->getHairColorChoice()->getName(),
-                $this->testedInstance->setChoiceProvider($this->getProviderWithSimpleChoices())
-            )
-            ->boolean($this->testedInstance->dataValidator([$choiceName]))
-                ->isTrue()
-            ->boolean($this->testedInstance->dataValidator([$choiceName, $secondChoiceName]))
-            ->KapowException(
-                function () use ($choiceName) {
-                    $this->testedInstance->dataValidator([$choiceName, 'notFoundChoice']);
-                }
-            )
-                ->hasMessage('Choice "{choiceName}" not found')
-                ->hasKapowMessage('Choice "notFoundChoice" not found')
-                ->hasCode(Level::ERROR)
-            ->exception(
-                function () use ($choiceName) {
-                    $this->testedInstance->dataValidator([$choiceName, new \stdClass()]);
-                }
-            )
-                ->isInstanceOf('\TypeError')
         ;
     }
 

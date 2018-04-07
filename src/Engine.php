@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine;
 
+use Gen3se\Engine\Choice\OptionInterface;
 use Gen3se\Engine\Choice\Resolver;
 use Gen3se\Engine\Exception\Engine\InstructionAlreadyPresent;
 use Gen3se\Engine\Mod\Collection as ModCollection;
@@ -9,7 +10,6 @@ use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
 use Gen3se\Engine\Mod\NeedScenarioInterface;
-use Gen3se\Engine\Option\Option;
 use Gen3se\Engine\Step\Prepare;
 
 /**
@@ -133,7 +133,7 @@ class Engine
     /**
      * Run Mods given by the instructions of the option
      */
-    private function executeModInstructions(Option $option): self
+    private function executeModInstructions(OptionInterface $option): self
     {
         $fields = $option->exportCleanFields();
         foreach ($fields as $instructionCode => $value) {

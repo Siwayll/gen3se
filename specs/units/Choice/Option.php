@@ -1,6 +1,6 @@
 <?php
 
-namespace Gen3se\Engine\Specs\Units\Option;
+namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;

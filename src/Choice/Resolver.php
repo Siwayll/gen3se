@@ -2,7 +2,6 @@
 namespace Gen3se\Engine\Choice;
 
 use Gen3se\Engine\Exception\ChoiceNameInterface;
-use Gen3se\Engine\Option\Option;
 use Gen3se\Engine\Rand;
 use Siwayll\Kapow\Exception;
 
@@ -16,7 +15,7 @@ class Resolver
         $rand = new Rand(0, $choiceOptions->getTotalWeight());
         $rand->roll();
         try {
-            $this->result = $choiceOptions->findByPositonInStack($rand->getResult());
+            $this->result = $choiceOptions->findByPositionInStack($rand->getResult());
         } catch (Exception $exception) {
             if ($exception instanceof ChoiceNameInterface) {
                 $exception->setChoiceName($choice->getName());
@@ -25,10 +24,7 @@ class Resolver
         }
     }
 
-    /**
-     * @return Option
-     */
-    public function getPickedOption(): Option
+    public function getPickedOption(): OptionInterface
     {
         return $this->result;
     }

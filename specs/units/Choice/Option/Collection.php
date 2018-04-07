@@ -1,23 +1,19 @@
 <?php
 
-namespace Gen3se\Engine\Specs\Units\Option;
+namespace Gen3se\Engine\Specs\Units\Choice\Option;
 
 use Gen3se\Engine\Specs\Units\Test;
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\Option;
 use Siwayll\Kapow\Level;
 
 class Collection extends Test
 {
-    /**
-     * @param string|null $name
-     * @return \mock\Gen3se\Engine\Option\Option
-     */
     protected function createMockOption(string $name = null)
     {
         if ($name === null) {
             $name = uniqid();
         }
-        $mock = new \mock\Gen3se\Engine\Option\Option();
+        $mock = new \mock\Gen3se\Engine\Choice\OptionInterface();
         $mock->getMockController()->getName = function () use ($name) {
             return $name;
         };
@@ -114,15 +110,15 @@ class Collection extends Test
             ->and($this->testedInstance->add($optionTwo))
             ->and($this->testedInstance->add($optionThree))
             ->and($this->testedInstance->add($optionFour))
-            ->object($this->testedInstance->findByPositonInStack(485))
+            ->object($this->testedInstance->findByPositionInStack(485))
                 ->isIdenticalTo($optionOne)
-            ->object($this->testedInstance->findByPositonInStack(893))
+            ->object($this->testedInstance->findByPositionInStack(893))
                 ->isIdenticalTo($optionTwo)
-            ->object($this->testedInstance->findByPositonInStack(1000))
+            ->object($this->testedInstance->findByPositionInStack(1000))
                 ->isIdenticalTo($optionTwo)
-            ->object($this->testedInstance->findByPositonInStack(1001))
+            ->object($this->testedInstance->findByPositionInStack(1001))
                 ->isIdenticalTo($optionFour)
-            ->object($this->testedInstance->findByPositonInStack(1010))
+            ->object($this->testedInstance->findByPositionInStack(1010))
                 ->isIdenticalTo($optionFour)
 
             ->given(
@@ -136,7 +132,7 @@ class Collection extends Test
             ->and($this->testedInstance->add($optionThree))
             ->KapowException(
                 function () {
-                    $this->testedInstance->findByPositonInStack(0);
+                    $this->testedInstance->findByPositionInStack(0);
                 }
             )
                 ->hasKapowMessage(
@@ -155,19 +151,19 @@ class Collection extends Test
             )
             ->if($this->testedInstance->add($optionOne))
             ->exception(function () {
-                $this->testedInstance->findByPositonInStack('foo');
+                $this->testedInstance->findByPositionInStack('foo');
             })
                 ->isInstanceOf('\TypeError')
             ->KapowException(
                 function () {
-                    $this->testedInstance->findByPositonInStack(-1);
+                    $this->testedInstance->findByPositionInStack(-1);
                 }
             )
                 ->hasKapowMessage('Position "-1" must be relevant in [0,500] for {choiceName}')
                 ->hasCode(Level::CRITICAL)
             ->KapowException(
                 function () {
-                    $this->testedInstance->findByPositonInStack(550);
+                    $this->testedInstance->findByPositionInStack(550);
                 }
             )
                 ->hasKapowMessage('Position "550" must be relevant in [0,500] for {choiceName}')

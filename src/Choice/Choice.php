@@ -2,10 +2,10 @@
 
 namespace Gen3se\Engine\Choice;
 
+use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollectionInterface;
 use Gen3se\Engine\Exception\Choice\CannotChangeItsName;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyCollectionOfOptions;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
-use Gen3se\Engine\Option\Collection as OptionCollection;
 use Gen3se\Engine\ChoiceData;
 
 class Choice
@@ -24,7 +24,7 @@ class Choice
     /**
      * Choice constructor.
      */
-    public function __construct(string $choiceName, OptionCollection $optionCollection)
+    public function __construct(string $choiceName, OptionCollectionInterface $optionCollection)
     {
         if (empty($choiceName)) {
             throw new MustHaveNonEmptyName();
@@ -49,7 +49,7 @@ class Choice
     /**
      * Get the collection of Option in the Choice
      */
-    public function getOptionCollection(): OptionCollection
+    public function getOptionCollection(): OptionCollectionInterface
     {
         return $this->optionCollection;
     }

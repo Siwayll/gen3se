@@ -3,8 +3,8 @@ declare(strict_types=1);
 namespace Gen3se\Engine;
 
 use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice\OptionInterface;
 use Gen3se\Engine\Mod\ModInterface;
-use Gen3se\Engine\Option\Option;
 use Siwayll\RumData\Converter\FromArray;
 use Siwayll\RumData\RumData;
 
@@ -58,7 +58,7 @@ class DataExporter implements DataExporterInterface, ModInterface
      * Save Custom data of Option
      * Without StorageRule, data are stored under the name of the Choice
      */
-    public function saveFor(Choice $choice, Option $option): self
+    public function saveFor(Choice $choice, OptionInterface $option): self
     {
         $dataToSave = (array) $option->exportCleanFields();
 

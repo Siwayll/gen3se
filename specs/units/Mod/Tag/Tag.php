@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;

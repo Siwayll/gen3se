@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace Gen3se\Engine\Option;
+namespace Gen3se\Engine\Choice;
 
 use Gen3se\Engine\Exception\Option\CantUnsetMandatoryData;
 use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
 use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
 use Gen3se\Engine\Exception\Option\CannotChangeItsName;
 
-class Option
+class Option implements OptionInterface
 {
     /**
      * Name of the option.
@@ -50,7 +50,7 @@ class Option
     /**
      * Add a fieldName to the cleanList
      */
-    public function cleanField(string $fieldName): self
+    public function cleanField(string $fieldName): OptionInterface
     {
         $this->fieldsToClean[$fieldName] = true;
         return $this;
@@ -86,7 +86,7 @@ class Option
      * # Exceptions
      * If the new value is not a integer greater than zero.
      */
-    public function setWeight(int $value): self
+    public function setWeight(int $value): OptionInterface
     {
         if ($value < 0) {
             throw new MustHaveWeightGreaterThanZero($this->getName());
@@ -115,7 +115,7 @@ class Option
      * @throws CannotChangeItsName
      * @throws MustHaveWeightGreaterThanZero
      */
-    public function set(string $name, $value): self
+    public function set(string $name, $value): OptionInterface
     {
         if ($name === 'name') {
             throw new CannotChangeItsName($this->getName());

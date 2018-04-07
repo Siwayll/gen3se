@@ -4,8 +4,8 @@ namespace Gen3se\Engine\Specs\Units\Provider;
 
 use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Choice\Provider;
-use Gen3se\Engine\Option\Collection;
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\Option\Collection;
+use Gen3se\Engine\Choice\Option;
 
 trait AppendChoiceTrait
 {

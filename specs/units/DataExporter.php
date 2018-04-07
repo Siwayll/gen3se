@@ -3,8 +3,8 @@
 namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice\Choice;
-use Gen3se\Engine\Option\Collection;
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\Option\Collection;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\RumData\Converter\FromArray;
@@ -47,7 +47,7 @@ class DataExporter extends Test
         $this
             ->given(
                 $optCollection = $choice->getOptionCollection(),
-                $option = $optCollection->findByPositonInStack(0),
+                $option = $optCollection->findByPositionInStack(0),
                 $rumOption = FromArray::toRumData($option->exportCleanFields()),
                 $this->newTestedInstance()
             )
@@ -89,8 +89,8 @@ class DataExporter extends Test
         $this
             ->given(
                 $optCollection = $choice->getOptionCollection(),
-                $option = $optCollection->findByPositonInStack(0),
-                $anotherOption = $optCollection->findByPositonInStack($optCollection->getTotalWeight()),
+                $option = $optCollection->findByPositionInStack(0),
+                $anotherOption = $optCollection->findByPositionInStack($optCollection->getTotalWeight()),
                 $this->newTestedInstance(),
                 $this->testedInstance->saveFor($choice, $option)
             )

@@ -1,7 +1,8 @@
 <?php
 
-namespace Gen3se\Engine\Option;
+namespace Gen3se\Engine\Choice\Option;
 
+use Gen3se\Engine\Choice\OptionInterface;
 use Gen3se\Engine\Exception\Option\AlreadyPresent;
 use Gen3se\Engine\Exception\Option\NotFound;
 use Gen3se\Engine\Exception\Option\NotFoundInStack;
@@ -11,7 +12,7 @@ use Gen3se\Engine\Exception\Option\PositionMustBeRelevent;
  * Class Collection
  * @package Gen3se\Engine\Option
  */
-class Collection implements \Countable
+class Collection implements \Countable, CollectionInterface
 {
     /**
      * @var array
@@ -22,7 +23,7 @@ class Collection implements \Countable
     /**
      * Create a collection of Options
      */
-    public function __construct(Option ...$option)
+    public function __construct(OptionInterface ...$option)
     {
         foreach ($option as $optionElmt) {
             $this->add($optionElmt);
@@ -41,12 +42,7 @@ class Collection implements \Countable
         }
     }
 
-    /**
-     * @param Option $option
-     * @return Collection
-     * @throws AlreadyPresent
-     */
-    public function add(Option $option): self
+    public function add(OptionInterface $option): CollectionInterface
     {
         if (isset($this->container[$option->getName()])) {
             throw new AlreadyPresent($option->getName());
@@ -56,12 +52,7 @@ class Collection implements \Countable
         return $this;
     }
 
-    /**
-     * @param string $optionName
-     * @return Option
-     * @throws NotFound
-     */
-    public function get(string $optionName): Option
+    public function get(string $optionName): OptionInterface
     {
         if (!isset($this->container[$optionName])) {
             throw new NotFound($optionName);
@@ -83,20 +74,14 @@ class Collection implements \Countable
     public function getTotalWeight(): int
     {
         $total = 0;
-        array_walk($this->container, function (Option $option) use (&$total) {
+        array_walk($this->container, function (OptionInterface $option) use (&$total) {
             $total += $option->getWeight();
         });
 
         return $total;
     }
 
-    /**
-     * @param int $position
-     * @return Option
-     * @throws NotFoundInStack
-     * @throws PositionMustBeRelevent
-     */
-    public function findByPositonInStack(int $position): Option
+    public function findByPositionInStack(int $position): OptionInterface
     {
         if ($position < 0 || $position > $this->getTotalWeight()) {
             throw new PositionMustBeRelevent($position, $this->getTotalWeight());

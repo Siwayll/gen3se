@@ -2,9 +2,9 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice;
 
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Test;
-use Gen3se\Engine\Option\Collection as CollectionOfOptions;
+use Gen3se\Engine\Choice\Option\Collection as CollectionOfOptions;
 use Siwayll\Kapow\Level;
 
 class Choice extends Test

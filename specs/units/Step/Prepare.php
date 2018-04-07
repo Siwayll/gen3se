@@ -37,7 +37,7 @@ class Prepare extends Test
         $this
             ->given(
                 $modCollection = new ModCollection(),
-                $option = $choice->getOptionCollection()->findByPositonInStack(1)
+                $option = $choice->getOptionCollection()->findByPositionInStack(1)
             )
             ->object($this->newTestedInstance($choice, $modCollection))
             ->object(call_user_func($this->testedInstance))

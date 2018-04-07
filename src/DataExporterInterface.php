@@ -3,9 +3,9 @@
 namespace Gen3se\Engine;
 
 use Gen3se\Engine\Choice\Choice;
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\OptionInterface;
 
 interface DataExporterInterface
 {
-    public function saveFor(Choice $choice, Option $option);
+    public function saveFor(Choice $choice, OptionInterface $option);
 }

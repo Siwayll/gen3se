@@ -3,8 +3,8 @@
 namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Choice\Choice;
-use Gen3se\Engine\Option\Collection;
-use Gen3se\Engine\Option\Option;
+use Gen3se\Engine\Choice\Option\Collection;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
@@ -31,7 +31,7 @@ class Resolver extends Test
         $this
             ->object($this->newTestedInstance($choice))
             ->object($this->testedInstance->getPickedOption())
-                ->isInstanceOf('Gen3se\Engine\Option\Option')
+                ->isInstanceOf('Gen3se\Engine\Choice\Option')
             ->variable($choice->getOptionCollection()->get($this->testedInstance->getPickedOption()->getName()))
         ;
     }

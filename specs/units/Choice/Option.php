@@ -121,24 +121,4 @@ class Option extends Test
                 ->integer['data.toto']->isEqualTo(1)
         ;
     }
-
-    public function shouldNotAcceptToBreakMandatoryData()
-    {
-        $this
-            ->given(
-                $name = 'name-1',
-                $weight = 300,
-                $this->newTestedInstance($name, $weight)
-            )
-            ->KapowException(function () {
-                $this->testedInstance->set('name', 'newName');
-            })
-                ->hasKapowMessage('Option '.$name.' cannot change its name')
-                ->hasCode(Level::ERROR)
-            ->exception(function () {
-                $this->testedInstance->set('weight', 'toto');
-            })
-                ->isInstanceOf('\TypeError')
-        ;
-    }
 }

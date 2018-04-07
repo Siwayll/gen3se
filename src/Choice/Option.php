@@ -108,22 +108,8 @@ class Option implements OptionInterface
         return $value;
     }
 
-    /**
-     * @param string $name
-     * @param $value
-     * @return Option
-     * @throws CannotChangeItsName
-     * @throws MustHaveWeightGreaterThanZero
-     */
     public function set(string $name, $value): OptionInterface
     {
-        if ($name === 'name') {
-            throw new CannotChangeItsName($this->getName());
-        }
-        if ($name === 'weight') {
-            $this->setWeight($value);
-            return $this;
-        }
         $this->custom[$name] = $value;
 
         return $this;
@@ -135,12 +121,6 @@ class Option implements OptionInterface
      */
     public function get(string $name)
     {
-        if ($name === 'name') {
-            return $this->getName();
-        }
-        if ($name === 'weight') {
-            return $this->getWeight();
-        }
         return isset($this->custom[$name]) ? $this->custom[$name] : null;
     }
 
@@ -149,9 +129,6 @@ class Option implements OptionInterface
      */
     public function exists(string $name): bool
     {
-        if ($name === 'name' || $name === 'weight') {
-            return true;
-        }
         return isset($this->custom[$name]);
     }
 }

@@ -1,7 +1,4 @@
 
-PHP_DOCKER_TAG ?= 7.2-cli-alpine
-COMPOSER_DOCKER_TAG ?= 1.6.2
-
 USER_ID = $(shell id -u)
 GROUP_ID = $(shell id -g)
 
@@ -25,7 +22,7 @@ bin:
 
 bin/phpmd: | bin
 	@export DOCKER_SERVICE="php-cli" \
-	&& export BINARY_OPTIONS="php -f vendor/bin/phpmd ./lib text ./phpmd.xml" \
+	&& export BINARY_OPTIONS="php -f vendor/bin/phpmd ./src text ./phpmd.xml" \
 	&& $(call export-file,env/bin.tpl,bin/phpmd)
 	@$(call executable,bin/phpmd)
 
@@ -37,7 +34,7 @@ bin/phpcs: | bin
 
 bin/doc: | bin var/doc
 	@export DOCKER_SERVICE="php-cli" \
-	&& export BINARY_OPTIONS="php -f vendor/bin/kitab -- compile --configuration-file=.kitab.target.html.php --output-directory var/doc lib " \
+	&& export BINARY_OPTIONS="php -f vendor/bin/kitab -- compile --configuration-file=.kitab.target.html.php --output-directory var/doc src " \
 	&& $(call export-file,env/bin.tpl,bin/doc)
 	@$(call executable,bin/doc)
 
@@ -71,7 +68,7 @@ vendorCorrectOwner:
 
 .PHONY: qualityCheck
 qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls
-	./bin/phpcs lib
+	./bin/phpcs src
 	./bin/phpcs specs
 	./bin/phpmd
 

@@ -26,7 +26,7 @@
   },
   "autoload": {
       "psr-4": {
-          "Gen3se\\Engine\\": "lib/"
+          "Gen3se\\Engine\\": "src/"
       }
   },
   "autoload-dev": {

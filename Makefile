@@ -24,31 +24,31 @@ bin:
 	@mkdir -p bin
 
 bin/phpmd: | bin
-	@export DOCKER_COMMAND="run --rm -w /src --volume ${PWD}:/src php:${PHP_DOCKER_TAG}" \
-	&& export BINARY_OPTIONS="php -f vendor/bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,Tests/tmp/,build/ " \
+	@export DOCKER_SERVICE="php-cli" \
+	&& export BINARY_OPTIONS="php -f vendor/bin/phpmd ./lib text ./phpmd.xml" \
 	&& $(call export-file,env/bin.tpl,bin/phpmd)
 	@$(call executable,bin/phpmd)
 
 bin/phpcs: | bin
-	@export DOCKER_COMMAND="run --rm -w /src --volume ${PWD}:/src php:${PHP_DOCKER_TAG}" \
+	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/phpcs -- --encoding=UTF-8 --standard=check-style.xml " \
 	&& $(call export-file,env/bin.tpl,bin/phpcs)
 	@$(call executable,bin/phpcs)
 
 bin/doc: | bin var/doc
-	@export DOCKER_COMMAND="run --rm -w /src --volume ${PWD}:/src php:${PHP_DOCKER_TAG}" \
+	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/kitab -- compile --configuration-file=.kitab.target.html.php --output-directory var/doc lib " \
 	&& $(call export-file,env/bin.tpl,bin/doc)
 	@$(call executable,bin/doc)
 
 bin/composer: | bin
-	@export DOCKER_COMMAND="run --rm --interactive --tty --volume ${PWD}:/app composer:${COMPOSER_DOCKER_TAG}" \
+	@export DOCKER_SERVICE="composer" \
 	&& $(call export-file,env/bin.tpl,bin/composer)
 	@$(call executable,bin/composer)
 
 bin/atoum: | bin
-	@export DOCKER_COMMAND="run --rm -w /src --volume ${PWD}:/src php:${PHP_DOCKER_TAG}" \
-	&& export BINARY_OPTIONS="php -f vendor/bin/atoum --" \
+	@export DOCKER_SERVICE="php-cli" \
+	&& export BINARY_OPTIONS="php -f specs/units/runner.php" \
 	&& $(call export-file,env/bin.tpl,bin/atoum)
 	@$(call executable,bin/atoum)
 
@@ -63,6 +63,7 @@ install: vendor bin/atoum bin/phpcs bin/phpmd bin/doc ## install dependencies an
 .PHONY: doc
 doc: vendor bin/doc ## Render the doc
 	./bin/doc
+	$(call ownerCorrection, var/doc)
 
 .PHONY: vendorCorrectOwner
 vendorCorrectOwner:
@@ -70,9 +71,9 @@ vendorCorrectOwner:
 
 .PHONY: qualityCheck
 qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls
-	./bin/phpcs --encoding=UTF-8 --standard=check-style.xml lib
-	./bin/phpcs --encoding=UTF-8 --standard=check-style.xml specs
-	./bin/phpmd ./ text ./build/config/phpmd.xml --exclude vendor/,bin/,build/
+	./bin/phpcs lib
+	./bin/phpcs specs
+	./bin/phpmd
 
 .PHONY: test
 test: bin/atoum ## Launch tests

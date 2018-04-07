@@ -2,4 +2,4 @@
 
 set -e
 
-exec docker ${DOCKER_COMMAND} ${BINARY_OPTIONS} "${ARGUMENTS}"
+exec docker-compose run --rm ${DOCKER_SERVICE} ${BINARY_OPTIONS} -- "\$@"

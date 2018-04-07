@@ -6,7 +6,6 @@ use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollectionInterface
 use Gen3se\Engine\Exception\Choice\CannotChangeItsName;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyCollectionOfOptions;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
-use Gen3se\Engine\ChoiceData;
 
 class Choice
 {

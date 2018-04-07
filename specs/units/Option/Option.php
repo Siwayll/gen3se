@@ -122,56 +122,6 @@ class Option extends Test
         ;
     }
 
-    public function shouldBeManipulatedAsAnArray()
-    {
-        $this
-            ->given(
-                $name = 'name-1',
-                $weight = 300,
-                $option = $this->newTestedInstance($name, $weight)
-            )
-            ->class(get_class($option))
-                ->hasInterface('\ArrayAccess')
-            ->assert('it should test if field exists normaly')
-                ->boolean(isset($option['name']))
-                    ->isTrue()
-                ->boolean(isset($option['falseName']))
-                    ->isFalse()
-
-            ->assert('it should return data normaly')
-                ->string($option['name'])
-                    ->isEqualTo($name)
-                ->integer($option['weight'])
-                    ->isEqualTo($weight)
-                ->variable($option['falsField'])
-                    ->isNull()
-
-            ->assert('it should agree to create a new field')
-                ->given($option['customField'] = 'foo')
-                ->string($option['customField'])
-                    ->isEqualTo('foo')
-                 ->boolean(isset($option['customField']))
-                    ->isTrue()
-
-            ->assert('it should unset data normaly')
-                ->given($option['customField'] = 'foo')
-                ->boolean(isset($option['customField']))
-                    ->isTrue()
-                ->when(
-                    function () use ($option) {
-                        unset($option['customField']);
-                    }
-                )
-                ->boolean(isset($option['customField']))
-                    ->isFalse()
-
-            ->assert('it should update weight')
-                ->if($option['weight'] = 500)
-                ->integer($option['weight'])
-                    ->isEqualTo(500)
-        ;
-    }
-
     public function shouldNotAcceptToBreakMandatoryData()
     {
         $this
@@ -181,42 +131,14 @@ class Option extends Test
                 $this->newTestedInstance($name, $weight)
             )
             ->KapowException(function () {
-                $this->testedInstance['name'] = 'newName';
-            })
-                ->hasKapowMessage('Option '.$name.' cannot change its name')
-                ->hasCode(Level::ERROR)
-            ->KapowException(function () {
                 $this->testedInstance->set('name', 'newName');
             })
                 ->hasKapowMessage('Option '.$name.' cannot change its name')
                 ->hasCode(Level::ERROR)
-            ->KapowException(function () {
-                unset($this->testedInstance['name']);
-            })
-                ->hasMessage('Option {optionName} cant unset mandatory data')
-                ->hasKapowMessage('Option name-1 cant unset mandatory data')
-                ->hasCode(Level::ERROR)
-
-            ->exception(function () {
-                $this->testedInstance['weight'] = 'toto';
-            })
-                ->isInstanceOf('\TypeError')
             ->exception(function () {
                 $this->testedInstance->set('weight', 'toto');
             })
                 ->isInstanceOf('\TypeError')
-
-            ->KapowException(function () {
-                unset($this->testedInstance['weight']);
-            })
-                ->hasMessage('Option {optionName} cant unset mandatory data')
-                ->hasKapowMessage('Option name-1 cant unset mandatory data')
-                ->hasCode(Level::ERROR)
-            ->KapowException(function () {
-                $this->testedInstance['weight'] = -1;
-            })
-                ->hasKapowMessage('Option name-1 must have a weight greater than zero')
-                ->hasCode(Level::ERROR)
         ;
     }
 }

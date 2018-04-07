@@ -12,7 +12,7 @@ class Collection extends Test
      * @param string|null $name
      * @return \mock\Gen3se\Engine\Option\Option
      */
-    public function createMockOption(string $name = null)
+    protected function createMockOption(string $name = null)
     {
         if ($name === null) {
             $name = uniqid();

@@ -8,7 +8,7 @@ use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
 use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
 use Gen3se\Engine\Exception\Option\CannotChangeItsName;
 
-class Option implements \ArrayAccess
+class Option
 {
     /**
      * Name of the option.
@@ -153,47 +153,5 @@ class Option implements \ArrayAccess
             return true;
         }
         return isset($this->custom[$name]);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset): bool
-    {
-        return $this->exists($offset);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return mixed|null
-     */
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     * @throws CannotChangeItsName
-     * @throws MustHaveWeightGreaterThanZero
-     */
-    public function offsetSet($offset, $value): void
-    {
-        $this->set($offset, $value);
-    }
-
-    /**
-     * @param mixed $offset
-     * @throws CantUnsetMandatoryData
-     */
-    public function offsetUnset($offset): void
-    {
-        if ($offset === 'name' || $offset === 'weight') {
-            throw new CantUnsetMandatoryData($this->name);
-        }
-
-        unset($this->custom[$offset]);
     }
 }

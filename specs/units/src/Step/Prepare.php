@@ -2,8 +2,8 @@
 
 namespace Gen3se\Engine\Specs\Units\Step;
 
-use Gen3se\Engine\Choice;
 use Gen3se\Engine\Mod\Collection as ModCollection;
+use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\ModCollectionTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
@@ -11,7 +11,10 @@ use Siwayll\Kapow\Level;
 
 class Prepare extends Test
 {
-    use SimpleChoiceTrait, ModCollectionTrait;
+    use SimpleChoiceTrait;
+    use ModCollectionTrait;
+
+    use MockChoiceProvider;
 
     protected function choiceProvider()
     {
@@ -29,26 +32,16 @@ class Prepare extends Test
         ;
     }
 
-    /**
-     * @dataProvider choiceProvider
-     */
-    public function shouldCloneAChoice(Choice $choice)
+    public function shouldCloneAChoice()
     {
         $this
             ->given(
-                $modCollection = new ModCollection(),
-                $option = $choice->getOptionCollection()->findByPositionInStack(1)
+                $choice = $this->createMockChoice(),
+                $modCollection = new ModCollection()
             )
             ->object($this->newTestedInstance($choice, $modCollection))
             ->object(call_user_func($this->testedInstance))
-                ->isInstanceOf('Gen3se\Engine\Choice') // @fixMe remove this test
                 ->isCloneOf($choice)
-            ->string(call_user_func($this->testedInstance)->getName())
-                ->isEqualTo($choice->getName())
-            ->object(call_user_func($this->testedInstance)->getOptionCollection())
-                ->isCloneOf($choice->getOptionCollection())
-            ->object(call_user_func($this->testedInstance)->getOptionCollection()->get($option->getName()))
-                ->isCloneOf($option)
         ;
     }
 

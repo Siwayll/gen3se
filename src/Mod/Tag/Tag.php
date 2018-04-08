@@ -77,6 +77,7 @@ class Tag implements ModInterface, IsPrepareReady
 
     public function validateAddTag(AddTag $tagAdd): bool
     {
+        $tagAdd;
         return true;
     }
 

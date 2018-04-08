@@ -8,8 +8,7 @@ trait Collection
         ?int $count = null,
         ?int $totalWeight = null,
         ?\Gen3se\Engine\Choice\Option $result = null
-    )
-    {
+    ) {
         $mock = $this->newMockInstance(\Gen3se\Engine\Choice\Option\CollectionInterface::class);
         $mock->getMockController()->count = $count;
         $mock->getMockController()->getTotalWeight = $totalWeight;

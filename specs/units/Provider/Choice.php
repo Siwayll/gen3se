@@ -9,8 +9,7 @@ trait Choice
     protected function createMockChoice(
         ?string $name = null,
         ?CollectionInterface $collection = null
-    )
-    {
+    ) {
         $name = $name ?? uniqid();
 
         $mock = new \mock\Gen3se\Engine\Choice();

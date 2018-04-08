@@ -108,13 +108,13 @@ class Tag extends Test
                 $this->testedInstance->addTag('TAGNAME'),
                 $optionWithTag = $this->createMockOption('option', 100),
                 $optionWithTag->getMockController()->findData = function () {
-                   return $this->createMockOptionData();
+                    return $this->createMockOptionData();
                 }
-//                $optionWithTag->add(new OptionDataTag('TAGNAME', 2)),
-//                $anotherOptionWithTag = new Option('optWithTag', 420),
-//                $anotherOptionWithTag->add(new TagData('TAGNAME', 0.8)),
-//                $optionWithAnotherTag = new Option('optWithAnotherTag', 400),
-//                $optionWithAnotherTag->add(new TagData('NOTPRESENT', 5))
+                $optionWithTag->add(new OptionDataTag('TAGNAME', 2)),
+                $anotherOptionWithTag = new Option('optWithTag', 420),
+                $anotherOptionWithTag->add(new TagData('TAGNAME', 0.8)),
+                $optionWithAnotherTag = new Option('optWithAnotherTag', 400),
+                $optionWithAnotherTag->add(new TagData('NOTPRESENT', 5))
             )
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
             ->mock($optionWithTag)
@@ -122,12 +122,12 @@ class Tag extends Test
                     ->once()
             ->integer($optionWithTag->getWeight())
                 ->isEqualTo(200)
-//            ->if($this->testedInstance->appliesTagModifications($anotherOptionWithTag))
-//            ->integer($anotherOptionWithTag->getWeight())
-//                ->isEqualTo(336)
-//            ->if($this->testedInstance->appliesTagModifications($optionWithAnotherTag))
-//            ->integer($optionWithAnotherTag->getWeight())
-//                ->isEqualTo(400)
+            ->if($this->testedInstance->appliesTagModifications($anotherOptionWithTag))
+            ->integer($anotherOptionWithTag->getWeight())
+                ->isEqualTo(336)
+            ->if($this->testedInstance->appliesTagModifications($optionWithAnotherTag))
+            ->integer($optionWithAnotherTag->getWeight())
+                ->isEqualTo(400)
         ;
     }
 
@@ -178,5 +178,4 @@ class Tag extends Test
                 ->isEqualTo(98)
         ;
     }
-
 }

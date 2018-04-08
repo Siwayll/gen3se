@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine\Specs\Units\Provider\Mod\Append;
 
-
 trait AddTag
 {
     protected function createMockAppendData(string ...$tags)

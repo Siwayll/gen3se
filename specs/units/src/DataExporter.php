@@ -11,7 +11,6 @@ use Gen3se\Engine\Specs\Units\Provider\OptionTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Siwayll\RumData\Converter\FromArray;
 
-
 class DataExporter extends Test
 {
     use SimpleChoiceTrait, OptionTrait;

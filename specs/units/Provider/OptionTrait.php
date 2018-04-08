@@ -8,8 +8,7 @@ trait OptionTrait
         ?string $name = null,
         ?int $weight = null,
         ?array $data = null
-    )
-    {
+    ) {
         $name = $name ?? uniqid();
         $weight = $weight ?? rand(10, 300);
         $data = $data ?? [];

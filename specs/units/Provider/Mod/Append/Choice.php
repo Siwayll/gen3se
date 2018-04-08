@@ -2,14 +2,14 @@
 
 namespace Gen3se\Engine\Specs\Units\Provider\Mod\Append;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice\Choice as EngineChoice;
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
 
-trait AppendChoiceTrait
+trait Choice
 {
-    use DataTrait;
+    use OptionData;
     /**
      * Get a Choice without any special features
      */
@@ -38,7 +38,7 @@ trait AppendChoiceTrait
                 ->add(new Option\Data\Text('Vairon'))
         );
 
-        $choice = new Choice('iris', $optCollection);
+        $choice = new EngineChoice('iris', $optCollection);
 
         return $choice;
     }

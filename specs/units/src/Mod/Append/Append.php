@@ -5,14 +5,15 @@ namespace Gen3se\Engine\Specs\Units\Mod\Append;
 use Gen3se\Engine\Mod\Append\DataInterface;
 use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Scenario;
-use Gen3se\Engine\Specs\Units\Provider\Mod\Append\DataTrait;
+use Gen3se\Engine\Specs\Units\Provider\Mod\Append\OptionData;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Append extends Test
 {
-    use SimpleChoiceTrait, DataTrait;
+    use OptionData;
+    use SimpleChoiceTrait;
 
     public function shouldImplementModInterface()
     {

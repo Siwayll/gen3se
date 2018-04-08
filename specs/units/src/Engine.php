@@ -6,7 +6,7 @@ use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Mod\Append\Append;
 use Gen3se\Engine\Mod\Append\DataInterface;
 use Gen3se\Engine\Mod\Instruction;
-use Gen3se\Engine\Specs\Units\Provider\AppendChoiceTrait;
+use Gen3se\Engine\Specs\Units\Provider\Mod\Append\Choice as AppendChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Scenario;
@@ -15,7 +15,8 @@ use Siwayll\Kapow\Level;
 
 class Engine extends Test
 {
-    use SimpleChoiceTrait, AppendChoiceTrait;
+    use SimpleChoiceTrait;
+    use AppendChoiceProvider;
 
     public function shouldResolveASimpleScenario()
     {

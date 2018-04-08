@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Provider\Mod\Append;
 
-trait DataTrait
+trait OptionData
 {
     protected function createMockAppendData(string ...$choiceName)
     {

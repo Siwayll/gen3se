@@ -2,54 +2,61 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice;
 
-use Gen3se\Engine\Choice;
-use Gen3se\Engine\Choice\Option\Collection;
-use Gen3se\Engine\Choice\Option;
-use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
+use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Test;
-use Siwayll\Kapow\Level;
 
 class Resolver extends Test
 {
-    use SimpleChoiceTrait;
+    use MockChoiceProvider;
+    use MockChoiceProvider\Collection;
+    use MockChoiceProvider\Option;
 
-    protected function choiceProvider()
-    {
-        return [
-            $this->getEyeColorChoice(),
-            $this->getHairColorChoice()
-        ];
-    }
-
-    /**
-     * @param Choice $choice
-     * @dataProvider choiceProvider
-     * @throws \Gen3se\Engine\Exception\Option\NotFound
-     */
-    public function shouldTakeAChoiceAndSelectARandomOption(Choice $choice)
+    public function shouldTakeAChoiceAndSelectARandomOption()
     {
         $this
+            ->given(
+                $option = $this->createMockOption(),
+                $collection = $this->createMockOptionCollection(
+                    rand(2, 15),
+                    rand(100, 3500),
+                    $option
+                ),
+                $choice = $this->createMockChoice(
+                    null,
+                    $collection
+                )
+            )
             ->object($this->newTestedInstance($choice))
+            ->mock($choice)
+                ->call('getOptionCollection')->once()
+            ->mock($collection)
+                ->call('getTotalWeight')->once()
+                ->call('findByPositionInStack')->once()
             ->object($this->testedInstance->getPickedOption())
-                ->isInstanceOf('Gen3se\Engine\Choice\Option')
-            ->variable($choice->getOptionCollection()->get($this->testedInstance->getPickedOption()->getName()))
+                ->isEqualTo($option)
         ;
     }
 
-    public function shouldThrowExceptionIfItsNotPossibleToResolve()
+    public function shouldAddChoiceNameToExceptionIfNeeded()
     {
         $this
-            ->skip('use mock !')
             ->given(
-                $optCollection = new Collection(),
-                $optCollection->add(new Option('opt-name', 0)),
-                $choice = new Choice('choice-1', $optCollection)
+                $collection = $this->newMockInstance(\Gen3se\Engine\Choice\Option\CollectionInterface::class),
+                $collection->getMockController()->getTotalWeight = 100,
+                $collection->getMockController()->findByPositionInStack = function () {
+                    throw new ExceptionWithChoiceName();
+                },
+                $choice = $this->createMockChoice(
+                    null,
+                    $collection
+                )
             )
             ->KapowException(function () use ($choice) {
                 $this->newTestedInstance($choice);
             })
-                ->hasKapowMessage('Cannot find options in collection at stack position "0" for choice-1')
-                ->hasCode(Level::ERROR)
+            ->mock($choice)
+                ->call('getName')->once()
         ;
     }
 }

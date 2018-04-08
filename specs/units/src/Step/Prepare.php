@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Step;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Mod\Collection as ModCollection;
 use Gen3se\Engine\Specs\Units\Provider\ModCollectionTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
@@ -41,7 +41,7 @@ class Prepare extends Test
             )
             ->object($this->newTestedInstance($choice, $modCollection))
             ->object(call_user_func($this->testedInstance))
-                ->isInstanceOf('Gen3se\Engine\Choice\Choice')
+                ->isInstanceOf('Gen3se\Engine\Choice') // @fixMe remove this test
                 ->isCloneOf($choice)
             ->string(call_user_func($this->testedInstance)->getName())
                 ->isEqualTo($choice->getName())

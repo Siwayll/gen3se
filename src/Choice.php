@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Choice;
+namespace Gen3se\Engine;
 
 use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollectionInterface;
 use Gen3se\Engine\Exception\Choice\CannotChangeItsName;
@@ -10,7 +10,7 @@ use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
 class Choice
 {
     /**
-     * Nom identifiant le choix
+     * Name of the Choice
      *
      * @var string
      */

@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Provider\Mod\Append;
 
-use Gen3se\Engine\Choice\Choice as EngineChoice;
+use Gen3se\Engine\Choice as EngineChoice;
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;

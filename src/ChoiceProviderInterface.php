@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 
 interface ChoiceProviderInterface
 {

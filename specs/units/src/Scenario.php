@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 

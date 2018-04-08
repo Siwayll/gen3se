@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Step;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Exception\Step\ModIsNotMadeForPrepareStep;
 use Gen3se\Engine\Mod\Collection as ModCollection;
 use Gen3se\Engine\Mod\StepableInterface;

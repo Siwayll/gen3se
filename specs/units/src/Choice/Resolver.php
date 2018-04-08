@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;

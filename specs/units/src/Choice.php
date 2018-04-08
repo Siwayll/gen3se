@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Choice;
+namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Test;

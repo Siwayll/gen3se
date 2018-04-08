@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Choice;
 
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\ChoiceProviderInterface;
 use Gen3se\Engine\Exception\Choice\NotFound;
 

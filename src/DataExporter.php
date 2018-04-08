@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
-declare(strict_types=1);
+
 namespace Gen3se\Engine;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Choice\OptionInterface;
 use Gen3se\Engine\Mod\ModInterface;
 use Siwayll\RumData\Converter\FromArray;

@@ -74,7 +74,7 @@ vendorCorrectOwner:
 
 .PHONY: qualityCheck
 qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls
-	./bin/phpcs src
+	./bin/phpcs -s src
 	./bin/phpcs specs
 	./bin/phpmd
 

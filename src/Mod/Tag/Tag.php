@@ -12,8 +12,8 @@ use Gen3se\Engine\Step\Prepare;
 
 class Tag implements ModInterface, IsPrepareReady
 {
-    const ADD_FIELDNAME = 'tag.add';
-    const TAG_FIELDNAME = 'tag';
+    public const ADD_FIELDNAME = 'tag.add';
+    public const TAG_FIELDNAME = 'tag';
 
 
     /**
@@ -28,7 +28,7 @@ class Tag implements ModInterface, IsPrepareReady
                 self::ADD_FIELDNAME,
                 [$this, 'validateAddTag'],
                 [$this, 'addTag']
-            )
+            ),
         ];
     }
 
@@ -41,25 +41,25 @@ class Tag implements ModInterface, IsPrepareReady
      */
     private function arrayOrStringValue($value, string $method): array
     {
-        if (!is_string($value) && !is_array($value)) {
+        if (!\is_string($value) && !\is_array($value)) {
             throw new \TypeError(
                 'Argument 1 passed to ' . $method . '() must be of the type string or array of strings, '
-                . gettype($value) . ' given'
+                . \gettype($value) . ' given'
             );
         }
 
-        if (is_array($value)) {
+        if (\is_array($value)) {
             foreach ($value as $row) {
-                if (!is_string($row)) {
+                if (!\is_string($row)) {
                     throw new \TypeError(
                         'Argument 1 passed to ' . $method . '() must be of the type string or array of strings, '
-                        . 'array of ' . gettype($value) . ' given'
+                        . 'array of ' . \gettype($value) . ' given'
                     );
                 }
             }
         }
 
-        if (!is_array($value)) {
+        if (!\is_array($value)) {
             $value = [$value];
         }
 
@@ -71,7 +71,7 @@ class Tag implements ModInterface, IsPrepareReady
      */
     public function getTags(): array
     {
-        return array_keys($this->tags);
+        return \array_keys($this->tags);
     }
 
 
@@ -85,12 +85,12 @@ class Tag implements ModInterface, IsPrepareReady
     {
         foreach ($tagAdd->getTagsToAdd() as $tag) {
             $this->tags[$tag] = true;
-        }
+    }
     }
 
     public function validateTagField(array $value): bool
     {
-        foreach (array_keys($value) as $tagName) {
+        foreach (\array_keys($value) as $tagName) {
             if ($this->validateTagname($tagName) === false) {
                 return false;
             }

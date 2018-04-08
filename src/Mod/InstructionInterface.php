@@ -4,7 +4,6 @@ namespace Gen3se\Engine\Mod;
 
 interface InstructionInterface
 {
-
     /**
      * Return the code identifying the Instruction
      */
@@ -19,5 +18,4 @@ interface InstructionInterface
      * Run the instruction
      */
     public function __invoke($value);
-
 }

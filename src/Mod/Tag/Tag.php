@@ -2,12 +2,11 @@
 
 namespace Gen3se\Engine\Mod\Tag;
 
-use Gen3se\Engine\Choice\Choice;
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Choice\OptionInterface;
-use Gen3se\Engine\Exception\Mod\Tag\TagMalformed;
 use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Mod\ModInterface;
-use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Mod\Tag\Option\Data\AddTag;
 use Gen3se\Engine\Step\IsPrepareReady;
 use Gen3se\Engine\Step\Prepare;
 
@@ -76,24 +75,15 @@ class Tag implements ModInterface, IsPrepareReady
     }
 
 
-    public function validateAddTag($value): bool
+    public function validateAddTag(AddTag $tagAdd): bool
     {
-        $formatedData = $this->arrayOrStringValue($value, __METHOD__);
-        foreach ($formatedData as $tagName) {
-            if ($this->validateTagname($tagName) === false) {
-                return false;
-            }
-        }
-
         return true;
     }
 
-    public function addTag($value)
+    public function addTag(AddTag $tagAdd)
     {
-        $tags = $this->arrayOrStringValue($value, __METHOD__);
-
-        foreach ($tags as $tag) {
-            $this->tags[strtoupper($tag)] = true;
+        foreach ($tagAdd->getTagsToAdd() as $tag) {
+            $this->tags[$tag] = true;
         }
     }
 

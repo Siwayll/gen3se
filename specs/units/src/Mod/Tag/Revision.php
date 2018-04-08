@@ -5,6 +5,9 @@ namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Specs\Units\Test;
 
+/**
+ * @ignore
+ */
 class Revision extends Test
 {
     public function shouldGetTheRevisionValueAndAWeight()

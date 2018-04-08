@@ -6,6 +6,9 @@ use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
+/**
+ * @ignore
+ */
 class Tag extends Test
 {
     public function shouldImplementOptionDataTagInterface()

@@ -2,34 +2,26 @@
 
 namespace Gen3se\Engine\Specs\Units;
 
-use Gen3se\Engine\Choice\Option;
-use Gen3se\Engine\Specs\Units\Test;
-use Gen3se\Engine\Choice\Option\Collection as CollectionOfOptions;
+use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
 use Siwayll\Kapow\Level;
 
 class Choice extends Test
 {
+    use MockOptionCollectionProvider;
+
     protected function collectionProvider()
     {
-        $collection = new CollectionOfOptions();
-        $collection->add(new Option('opt-1', 100));
-        $collection->add(new Option('opt-2', 200));
-
         return [
-            $collection
+            $this->createMockOptionCollection(1)
         ];
     }
 
-    /**
-     * @dataProvider collectionProvider
-     */
-    public function shouldHaveANonEmptyCollectionOfOptions(CollectionOfOptions $collection)
+    public function shouldHaveANonEmptyCollectionOfOptions()
     {
         $this
-            ->skip('use mock !')
+            ->given($collection = $this->createMockOptionCollection(1))
             ->KapowException(function () {
-                $collection = new CollectionOfOptions();
-                $this->newTestedInstance('EmptyCollection', $collection);
+                $this->newTestedInstance('EmptyCollection', $this->createMockOptionCollection(0));
             })
                 ->hasMessage('Choice {choiceName} must have a non-empty collection of Option')
                 ->hasKapowMessage('Choice EmptyCollection must have a non-empty collection of Option')
@@ -40,18 +32,15 @@ class Choice extends Test
             )
             ->object($this->testedInstance->getOptionCollection())
                 ->isIdenticalTo($collection)
-            ->object($this->testedInstance->getOptionCollection()->get('opt-1'))
-                ->isIdenticalTo($collection->get('opt-1'))
         ;
     }
 
-    /**
-     * @dataProvider collectionProvider
-     */
-    public function shouldHaveAName(CollectionOfOptions $collection)
+    public function shouldHaveAName()
     {
         $this
-            ->skip('use mock !')
+            ->given(
+                $collection = $this->createMockOptionCollection(1)
+            )
             ->exception(function () use ($collection) {
                 $this->newTestedInstance('', $collection);
             })
@@ -66,59 +55,18 @@ class Choice extends Test
         ;
     }
 
-    /**
-     * @dataProvider collectionProvider
-     */
-    public function shouldBeClonable(CollectionOfOptions $collection)
+    public function shouldBeClonable()
     {
         $this
-            ->skip('use mock !')
             ->given(
-                $this->newTestedInstance('choice', $collection),
-                $clone = clone $this->testedInstance
+                $collection = $this->createMockOptionCollection(1),
+                $this->newTestedInstance('choice', $collection)
             )
+            ->if($clone = clone $this->testedInstance)
             ->object($clone)
                 ->isCloneOf($this->testedInstance)
             ->object($clone->getOptionCollection())
                 ->isCloneOf($collection)
-        ;
-    }
-
-    /**
-     * @dataProvider collectionProvider
-     */
-    public function shouldAcceptCustomFields(CollectionOfOptions $collection)
-    {
-        $this
-            ->skip('use mock !')
-            ->given($this->newTestedInstance('choice', $collection))
-            ->object($this->testedInstance->set('custom1', 'value'))
-                ->isTestedInstance()
-            ->string($this->testedInstance->get('custom1'))
-                ->isEqualTo('value')
-            ->boolean($this->testedInstance->exists('custom1'))
-                ->isTrue()
-            ->boolean($this->testedInstance->exists('customField'))
-                ->isFalse()
-        ;
-    }
-
-    /**
-     * @dataProvider collectionProvider
-     */
-    public function shouldNotAcceptToBreakMandatoryData(CollectionOfOptions $collection)
-    {
-        $this
-            ->skip('use mock !')
-            ->given(
-                $name = 'name-1',
-                $this->newTestedInstance($name, $collection)
-            )
-            ->KapowException(function () {
-                $this->testedInstance->set('name', 'newName');
-            })
-                ->hasKapowMessage('Choice '.$name.' cannot change its name')
-                ->hasCode(Level::ERROR)
         ;
     }
 }

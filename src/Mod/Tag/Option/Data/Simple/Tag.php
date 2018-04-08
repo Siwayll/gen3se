@@ -1,12 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Mod\Tag;
+namespace Gen3se\Engine\Mod\Tag\Option\Data\Simple;
 
 use Gen3se\Engine\Mod\Tag\Option\Data\Tag as OptionDataTag;
+use Gen3se\Engine\Mod\Tag\Option\Data\TagMalformed;
 
-class TagData implements OptionDataTag
+class Tag implements OptionDataTag
 {
-    const TAGNAME_VALIDATOR = '@^[A-Za-z0-9-_]+$@';
+    const TAGNAME_VALIDATOR = '@^[A-Z0-9-_]+$@';
 
     protected $tagName;
     protected $revisionValue;

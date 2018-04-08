@@ -5,6 +5,9 @@ namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Specs\Units\Test;
 
+/**
+ * @ignore
+ */
 class TagData extends Test
 {
     public function shouldImplementOptionDataInterface()
@@ -12,7 +15,7 @@ class TagData extends Test
         $this
             ->testedClass
                 ->hasInterface(Data::class)
-                ->hasInterface(\Gen3se\Engine\Mod\Tag\DataInterface::class)
+                ->hasInterface(\Gen3se\Engine\Mod\Tag\Option\Data\Tag::class)
         ;
     }
 

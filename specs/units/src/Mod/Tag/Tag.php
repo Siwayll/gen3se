@@ -10,6 +10,9 @@ use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
+/**
+ * @ignore
+ */
 class Tag extends Test
 {
     use SimpleChoiceTrait, DataTrait;
@@ -31,38 +34,6 @@ class Tag extends Test
                 ->size->isEqualTo(1)
             ->class(get_class($this->testedInstance->getInstructions()[0]))
                 ->hasInterface(InstructionInterface::class)
-        ;
-    }
-
-    public function shouldEnsureThatTheTagIsWellFormated()
-    {
-        $this
-            ->skip('deport controls to TagData')
-            ->given(
-                $this->newTestedInstance()
-            )
-            ->boolean($this->testedInstance->validateAddTag($this->createMockAppendData('tagName')))
-                ->isTrue()
-            ->boolean($this->testedInstance->validateAddTag('TAG_NAME'))
-                ->isTrue()
-            ->boolean($this->testedInstance->validateAddTag('TAGNAME04'))
-                ->isTrue()
-            ->KapowException(
-                function () {
-                    $this->testedInstance->validateAddTag('créé rapidement');
-                }
-            )
-                ->hasMessage('The tag "{tag}" is invalid in {optionName} in {choiceName}')
-                ->hasKapowMessage('The tag "créé rapidement" is invalid in {optionName} in {choiceName}')
-                ->hasCode(Level::ERROR)
-            ->KapowException(
-                function () {
-                    $this->testedInstance->validateAddTag('TAG NAME');
-                }
-            )
-                ->hasMessage('The tag "{tag}" is invalid in {optionName} in {choiceName}')
-                ->hasKapowMessage('The tag "TAG NAME" is invalid in {optionName} in {choiceName}')
-                ->hasCode(Level::ERROR)
         ;
     }
 
@@ -144,25 +115,6 @@ class Tag extends Test
             ->if($this->testedInstance->appliesTagModifications($optionWithTag))
                 ->integer($optionWithTag->getWeight())
                 ->isEqualTo(4)
-        ;
-    }
-
-    public function shouldControlTagFormat()
-    {
-        $this
-            ->skip('This test should be in TagData')
-            ->given(
-                $this->newTestedInstance(),
-                $this->testedInstance->addTag('TAGNAME')
-            )
-            ->exception(
-                function () {
-                    $optionWithTag = new Option('optWithTag', 10);
-                    $optionWithTag->add(new TagData('', 3));
-                    $this->testedInstance->appliesTagModifications($optionWithTag);
-                }
-            )
-                ->isInstanceOf('\TypeError')
         ;
     }
 

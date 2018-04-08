@@ -6,7 +6,7 @@ trait Data
 {
     protected function createMockOptionData(string $value = 'lorem ipsum')
     {
-        $mock = new \mock\Gen3se\Engine\Choice\Option\Data();
+        $mock = $this->newMockInstance(\Gen3se\Engine\Choice\Option\Data::class);
 
         $mock->getMockController()->toArray = function () use ($value) {
             return ['text' => $value];

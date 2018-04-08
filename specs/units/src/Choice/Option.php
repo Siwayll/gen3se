@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice;
 
+use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Choice\Option\Data\Text;
 use Gen3se\Engine\Choice\Option\Data\Simple;
 use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as OptionDataProvider;
@@ -101,6 +102,23 @@ class Option extends Test
                 ->string['text']->isEqualTo('Lorem ipsum set dolor')
                 ->string['custom']->isEqualTo('value')
                 ->integer['data.toto']->isEqualTo(1)
+        ;
+    }
+
+    public function shouldFindDataByInterfaceName()
+    {
+        $this
+            ->given(
+                $simpleTextMock = $this->createMockOptionData('simple text'),
+                ($this->newTestedInstance('name', 100))
+                    ->add($simpleTextMock)
+            )
+            ->generator($this->testedInstance->findData('foo'))
+                ->isEmpty()
+            ->generator($this->testedInstance->findData(Data::class))
+                ->hasSize(1)
+            ->generator($this->testedInstance->findData(Data::class))
+                ->yields->object->isEqualTo($simpleTextMock)
         ;
     }
 

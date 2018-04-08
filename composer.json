@@ -22,7 +22,8 @@
     "phpmd/phpmd": "^2.6",
     "atoum/bdd-extension": "^2.1",
     "hoa/kitab": "^0.10.0",
-    "squizlabs/php_codesniffer": "^3.2"
+    "squizlabs/php_codesniffer": "^3.2",
+    "behat/behat": "^3.4"
   },
   "autoload": {
       "psr-4": {

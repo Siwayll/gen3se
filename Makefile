@@ -49,12 +49,18 @@ bin/atoum: | bin
 	&& $(call export-file,env/bin.tpl,bin/atoum)
 	@$(call executable,bin/atoum)
 
+bin/behat: | bin
+	@export DOCKER_SERVICE="php-cli" \
+	&& export BINARY_OPTIONS="php -f vendor/bin/behat --" \
+	&& $(call export-file,env/bin.tpl,bin/behat)
+	@$(call executable,bin/behat)
+
 vendor: | bin/composer
 	./bin/composer install
 	$(call ownerCorrection, vendor)
 
 .PHONY: install
-install: vendor bin/atoum bin/phpcs bin/phpmd bin/doc ## install dependencies and create binaries
+install: vendor bin/atoum bin/behat bin/phpcs bin/phpmd bin/doc ## install dependencies and create binaries
 	@echo 'all good'
 
 .PHONY: doc
@@ -73,8 +79,9 @@ qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls
 	./bin/phpmd
 
 .PHONY: test
-test: bin/atoum ## Launch tests
+test: bin/atoum bin/behat ## Launch tests
 	./bin/atoum
+	.bin/behat
 
 .PHONY: help
 help: ## Display this help.

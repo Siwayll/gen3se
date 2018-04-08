@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace Gen3se\Engine\Choice;
 
 use Gen3se\Engine\Exception\ChoiceNameInterface;

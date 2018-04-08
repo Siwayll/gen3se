@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace Gen3se\Engine;
 
 use Gen3se\Engine\Exception\Rand\MinMustBeInferiorToMax;

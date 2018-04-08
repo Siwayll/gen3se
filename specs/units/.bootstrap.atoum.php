@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /*
 This file will automatically be included before EACH test if -bf/--bootstrap-file argument is not used.

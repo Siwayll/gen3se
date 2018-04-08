@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Gen3se\Engine\Mod;
 
@@ -8,7 +8,7 @@ namespace Gen3se\Engine\Mod;
 class Instruction implements InstructionInterface
 {
     /**
-     * Code identifiying the Instruction
+     * Code identifying the Instruction
      */
     private $code;
 
@@ -31,7 +31,7 @@ class Instruction implements InstructionInterface
 
     public function __invoke($value)
     {
-        return call_user_func($this->runner, $value);
+        return \call_user_func($this->runner, $value);
     }
 
     public function getCode(): string
@@ -41,6 +41,6 @@ class Instruction implements InstructionInterface
 
     public function validate($value): bool
     {
-        return call_user_func($this->validator, $value);
+        return \call_user_func($this->validator, $value);
     }
 }

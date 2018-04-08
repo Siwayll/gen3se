@@ -1,11 +1,12 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Gen3se\Engine\Mod;
 
 interface InstructionInterface
 {
+
     /**
-     * Return the code identifiying the Instruction
+     * Return the code identifying the Instruction
      */
     public function getCode(): string;
 
@@ -18,4 +19,5 @@ interface InstructionInterface
      * Run the instruction
      */
     public function __invoke($value);
+
 }

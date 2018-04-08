@@ -3,14 +3,16 @@
 namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Mod\Tag\TagData;
+use Gen3se\Engine\Specs\Units\Provider\Mod\Tag\DataTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Tag extends Test
 {
-    use SimpleChoiceTrait;
+    use SimpleChoiceTrait, DataTrait;
 
     public function shouldImplementModInterface()
     {
@@ -18,14 +20,6 @@ class Tag extends Test
             ->given($this->newTestedInstance)
             ->testedClass
                 ->hasInterface('Gen3se\Engine\Mod\ModInterface')
-            ->testedClass
-                ->hasConstant('ADD_FIELDNAME')
-            ->testedClass
-                ->hasConstant('TAG_FIELDNAME')
-            ->string($this->testedInstance::ADD_FIELDNAME)
-                ->isEqualTo('tag.add')
-            ->string($this->testedInstance::TAG_FIELDNAME)
-                ->isEqualTo('tag')
         ;
     }
 
@@ -33,26 +27,21 @@ class Tag extends Test
     {
         $this
             ->given($this->newTestedInstance())
-            ->testedClass
-                ->hasConstant('ADD_FIELDNAME')
-            ->string($this->testedInstance::ADD_FIELDNAME)
-                ->isEqualTo('tag.add')
             ->array($this->testedInstance->getInstructions())
                 ->size->isEqualTo(1)
             ->class(get_class($this->testedInstance->getInstructions()[0]))
-                ->hasInterface('Gen3se\Engine\Mod\InstructionInterface')
-            ->string($this->testedInstance->getInstructions()[0]->getCode())
-                ->isEqualTo($this->testedInstance::ADD_FIELDNAME)
+                ->hasInterface(InstructionInterface::class)
         ;
     }
 
     public function shouldEnsureThatTheTagIsWellFormated()
     {
         $this
+            ->skip('deport controls to TagData')
             ->given(
                 $this->newTestedInstance()
             )
-            ->boolean($this->testedInstance->validateAddTag('tagName'))
+            ->boolean($this->testedInstance->validateAddTag($this->createMockAppendData('tagName')))
                 ->isTrue()
             ->boolean($this->testedInstance->validateAddTag('TAG_NAME'))
                 ->isTrue()
@@ -80,6 +69,7 @@ class Tag extends Test
     public function shouldValidateTagToAdd()
     {
         $this
+            ->skip('deport controls to TagData')
             ->given(
                 $this->newTestedInstance()
             )

@@ -17,7 +17,6 @@ class Tag implements ModInterface, IsPrepareReady
     const ADD_FIELDNAME = 'tag.add';
     const TAG_FIELDNAME = 'tag';
 
-    const TAGNAME_VALIDATOR = '@^[A-Za-z0-9-_]+$@';
 
     /**
      * TagList
@@ -110,19 +109,6 @@ class Tag implements ModInterface, IsPrepareReady
         return true;
     }
 
-    /**
-     * Check if the tag name does not contain illegal char
-     * #exception
-     * if the string tag name not validate preg match with TAGNAME_VALIDATOR
-     */
-    private function validateTagname(string $tagName): bool
-    {
-        if (preg_match(self::TAGNAME_VALIDATOR, $tagName) === 1) {
-            return true;
-        }
-
-        throw new TagMalformed($tagName);
-    }
 
     /**
      * Change _weight_ of the option if it has one or more _tags_

@@ -5,14 +5,17 @@ namespace Gen3se\Engine\Specs\Units;
 use Gen3se\Engine\Choice;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Mod\ModInterface;
+use \Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\OptionTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\RumData\Converter\FromArray;
+
 
 class DataExporter extends Test
 {
     use SimpleChoiceTrait, OptionTrait;
+    use MockChoiceProvider;
 
     public function shouldImplementDataExporterInterface(): void
     {
@@ -28,7 +31,7 @@ class DataExporter extends Test
         $this
             ->given($this->newTestedInstance)
             ->class(get_class($this->testedInstance))
-                ->hasInterface('Gen3se\Engine\Mod\ModInterface')
+                ->hasInterface(ModInterface::class)
         ;
     }
 
@@ -40,27 +43,26 @@ class DataExporter extends Test
         ];
     }
 
-    /**
-     * @dataProvider choiceProvider
-     */
-    public function shouldSaveResultDataForAChoice(Choice $choice): void
+    public function shouldSaveResultDataForAChoice()
     {
         $this
             ->given(
-                $optCollection = $choice->getOptionCollection(),
-                $option = $optCollection->findByPositionInStack(0),
-                $rumOption = FromArray::toRumData($option->dataToArray()),
+                $choice = $this->createMockChoice(),
+                $option = $this->createMockOption(
+                    null,
+                    null,
+                    ['data']
+                ),
                 $this->newTestedInstance()
             )
             ->object($this->testedInstance->saveFor($choice, $option))
                 ->isTestedInstance()
             ->object($this->testedInstance->get($choice->getName()))
-            ->array((array) $this->testedInstance->get($choice->getName()))
+            ->castToArray($this->testedInstance->get($choice->getName()))
                 ->isEqualTo($option->dataToArray())
             ->object($this->testedInstance->saveFor($choice, $option))
                 ->isTestedInstance()
-            ->array((array) $this->testedInstance->get($choice->getName()))
-                ->contains($rumOption)
+            ->castToArray((array) $this->testedInstance->get($choice->getName()))
                 ->size->isEqualTo(2)
         ;
     }
@@ -69,10 +71,8 @@ class DataExporter extends Test
     {
         $this
             ->given(
-                $option = new Option('opt1', 500),
-                $optCollection = new Collection(),
-                $optCollection->add($option),
-                $choice = new Choice('choice-1', $optCollection),
+                $option = $this->createMockOption(),
+                $choice = $this->createMockChoice(),
                 $this->newTestedInstance()
             )
             ->object($this->testedInstance->saveFor($choice, $option))
@@ -82,24 +82,27 @@ class DataExporter extends Test
         ;
     }
 
-    /**
-     * @dataProvider choiceProvider
-     */
-    public function shouldCreateArrayForMultipleChoiceResults(Choice $choice): void
+    public function shouldCreateArrayForMultipleChoiceResults()
     {
         $this
             ->given(
-                $optCollection = $choice->getOptionCollection(),
-                $option = $optCollection->findByPositionInStack(0),
-                $anotherOption = $optCollection->findByPositionInStack($optCollection->getTotalWeight()),
-                $this->newTestedInstance(),
-                $this->testedInstance->saveFor($choice, $option)
+                $choice = $this->createMockChoice(),
+                $option = $this->createMockOption(
+                    null,
+                    null,
+                    ['text' => uniqid()]
+                ),
+                $anotherOption = $this->createMockOption(
+                    null,
+                    null,
+                    ['text' => uniqid()]
+                ),
+                $this->newTestedInstance()
             )
-            ->object($this->testedInstance->get($choice->getName()))
-                ->isEqualTo(FromArray::toRumData($option->dataToArray()))
-            ->if($this->testedInstance->saveFor($choice, $anotherOption))
+            ->if($this->testedInstance->saveFor($choice, $option))
+            ->and($this->testedInstance->saveFor($choice, $anotherOption))
             ->dump((array) $this->testedInstance->get($choice->getName()))
-            ->array((array) $this->testedInstance->get($choice->getName()))
+            ->castToArray($this->testedInstance->get($choice->getName()))
                 ->variable[0]->isEqualTo(FromArray::toRumData($option->dataToArray()))
                 ->variable[1]->isEqualTo(FromArray::toRumData($anotherOption->dataToArray()))
                 ->size->isEqualTo(2)
@@ -109,6 +112,7 @@ class DataExporter extends Test
     public function shouldUseStorageRuleChoiceInstruction(): void
     {
         $this
+            ->skip('not implemented yet')
             ->given(
                 $storageRule = 'x.un.deux.trois',
                 $option = new Option('opt1', 500),

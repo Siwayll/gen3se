@@ -70,10 +70,10 @@ class DataExporter implements DataExporterInterface, ModInterface
 
         $depth = [$choice->getName()];
 
-        if ($choice->get(self::DATA_STORAGE_RULE) !== null) {
-            $cleanedRule = substr($choice->get(self::DATA_STORAGE_RULE), 2);
-            $depth = explode('.', $cleanedRule);
-        }
+//        if ($choice->get(self::DATA_STORAGE_RULE) !== null) {
+//            $cleanedRule = substr($choice->get(self::DATA_STORAGE_RULE), 2);
+//            $depth = explode('.', $cleanedRule);
+//        }
 
         return $this->store($depth, $dataToSave);
     }

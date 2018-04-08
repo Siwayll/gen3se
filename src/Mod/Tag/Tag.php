@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Mod\Tag;
 
 use Gen3se\Engine\Choice;
-use Gen3se\Engine\Choice\OptionInterface;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\Tag\Option\Data\AddTag;
@@ -103,7 +103,7 @@ class Tag implements ModInterface, IsPrepareReady
      * Change _weight_ of the option if it has one or more _tags_
      * present in the TagList
      */
-    public function appliesTagModifications(OptionInterface $option): void
+    public function appliesTagModifications(Option $option): void
     {
         /** @var DataInterface $tag */
         foreach ($option->findData(DataInterface::class) as $tag) {

@@ -4,9 +4,12 @@ namespace Gen3se\Engine\Specs\Units\Provider\Choice;
 
 trait Option
 {
-    protected function createMockOption(string $name, int $weight)
+    protected function createMockOption(?string $name = null, ?int $weight = null)
     {
-        $mock = $this->newMockInstance(\Gen3se\Engine\Choice\OptionInterface::class);
+        $name = $name ?? uniqid();
+        $weight = $weight ?? 100;
+
+        $mock = $this->newMockInstance(\Gen3se\Engine\Choice\Option::class);
 
         $mock->getMockController()->getName = $name;
         $mock->getMockController()->getWeight = $weight;

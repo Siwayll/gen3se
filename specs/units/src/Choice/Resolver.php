@@ -39,6 +39,7 @@ class Resolver extends Test
     public function shouldThrowExceptionIfItsNotPossibleToResolve()
     {
         $this
+            ->skip('use mock !')
             ->given(
                 $optCollection = new Collection(),
                 $optCollection->add(new Option('opt-name', 0)),

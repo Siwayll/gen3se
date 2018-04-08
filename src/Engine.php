@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine;
 
-use Gen3se\Engine\Choice\OptionInterface;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Choice\Resolver;
 use Gen3se\Engine\Exception\Engine\InstructionAlreadyPresent;
 use Gen3se\Engine\Mod\Collection as ModCollection;
@@ -133,7 +133,7 @@ class Engine
     /**
      * Run Mods given by the instructions of the option
      */
-    private function executeModInstructions(OptionInterface $option): self
+    private function executeModInstructions(Option $option): self
     {
         foreach ($this->instructions as $code => $instruction) {
             foreach ($option->findData($code) as $data) {

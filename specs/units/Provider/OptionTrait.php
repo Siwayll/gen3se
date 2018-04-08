@@ -6,13 +6,9 @@ trait OptionTrait
 {
     protected function createMockOption(string $name, int $weight)
     {
-        $mock = new \mock\Gen3se\Engine\Choice\OptionInterface();
-        $mock->getMockController()->getName = function () use ($name) {
-            return $name;
-        };
-        $mock->getMockController()->getWeight = function () use ($weight) {
-            return $weight;
-        };
+        $mock = new \mock\Gen3se\Engine\Choice\Option();
+        $mock->getMockController()->getName = $name;
+        $mock->getMockController()->getWeight = $weight;
         return $mock;
     }
 

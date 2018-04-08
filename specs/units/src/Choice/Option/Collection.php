@@ -2,24 +2,13 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice\Option;
 
+use Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
 use Gen3se\Engine\Specs\Units\Test;
-use Gen3se\Engine\Choice\Option;
 use Siwayll\Kapow\Level;
 
 class Collection extends Test
 {
-    protected function createMockOption(string $name = null)
-    {
-        if ($name === null) {
-            $name = uniqid();
-        }
-        $mock = new \mock\Gen3se\Engine\Choice\OptionInterface();
-        $mock->getMockController()->getName = function () use ($name) {
-            return $name;
-        };
-
-        return $mock;
-    }
+    use MockOptionProvider;
 
     public function shouldBeCapableOfAddAnOption()
     {
@@ -54,12 +43,11 @@ class Collection extends Test
     {
         $this
             ->given(
-                $optionName = 'opt-1',
                 $this->newTestedInstance()
             )
             ->integer(count($this->testedInstance))
                 ->isEqualTo(0)
-            ->if($this->testedInstance->add($this->createMockOption($optionName)))
+            ->if($this->testedInstance->add($this->createMockOption()))
             ->integer(count($this->testedInstance))
                 ->isEqualTo(1)
         ;
@@ -85,10 +73,10 @@ class Collection extends Test
     {
         $this
             ->given(
-                $this->newTestedInstance()
+                $this->newTestedInstance(),
+                $this->testedInstance->add($this->createMockOption(null, 500)),
+                $this->testedInstance->add($this->createMockOption(null, 500))
             )
-            ->if($this->testedInstance->add(new Option('opt1', 500)))
-            ->and($this->testedInstance->add(new Option('opt2', 500)))
             ->integer(count($this->testedInstance))
                 ->isEqualTo(2)
             ->integer($this->testedInstance->getTotalWeight())
@@ -100,10 +88,10 @@ class Collection extends Test
     {
         $this
             ->given(
-                $optionOne = new Option('opt1', 500),
-                $optionTwo = new Option('opt2', 500),
-                $optionThree = new Option('opt3', 0),
-                $optionFour = new Option('opt4', 10),
+                $optionOne = $this->createMockOption(null, 500),
+                $optionTwo = $this->createMockOption(null, 500),
+                $optionThree = $this->createMockOption(null, 0),
+                $optionFour = $this->createMockOption(null, 10),
                 $this->newTestedInstance()
             )
             ->if($this->testedInstance->add($optionOne))
@@ -122,9 +110,9 @@ class Collection extends Test
                 ->isIdenticalTo($optionFour)
 
             ->given(
-                $optionOne = new Option('opt1', 0),
-                $optionTwo = new Option('opt2', 0),
-                $optionThree = new Option('opt3', 0),
+                $optionOne = $this->createMockOption(null, 0),
+                $optionTwo = $this->createMockOption(null, 0),
+                $optionThree = $this->createMockOption(null, 0),
                 $this->newTestedInstance()
             )
             ->if($this->testedInstance->add($optionOne))
@@ -146,7 +134,7 @@ class Collection extends Test
     {
         $this
             ->given(
-                $optionOne = new Option('opt1', 500),
+                $optionOne = $this->createMockOption(null, 500),
                 $this->newTestedInstance()
             )
             ->if($this->testedInstance->add($optionOne))
@@ -175,8 +163,8 @@ class Collection extends Test
     {
         $this
             ->given(
-                $optionOne = new Option('opt1', 500),
-                $optionTwo = new Option('opt2', 500),
+                $optionOne = $this->createMockOption('opt1', 500),
+                $optionTwo = $this->createMockOption('opt2', 500),
                 $this->newTestedInstance(),
                 $this->testedInstance->add($optionOne),
                 $this->testedInstance->add($optionTwo),
@@ -195,8 +183,8 @@ class Collection extends Test
     {
         $this
             ->given(
-                $optionOne = new Option('opt1', 500),
-                $optionTwo = new Option('opt2', 500),
+                $optionOne = $this->createMockOption(null, 500),
+                $optionTwo = $this->createMockOption(null, 500),
                 $this->newTestedInstance(),
                 $this->testedInstance->add($optionOne),
                 $this->testedInstance->add($optionTwo)

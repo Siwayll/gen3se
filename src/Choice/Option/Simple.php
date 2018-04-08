@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Choice\Option;
 
-use Gen3se\Engine\Choice\OptionInterface as Option;
+use Gen3se\Engine\Choice\Option as Option;
 use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
 use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
 
@@ -30,7 +30,7 @@ class Simple implements Option
     private $data = [];
 
     /**
-     * Create a new Option whith a name and a weight
+     * Create a new Option with a name and a weight
      */
     public function __construct(string $name, int $weight)
     {

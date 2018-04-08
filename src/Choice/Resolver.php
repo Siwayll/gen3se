@@ -26,7 +26,7 @@ class Resolver
         }
     }
 
-    public function getPickedOption(): OptionInterface
+    public function getPickedOption(): Option
     {
         return $this->result;
     }

@@ -2,19 +2,18 @@
 
 namespace Gen3se\Engine\Choice;
 
-// @todo simplify this !
 use Gen3se\Engine\Choice\Option\Data;
 
-interface OptionInterface
+interface Option
 {
     public function getName(): string;
     public function getWeight(): int;
-    public function setWeight(int $value): OptionInterface;
+    public function setWeight(int $value): Option;
 
     /**
      * Add Data to the option
      */
-    public function add(Data $data): OptionInterface;
+    public function add(Data $data): Option;
 
     /**
      * Convert data of the option in array

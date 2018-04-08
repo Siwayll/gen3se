@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Choice\Option;
 
-use Gen3se\Engine\Choice\OptionInterface;
+use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Exception\Option\AlreadyPresent;
 use Gen3se\Engine\Exception\Option\NotFound;
 use Gen3se\Engine\Exception\Option\NotFoundInStack;
@@ -23,7 +23,7 @@ class Collection implements \Countable, CollectionInterface
     /**
      * Create a collection of Options
      */
-    public function __construct(OptionInterface ...$option)
+    public function __construct(Option ...$option)
     {
         foreach ($option as $optionElmt) {
             $this->add($optionElmt);
@@ -42,7 +42,7 @@ class Collection implements \Countable, CollectionInterface
         }
     }
 
-    public function add(OptionInterface $option): CollectionInterface
+    public function add(Option $option): CollectionInterface
     {
         if (isset($this->container[$option->getName()])) {
             throw new AlreadyPresent($option->getName());
@@ -52,7 +52,7 @@ class Collection implements \Countable, CollectionInterface
         return $this;
     }
 
-    public function get(string $optionName): OptionInterface
+    public function get(string $optionName): Option
     {
         if (!isset($this->container[$optionName])) {
             throw new NotFound($optionName);
@@ -74,14 +74,14 @@ class Collection implements \Countable, CollectionInterface
     public function getTotalWeight(): int
     {
         $total = 0;
-        array_walk($this->container, function (OptionInterface $option) use (&$total) {
+        array_walk($this->container, function (Option $option) use (&$total) {
             $total += $option->getWeight();
         });
 
         return $total;
     }
 
-    public function findByPositionInStack(int $position): OptionInterface
+    public function findByPositionInStack(int $position): Option
     {
         if ($position < 0 || $position > $this->getTotalWeight()) {
             throw new PositionMustBeRelevent($position, $this->getTotalWeight());

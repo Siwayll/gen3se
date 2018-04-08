@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Choice;
 
-use Gen3se\Engine\Choice\Option\DataInterface;
+use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Exception\Option\CantUnsetMandatoryData;
 use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
 use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
@@ -82,7 +82,7 @@ class Option implements OptionInterface
     /**
      * Add data to the option
      */
-    public function add(DataInterface $data): OptionInterface
+    public function add(Data $data): OptionInterface
     {
         $this->data[] = $data;
         return $this;

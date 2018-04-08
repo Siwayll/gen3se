@@ -1,12 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Provider;
+namespace Gen3se\Engine\Specs\Units\Provider\Choice\Option;
 
-trait OptionDataTrait
+trait Data
 {
     protected function createMockOptionData(string $value = 'lorem ipsum')
     {
-        $mock = new \mock\Gen3se\Engine\Choice\Option\DataInterface();
+        $mock = new \mock\Gen3se\Engine\Choice\Option\Data();
 
         $mock->getMockController()->toArray = function () use ($value) {
             return ['text' => $value];

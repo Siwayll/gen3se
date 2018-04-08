@@ -4,13 +4,13 @@ namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Choice\Option\Data\Text;
 use Gen3se\Engine\Choice\Option\Data\Simple;
-use Gen3se\Engine\Specs\Units\Provider\OptionDataTrait;
+use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as OptionDataProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Option extends Test
 {
-    use OptionDataTrait;
+    use OptionDataProvider;
 
     public function shouldHaveAName()
     {

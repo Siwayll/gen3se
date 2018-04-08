@@ -2,9 +2,9 @@
 
 namespace Gen3se\Engine\Choice\Option\Data;
 
-use Gen3se\Engine\Choice\Option\DataInterface;
+use Gen3se\Engine\Choice\Option\Data;
 
-class Simple implements DataInterface
+class Simple implements Data
 {
     private $value;
 

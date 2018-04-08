@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Choice;
 
 // @todo simplify this !
-use Gen3se\Engine\Choice\Option\DataInterface;
+use Gen3se\Engine\Choice\Option\Data;
 
 interface OptionInterface
 {
@@ -14,7 +14,7 @@ interface OptionInterface
     /**
      * Add Data to the option
      */
-    public function add(DataInterface $data): OptionInterface;
+    public function add(Data $data): OptionInterface;
 
     /**
      * Convert data of the option in array

@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 
-use Gen3se\Engine\Choice\Option\DataInterface;
+use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Specs\Units\Test;
 
 class TagData extends Test
@@ -11,7 +11,7 @@ class TagData extends Test
     {
         $this
             ->testedClass
-                ->hasInterface(DataInterface::class)
+                ->hasInterface(Data::class)
                 ->hasInterface(\Gen3se\Engine\Mod\Tag\DataInterface::class)
         ;
     }

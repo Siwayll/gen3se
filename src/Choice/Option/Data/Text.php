@@ -2,9 +2,9 @@
 
 namespace Gen3se\Engine\Choice\Option\Data;
 
-use Gen3se\Engine\Choice\Option\DataInterface;
+use Gen3se\Engine\Choice\Option\Data;
 
-class Text implements DataInterface
+class Text implements Data
 {
     const ARRAY_KEY = 'text';
     private $value;

@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Choice\Option;
 
-interface DataInterface
+interface Data
 {
     /**
      * Convert to array the data

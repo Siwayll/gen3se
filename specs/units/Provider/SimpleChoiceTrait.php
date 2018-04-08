@@ -6,6 +6,7 @@ use Gen3se\Engine\Choice\Choice;
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as OptionDataProvider;
 
 /**
  * Trait SimpleChoiceTrait
@@ -13,7 +14,8 @@ use Gen3se\Engine\Choice\Option;
  */
 trait SimpleChoiceTrait
 {
-    use OptionDataTrait;
+    use OptionDataProvider;
+
     /**
      * Get a Choice without any special features
      */

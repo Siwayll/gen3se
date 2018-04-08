@@ -2,7 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice\Option\Data;
 
-use Gen3se\Engine\Choice\Option\DataInterface;
+use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Specs\Units\Test;
 
 class Text extends Test
@@ -11,7 +11,7 @@ class Text extends Test
     {
         $this
             ->testedClass
-                ->hasInterface(DataInterface::class)
+                ->hasInterface(Data::class)
         ;
     }
 

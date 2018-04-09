@@ -4,6 +4,7 @@ namespace Gen3se\Engine\Specs\Units\Choice\Option;
 
 use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Choice\Option\Data\Text;
+use Gen3se\Engine\Choice\Option\Data\Simple as SimpleData;
 use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as OptionDataProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
@@ -91,14 +92,13 @@ class Simple extends Test
             ->given($this->newTestedInstance('name-1', 300))
             ->object(
                 $this->testedInstance
-                    ->add(new Text('Lorem ipsum set dolor'))
-                    ->add(new Simple('custom', 'value'))
-                    ->add(new Simple('data.toto', 1))
+                    ->add(new SimpleData('custom', 'value'))
+                    ->add(new SimpleData('data.toto', 1))
             )
                 ->isTestedInstance()
             ->array($this->testedInstance->dataToArray())
                 ->notHasKeys(['name', 'weight'])
-                ->string['text']->isEqualTo('Lorem ipsum set dolor')
+                ->string['text']->isEqualTo('name-1')
                 ->string['custom']->isEqualTo('value')
                 ->integer['data.toto']->isEqualTo(1)
         ;
@@ -115,8 +115,9 @@ class Simple extends Test
             ->generator($this->testedInstance->findData('foo'))
                 ->isEmpty()
             ->generator($this->testedInstance->findData(Data::class))
-                ->hasSize(1)
+                ->hasSize(2)
             ->generator($this->testedInstance->findData(Data::class))
+                ->yields->object
                 ->yields->object->isEqualTo($simpleTextMock)
         ;
     }
@@ -125,8 +126,7 @@ class Simple extends Test
     {
         $this
             ->given(
-                ($this->newTestedInstance('name-1', 300))
-                    ->add(new Text('text one'))
+                ($this->newTestedInstance('text one', 300))
                     ->add(new Text('text two'))
             )
             ->array($this->testedInstance->dataToArray())

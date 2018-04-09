@@ -109,7 +109,7 @@ class Tag extends Test
                 $optionWithTag = $this->createMockOption('option', 100),
                 $optionWithTag->getMockController()->findData = function () {
                     return $this->createMockOptionData();
-                }
+                },
                 $optionWithTag->add(new OptionDataTag('TAGNAME', 2)),
                 $anotherOptionWithTag = new Option('optWithTag', 420),
                 $anotherOptionWithTag->add(new TagData('TAGNAME', 0.8)),

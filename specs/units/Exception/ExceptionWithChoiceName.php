@@ -6,7 +6,7 @@ use Gen3se\Engine\Exception\ChoiceNameInterface;
 use Gen3se\Engine\Exception\ChoiceNameTrait;
 use Siwayll\Kapow\Exception;
 
-class ExceptionWithChoiceName extends Exception implements ChoiceNameInterface
+class ExceptionWithChoiceName extends \Siwayll\Kapow\Exception implements ChoiceNameInterface
 {
     use ChoiceNameTrait;
 }

@@ -9,7 +9,7 @@ use Siwayll\Kapow\Level;
  * Class OptionMustHaveWeightGreaterThanZero
  * @package Gen3se\Engine\Exception
  */
-class MustHaveWeightGreaterThanZero extends Exception
+class MustHaveWeightGreaterThanZero extends \Siwayll\Kapow\Exception
 {
     /**
      * @var string

@@ -9,7 +9,7 @@ use Siwayll\Kapow\Level;
  * Class OptionsCannotChangeItsName
  * @package Gen3se\Engine\Exception
  */
-class CannotChangeItsName extends Exception
+class CannotChangeItsName extends \Siwayll\Kapow\Exception
 {
     /**
      * @var string

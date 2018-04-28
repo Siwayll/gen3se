@@ -20,7 +20,7 @@ class Prepare extends Test
     {
         return [
             $this->getEyeColorChoice(),
-            $this->getHairColorChoice()
+            $this->getHairColorChoice(),
         ];
     }
 
@@ -40,7 +40,7 @@ class Prepare extends Test
                 $modCollection = new ModCollection()
             )
             ->object($this->newTestedInstance($choice, $modCollection))
-            ->object(call_user_func($this->testedInstance))
+            ->object(\call_user_func($this->testedInstance))
                 ->isCloneOf($choice)
         ;
     }

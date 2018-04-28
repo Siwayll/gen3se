@@ -45,10 +45,10 @@ class Collection extends Test
             ->given(
                 $this->newTestedInstance()
             )
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(0)
             ->if($this->testedInstance->add($this->createMockOption()))
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(1)
         ;
     }
@@ -77,7 +77,7 @@ class Collection extends Test
                 $this->testedInstance->add($this->createMockOption(null, 500)),
                 $this->testedInstance->add($this->createMockOption(null, 500))
             )
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(2)
             ->integer($this->testedInstance->getTotalWeight())
                 ->isEqualTo(1000)
@@ -205,10 +205,10 @@ class Collection extends Test
                 $optionTwo = $this->createMockOption()
             )
             ->if($this->newTestedInstance($optionOne))
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(1)
             ->if($this->newTestedInstance($optionOne, $optionTwo))
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(2)
         ;
     }

@@ -12,7 +12,7 @@ class Scenario extends Test
     {
         $this
             ->given($this->newTestedInstance)
-            ->class(get_class($this->testedInstance))
+            ->class(\get_class($this->testedInstance))
                 ->hasInterface('Gen3se\Engine\ScenarioInterface')
         ;
     }
@@ -25,7 +25,7 @@ class Scenario extends Test
                     'choix-1',
                     'choix-2',
                     'choix-3',
-                    'choix-4'
+                    'choix-4',
                 ],
                 $this->newTestedInstance()
             )
@@ -61,7 +61,7 @@ class Scenario extends Test
                     'choix-1',
                     'choix-2',
                     'choix-3',
-                    'choix-4'
+                    'choix-4',
                 ],
                 $this->newTestedInstance()
             )
@@ -71,7 +71,7 @@ class Scenario extends Test
                     ->append($choiceList[1])
             )
                 ->isTestedInstance()
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(2)
             ->object(
                 $this->testedInstance
@@ -79,7 +79,7 @@ class Scenario extends Test
                     ->append($choiceList[2])
             )
                 ->isTestedInstance()
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(4)
         ;
     }

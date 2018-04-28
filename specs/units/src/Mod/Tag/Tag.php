@@ -5,8 +5,8 @@ namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Mod\Tag\Option\Data\Tag as OptionDataTag;
+use Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
 use Gen3se\Engine\Specs\Units\Provider\Mod\Tag\DataTrait;
-use \Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
@@ -49,7 +49,7 @@ class Tag extends Test
             ->given($this->newTestedInstance())
             ->array($this->testedInstance->getInstructions())
                 ->size->isEqualTo(1)
-            ->class(get_class($this->testedInstance->getInstructions()[0]))
+            ->class(\get_class($this->testedInstance->getInstructions()[0]))
                 ->hasInterface(InstructionInterface::class)
         ;
     }

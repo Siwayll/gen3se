@@ -6,7 +6,7 @@ use Gen3se\Engine\Mod\Tag\Option\Data\Tag as OptionDataTag;
 
 class TagData implements OptionDataTag
 {
-    const TAGNAME_VALIDATOR = '@^[A-Za-z0-9-_]+$@';
+    private const TAGNAME_VALIDATOR = '@^[A-Za-z0-9-_]+$@';
 
     protected $tagName;
     protected $revisionValue;
@@ -39,7 +39,7 @@ class TagData implements OptionDataTag
      */
     private function validateTagname(string $tagName): string
     {
-        if (preg_match(self::TAGNAME_VALIDATOR, $tagName) === 1) {
+        if (\preg_match(self::TAGNAME_VALIDATOR, $tagName) === 1) {
             return $tagName;
         }
 

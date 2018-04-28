@@ -9,7 +9,7 @@ use Siwayll\Kapow\Level;
  * Class MinMustBeInferiorToMax
  * @package Gen3se\Engine\Exception\Rand
  */
-class MinMustBeInferiorToMax extends Exception
+class MinMustBeInferiorToMax extends \Siwayll\Kapow\Exception
 {
     /**
      * @var string

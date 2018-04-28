@@ -8,7 +8,7 @@ use Siwayll\Kapow\Exception;
  * Class OptionCantUnsetMandatoryData
  * @package Gen3se\Engine\Exception
  */
-class CantUnsetMandatoryData extends Exception
+class CantUnsetMandatoryData extends \Siwayll\Kapow\Exception
 {
     /**
      * @var string

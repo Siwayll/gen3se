@@ -8,7 +8,7 @@ use Siwayll\Kapow\Exception;
  * Class ChoiceMustHaveNonEmptyCollectionOfOptions
  * @package Gen3se\Engine\Exception
  */
-class MustHaveNonEmptyCollectionOfOptions extends Exception
+class MustHaveNonEmptyCollectionOfOptions extends \Siwayll\Kapow\Exception
 {
     /**
      * @var string

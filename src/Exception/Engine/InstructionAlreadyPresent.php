@@ -9,7 +9,7 @@ use Siwayll\Kapow\Level;
 /**
  * Instruction already present
  */
-class InstructionAlreadyPresent extends Exception
+class InstructionAlreadyPresent extends \Siwayll\Kapow\Exception
 {
     /**
      * Message of the exception

@@ -9,7 +9,7 @@ use Siwayll\Kapow\Level;
 /**
  * Mod not made for Prepare Stop
  */
-class ModIsNotMadeForPrepareStep extends Exception
+class ModIsNotMadeForPrepareStep extends \Siwayll\Kapow\Exception
 {
     /**
      * Mod class name
@@ -25,6 +25,6 @@ class ModIsNotMadeForPrepareStep extends Exception
 
     public function __construct(ModInterface $mod)
     {
-        $this->modClass = get_class($mod);
+        $this->modClass = \get_class($mod);
     }
 }

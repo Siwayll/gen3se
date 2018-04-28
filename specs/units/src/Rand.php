@@ -1,4 +1,5 @@
 <?php declare(strict_types = 1);
+
 /**
  * Chargement automatique des classes
  *
@@ -45,7 +46,7 @@ class Rand extends Test
             [0, 0],
             [-10, -1],
             [0, 400],
-            [500, 500]
+            [500, 500],
         ];
     }
 

@@ -8,7 +8,7 @@ use Siwayll\Kapow\Level;
 /**
  * A Choice cannot change its name
  */
-class CannotChangeItsName extends Exception
+class CannotChangeItsName extends \Siwayll\Kapow\Exception
 {
     /**
      * Choice name's

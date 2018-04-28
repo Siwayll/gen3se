@@ -9,8 +9,8 @@ trait OptionTrait
         ?int $weight = null,
         ?array $data = null
     ) {
-        $name = $name ?? uniqid();
-        $weight = $weight ?? rand(10, 300);
+        $name = $name ?? \uniqid();
+        $weight = $weight ?? \rand(10, 300);
         $data = $data ?? [];
 
         $mock = new \mock\Gen3se\Engine\Choice\Option();
@@ -25,7 +25,7 @@ trait OptionTrait
     {
         return [
             $this->createMockOption('one', 200),
-            $this->createMockOption('two', 100)
+            $this->createMockOption('two', 100),
         ];
     }
 }

@@ -11,7 +11,7 @@ use Siwayll\Kapow\Level;
  * Class OptionNotFoundInStack
  * @package Gen3se\Engine\Exception
  */
-class NotFoundInStack extends Exception implements ChoiceNameInterface
+class NotFoundInStack extends \Siwayll\Kapow\Exception implements ChoiceNameInterface
 {
     use ChoiceNameTrait;
 

@@ -10,7 +10,7 @@ use Siwayll\Kapow\Level;
  * Class PositionMustBeRelevent
  * @package Gen3se\Engine\Exception
  */
-class PositionMustBeRelevent extends Exception
+class PositionMustBeRelevent extends \Siwayll\Kapow\Exception
 {
     use ChoiceNameTrait;
 

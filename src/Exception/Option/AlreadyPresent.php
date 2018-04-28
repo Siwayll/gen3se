@@ -11,7 +11,7 @@ use Siwayll\Kapow\Level;
  * Class OptionNotFound
  * @package Gen3se\Engine\Exception
  */
-class AlreadyPresent extends Exception implements ChoiceNameInterface
+class AlreadyPresent extends \Siwayll\Kapow\Exception implements ChoiceNameInterface
 {
     use ChoiceNameTrait;
 

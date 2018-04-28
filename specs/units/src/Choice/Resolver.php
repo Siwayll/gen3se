@@ -18,8 +18,8 @@ class Resolver extends Test
             ->given(
                 $option = $this->createMockOption(),
                 $collection = $this->createMockOptionCollection(
-                    rand(2, 15),
-                    rand(100, 3500),
+                    \rand(2, 15),
+                    \rand(100, 3500),
                     $option
                 ),
                 $choice = $this->createMockChoice(

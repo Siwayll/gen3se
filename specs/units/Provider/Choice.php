@@ -10,7 +10,7 @@ trait Choice
         ?string $name = null,
         ?CollectionInterface $collection = null
     ) {
-        $name = $name ?? uniqid();
+        $name = $name ?? \uniqid();
 
         $mock = new \mock\Gen3se\Engine\Choice();
         $mock->getMockController()->getName = $name;

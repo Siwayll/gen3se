@@ -72,9 +72,9 @@ class Instruction extends Test
             )
             ->object($this->testedInstance)
                 ->isCallable()
-            ->string(call_user_func($this->testedInstance, 'goodValue'))
+            ->string(\call_user_func($this->testedInstance, 'goodValue'))
                 ->isEqualTo('IRunMyInstruction')
-            ->string(call_user_func($this->testedInstance, 'badValue'))
+            ->string(\call_user_func($this->testedInstance, 'badValue'))
                 ->isEqualTo('iNotRunInstruction')
         ;
     }

@@ -26,10 +26,10 @@ class Collection extends Test
             )
             ->testedClass
                 ->hasInterface('\Countable')
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(0)
             ->if($this->testedInstance->add($this->createMockMod()))
-            ->integer(count($this->testedInstance))
+            ->integer(\count($this->testedInstance))
                 ->isEqualTo(1)
         ;
     }

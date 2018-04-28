@@ -8,7 +8,7 @@ use Siwayll\Kapow\Exception;
  * Class OptionNotFound
  * @package Gen3se\Engine\Exception
  */
-class NotFound extends Exception
+class NotFound extends \Siwayll\Kapow\Exception
 {
     protected $optionName;
 

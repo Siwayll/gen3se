@@ -12,7 +12,7 @@ use Siwayll\Kapow\Level;
 /**
  * Revision value is invalid
  */
-class RevisionIsInvalid extends Exception implements ChoiceNameInterface, OptionNameInterface
+class RevisionIsInvalid extends \Siwayll\Kapow\Exception implements ChoiceNameInterface, OptionNameInterface
 {
     use ChoiceNameTrait, OptionNameTrait;
 

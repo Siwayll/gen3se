@@ -28,7 +28,7 @@ class Choice
         }
         $this->name = $choiceName;
 
-        if (count($optionCollection) === 0) {
+        if (\count($optionCollection) === 0) {
             throw new MustHaveNonEmptyCollectionOfOptions($this->name);
         }
 

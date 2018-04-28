@@ -85,7 +85,7 @@ class Tag implements ModInterface, IsPrepareReady
     {
         foreach ($tagAdd->getTagsToAdd() as $tag) {
             $this->tags[$tag] = true;
-    }
+        }
     }
 
     public function validateTagField(array $value): bool

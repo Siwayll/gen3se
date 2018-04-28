@@ -4,11 +4,11 @@ namespace Gen3se\Engine\Mod\Append;
 
 use Gen3se\Engine\ChoiceProviderInterface;
 use Gen3se\Engine\Exception\Choice\NotFound;
+use Gen3se\Engine\Mod\Append\DataInterface as AppendInterface;
 use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
 use Gen3se\Engine\Mod\NeedScenarioInterface;
-use Gen3se\Engine\Mod\Append\DataInterface as AppendInterface;
 use Gen3se\Engine\ScenarioInterface;
 
 /**
@@ -36,7 +36,7 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
                 AppendInterface::class,
                 [$this, 'dataValidator'],
                 [$this, 'run']
-            )
+            ),
         ];
     }
 

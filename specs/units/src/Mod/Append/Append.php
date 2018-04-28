@@ -40,7 +40,7 @@ class Append extends Test
             ->given($this->newTestedInstance())
             ->array($this->testedInstance->getInstructions())
                 ->size->isEqualTo(1)
-            ->class(get_class($this->testedInstance->getInstructions()[0]))
+            ->class(\get_class($this->testedInstance->getInstructions()[0]))
                 ->hasInterface(InstructionInterface::class)
             ->string($this->testedInstance->getInstructions()[0]->getCode())
                 ->isEqualTo(DataInterface::class)

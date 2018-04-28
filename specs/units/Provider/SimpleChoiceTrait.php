@@ -3,8 +3,8 @@
 namespace Gen3se\Engine\Specs\Units\Provider;
 
 use Gen3se\Engine\Choice;
-use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
 use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as MockOptionDataProvider;
 

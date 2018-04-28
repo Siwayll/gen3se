@@ -12,7 +12,7 @@ class Choice extends Test
     protected function collectionProvider()
     {
         return [
-            $this->createMockOptionCollection(1)
+            $this->createMockOptionCollection(1),
         ];
     }
 

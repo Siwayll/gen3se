@@ -7,7 +7,7 @@ use Gen3se\Engine\Exception\Mod\Tag\RevisionTypeInvalid;
 
 class Revision
 {
-    const VALUE_VALIDATOR = '@^(?<symbol>[\+\-\*x])(?<number>[0-9\.]+)@';
+    private const VALUE_VALIDATOR = '@^(?<symbol>[\+\-\*x])(?<number>[0-9\.]+)@';
     private $revision;
     private $weight;
 
@@ -15,7 +15,7 @@ class Revision
 
     public function __construct($revisionValue, int $weight)
     {
-        if (!is_string($revisionValue) && !is_numeric($revisionValue)) {
+        if (!\is_string($revisionValue) && !\is_numeric($revisionValue)) {
             throw new RevisionTypeInvalid($revisionValue);
         }
 
@@ -23,14 +23,15 @@ class Revision
         $this->revision = (float) $revisionValue;
         $this->method = 'classic';
 
-        if (is_string($revisionValue)
-            && preg_match(self::VALUE_VALIDATOR, $revisionValue, $match) === 1
+        if (\is_string($revisionValue) === false
+            || \preg_match(self::VALUE_VALIDATOR, $revisionValue, $match) !== 1
         ) {
-            $this->method = $match['symbol'];
-            $this->revision = (float) $match['number'];
-            if ((string) $this->revision !== $match['number']) {
-                throw new RevisionIsInvalid($revisionValue);
-            }
+            return;
+        }
+        $this->method = $match['symbol'];
+        $this->revision = (float) $match['number'];
+        if ((string) $this->revision !== $match['number']) {
+            throw new RevisionIsInvalid($revisionValue);
         }
     }
 
@@ -38,16 +39,16 @@ class Revision
     {
         switch ($this->method) {
             case '+':
-                return (int) ceil($this->weight + $this->revision);
+                return (int) \ceil($this->weight + $this->revision);
 
             case '-':
                 if ($this->weight - $this->revision < 0) {
                     return 0;
                 }
-                return (int) ceil($this->weight - $this->revision);
+                return (int) \ceil($this->weight - $this->revision);
 
             default:
-                return (int) ceil($this->weight * $this->revision);
+                return (int) \ceil($this->weight * $this->revision);
         }
     }
 }

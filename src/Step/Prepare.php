@@ -12,7 +12,7 @@ use Gen3se\Engine\Mod\StepableInterface;
  */
 class Prepare
 {
-    const STEP_NAME = '>prepare';
+    public const STEP_NAME = '>prepare';
 
     private $choice;
 

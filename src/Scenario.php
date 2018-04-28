@@ -1,4 +1,5 @@
 <?php declare(strict_types = 1);
+
 namespace Gen3se\Engine;
 
 use Gen3se\Engine\Choice;
@@ -22,7 +23,7 @@ class Scenario implements ScenarioInterface
      */
     public function count()
     {
-        return count($this->list);
+        return \count($this->list);
     }
 
     /**
@@ -48,7 +49,7 @@ class Scenario implements ScenarioInterface
      */
     public function next(): string
     {
-        $this->current = array_shift($this->list);
+        $this->current = \array_shift($this->list);
         return $this->current;
     }
 }

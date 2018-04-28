@@ -8,11 +8,11 @@ use mageekguy\atoum\mock;
 abstract class Test extends atoum\spec
 {
     public function __construct(
-        adapter $adapter = null,
-        annotations\extractor $annotationExtractor = null,
-        asserter\generator $asserterGenerator = null,
-        test\assertion\manager $assertionManager = null,
-        \closure $reflectionClassFactory = null
+        ?adapter $adapter = null,
+        ?annotations\extractor $annotationExtractor = null,
+        ?asserter\generator $asserterGenerator = null,
+        ?test\assertion\manager $assertionManager = null,
+        ?\closure $reflectionClassFactory = null
     ) {
         parent::__construct(
             $adapter,

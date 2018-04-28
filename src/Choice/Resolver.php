@@ -5,7 +5,6 @@ namespace Gen3se\Engine\Choice;
 use Gen3se\Engine\Choice;
 use Gen3se\Engine\Exception\ChoiceNameInterface;
 use Gen3se\Engine\Rand;
-use Siwayll\Kapow\Exception;
 
 class Resolver
 {
@@ -18,7 +17,7 @@ class Resolver
         $rand->roll();
         try {
             $this->result = $choiceOptions->findByPositionInStack($rand->getResult());
-        } catch (Exception $exception) {
+        } catch (\Siwayll\Kapow\Exception $exception) {
             if ($exception instanceof ChoiceNameInterface) {
                 $exception->setChoiceName($choice->getName());
             }

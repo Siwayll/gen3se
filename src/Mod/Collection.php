@@ -27,7 +27,7 @@ class Collection implements \Countable
      */
     public function count(): int
     {
-        return count($this->container);
+        return \count($this->container);
     }
 
     /**

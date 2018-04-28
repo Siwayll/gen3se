@@ -3,10 +3,10 @@
 namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice;
-use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Mod\ModInterface;
-use \Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
+use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\OptionTrait;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Siwayll\RumData\Converter\FromArray;
@@ -20,7 +20,7 @@ class DataExporter extends Test
     {
         $this
             ->given($this->newTestedInstance)
-            ->class(get_class($this->testedInstance))
+            ->class(\get_class($this->testedInstance))
                 ->hasInterface('Gen3se\Engine\DataExporterInterface')
         ;
     }
@@ -29,7 +29,7 @@ class DataExporter extends Test
     {
         $this
             ->given($this->newTestedInstance)
-            ->class(get_class($this->testedInstance))
+            ->class(\get_class($this->testedInstance))
                 ->hasInterface(ModInterface::class)
         ;
     }
@@ -38,7 +38,7 @@ class DataExporter extends Test
     {
         return [
             $this->getEyeColorChoice(),
-            $this->getHairColorChoice()
+            $this->getHairColorChoice(),
         ];
     }
 
@@ -89,12 +89,12 @@ class DataExporter extends Test
                 $option = $this->createMockOption(
                     null,
                     null,
-                    ['text' => uniqid()]
+                    ['text' => \uniqid()]
                 ),
                 $anotherOption = $this->createMockOption(
                     null,
                     null,
-                    ['text' => uniqid()]
+                    ['text' => \uniqid()]
                 ),
                 $this->newTestedInstance()
             )

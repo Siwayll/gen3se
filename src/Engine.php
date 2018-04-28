@@ -80,7 +80,7 @@ class Engine
             if (!$instruction instanceof InstructionInterface) {
                 throw new \TypeError(
                     'Argument 1 passed to ' . __METHOD__ . '() must be of the type ModInterface, '
-                    . gettype($instruction) . ' given'
+                    . \gettype($instruction) . ' given'
                 );
             }
             if (isset($this->instructions[$instruction->getCode()])) {
@@ -137,9 +137,11 @@ class Engine
     {
         foreach ($this->instructions as $code => $instruction) {
             foreach ($option->findData($code) as $data) {
-                if ($instruction->validate($data)) {
-                    $instruction($data);
+                if (!$instruction->validate($data)) {
+                    continue;
                 }
+
+                $instruction($data);
             }
         }
 //        $fields = $option->exportCleanFields();

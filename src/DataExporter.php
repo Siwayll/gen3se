@@ -13,7 +13,7 @@ use Siwayll\RumData\RumData;
  */
 class DataExporter implements DataExporterInterface, ModInterface
 {
-    const DATA_STORAGE_RULE = 'dataStorageRule';
+    private const DATA_STORAGE_RULE = 'dataStorageRule';
 
     private $storage;
 
@@ -34,7 +34,7 @@ class DataExporter implements DataExporterInterface, ModInterface
                 [$this, 'dataValidator'],
                 function () {
                 }
-            )
+            ),
         ];
     }
 
@@ -43,11 +43,11 @@ class DataExporter implements DataExporterInterface, ModInterface
      */
     public function instructionDataValidator($value): bool
     {
-        if (is_string($value) !== true) {
+        if (\is_string($value) !== true) {
             return false;
         }
 
-        if (substr($value, 0, 2) !== 'x.') {
+        if (\substr($value, 0, 2) !== 'x.') {
             return false;
         }
 

@@ -12,7 +12,7 @@ use Siwayll\Kapow\Level;
 /**
  * Revision value is invalid
  */
-class TagMalformed extends Exception implements ChoiceNameInterface, OptionNameInterface
+class TagMalformed extends \Siwayll\Kapow\Exception implements ChoiceNameInterface, OptionNameInterface
 {
     use ChoiceNameTrait, OptionNameTrait;
 

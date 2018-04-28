@@ -32,6 +32,12 @@ bin/phpcs: | bin
 	&& $(call export-file,env/bin.tpl,bin/phpcs)
 	@$(call executable,bin/phpcs)
 
+bin/phpcbf: | bin
+	@export DOCKER_SERVICE="php-cli" \
+	&& export BINARY_OPTIONS="php -f vendor/bin/phpcbf -- --encoding=UTF-8 --standard=check-style.xml " \
+	&& $(call export-file,env/bin.tpl,bin/phpcbf)
+	@$(call executable,bin/phpcbf)
+
 bin/doc: | bin var/doc
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/kitab -- compile --configuration-file=.kitab.target.html.php --output-directory var/doc src " \

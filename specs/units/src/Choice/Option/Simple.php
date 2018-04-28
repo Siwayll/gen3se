@@ -3,8 +3,8 @@
 namespace Gen3se\Engine\Specs\Units\Choice\Option;
 
 use Gen3se\Engine\Choice\Option\Data;
-use Gen3se\Engine\Choice\Option\Data\Text;
 use Gen3se\Engine\Choice\Option\Data\Simple as SimpleData;
+use Gen3se\Engine\Choice\Option\Data\Text;
 use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as OptionDataProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
@@ -133,7 +133,7 @@ class Simple extends Test
                 ->notHasKeys(['name', 'weight'])
                 ->array['text']->isEqualTo([
                     'text one',
-                    'text two'
+                    'text two',
                 ])
         ;
     }

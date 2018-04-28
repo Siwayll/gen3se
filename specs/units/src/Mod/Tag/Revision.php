@@ -82,10 +82,10 @@ class Revision extends Test
     {
         $this
             ->if($this->newTestedInstance(5, 100))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(500)
             ->if($this->newTestedInstance(.235, 10))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(3)
         ;
     }
@@ -94,10 +94,10 @@ class Revision extends Test
     {
         $this
             ->if($this->newTestedInstance('+5', 100))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(105)
             ->if($this->newTestedInstance('+0.235', 10))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(11)
         ;
     }
@@ -106,13 +106,13 @@ class Revision extends Test
     {
         $this
             ->if($this->newTestedInstance('-5', 100))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(95)
             ->if($this->newTestedInstance('-1.235', 10))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(9)
             ->if($this->newTestedInstance('-15', 10))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(0)
         ;
     }
@@ -121,13 +121,13 @@ class Revision extends Test
     {
         $this
             ->if($this->newTestedInstance('x5', 100))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(500)
             ->if($this->newTestedInstance('*5', 100))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(500)
             ->if($this->newTestedInstance('15', 10))
-            ->integer(call_user_func($this->testedInstance))
+            ->integer(\call_user_func($this->testedInstance))
                 ->isEqualTo(150)
         ;
     }

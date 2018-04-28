@@ -57,7 +57,7 @@ class Collection implements \Countable, CollectionInterface
         if (!isset($this->container[$optionName])) {
             throw new NotFound($optionName);
         }
-        return isset($this->container[$optionName])? $this->container[$optionName]: null;
+        return $this->container[$optionName] ?? null;
     }
 
     /**
@@ -65,7 +65,7 @@ class Collection implements \Countable, CollectionInterface
      */
     public function count(): int
     {
-        return count($this->container);
+        return \count($this->container);
     }
 
     /**
@@ -74,7 +74,7 @@ class Collection implements \Countable, CollectionInterface
     public function getTotalWeight(): int
     {
         $total = 0;
-        array_walk($this->container, function (Option $option) use (&$total) {
+        \array_walk($this->container, function (Option $option) use (&$total) {
             $total += $option->getWeight();
         });
 

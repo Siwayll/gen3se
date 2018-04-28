@@ -8,7 +8,7 @@ use Siwayll\Kapow\Level;
 /**
  * Choice Not Found
  */
-class NotFound extends Exception
+class NotFound extends \Siwayll\Kapow\Exception
 {
     /**
      * Choice name's

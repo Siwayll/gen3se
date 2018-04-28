@@ -3,14 +3,14 @@
 namespace Gen3se\Engine\Specs\Units;
 
 use Gen3se\Engine\Choice\Provider;
+use Gen3se\Engine\DataExporter;
 use Gen3se\Engine\Mod\Append\Append;
 use Gen3se\Engine\Mod\Append\DataInterface;
 use Gen3se\Engine\Mod\Instruction;
+use Gen3se\Engine\Scenario;
 use Gen3se\Engine\Specs\Units\Provider\Mod\Append\Choice as AppendChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
-use Gen3se\Engine\Scenario;
-use Gen3se\Engine\DataExporter;
 use Siwayll\Kapow\Level;
 
 /**

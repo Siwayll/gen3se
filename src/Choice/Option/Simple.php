@@ -94,7 +94,7 @@ class Simple implements Option
     {
         $arrayToReturn = [];
         foreach ($this->data as $data) {
-            $arrayToReturn = array_merge_recursive($arrayToReturn, $data->toArray());
+            $arrayToReturn = \array_merge_recursive($arrayToReturn, $data->toArray());
         }
         return $arrayToReturn;
     }
@@ -102,7 +102,7 @@ class Simple implements Option
     public function findData($interface)
     {
         foreach ($this->data as $data) {
-            if (in_array($interface, class_implements($data))) {
+            if (\in_array($interface, \class_implements($data))) {
                 yield $data;
             }
         }

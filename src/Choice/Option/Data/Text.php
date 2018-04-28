@@ -6,7 +6,7 @@ use Gen3se\Engine\Choice\Option\Data;
 
 class Text implements Data
 {
-    const ARRAY_KEY = 'text';
+    private const ARRAY_KEY = 'text';
     private $value;
 
     public function __construct(string $value)

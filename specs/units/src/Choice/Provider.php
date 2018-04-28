@@ -2,9 +2,9 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice;
 
+use Gen3se\Engine\Choice;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
-use Gen3se\Engine\Choice;
 use Siwayll\Kapow\Level;
 
 class Provider extends Test
@@ -15,7 +15,7 @@ class Provider extends Test
     {
         return [
             $this->getEyeColorChoice(),
-            $this->getHairColorChoice()
+            $this->getHairColorChoice(),
         ];
     }
 

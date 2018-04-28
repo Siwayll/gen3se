@@ -13,6 +13,9 @@ use Gen3se\Engine\Scenario;
 use Gen3se\Engine\DataExporter;
 use Siwayll\Kapow\Level;
 
+/**
+ * @ignore
+ */
 class Engine extends Test
 {
     use SimpleChoiceTrait;

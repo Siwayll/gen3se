@@ -2,8 +2,8 @@
 
 namespace Gen3se\Engine;
 
-use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollection;
 use Gen3se\Engine\Choice\Data;
+use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollection;
 
 interface Choice
 {

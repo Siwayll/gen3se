@@ -14,4 +14,16 @@ class Fil extends Test
                 ->hasInterface(Data::class)
         ;
     }
+
+    public function shouldReturnDepth()
+    {
+        $this
+            ->given(
+                $depth = [\uniqid(), \uniqid(), \uniqid()],
+                $this->newTestedInstance(...$depth)
+            )
+            ->array($this->testedInstance->getDepth())
+                ->isEqualTo($depth)
+        ;
+    }
 }

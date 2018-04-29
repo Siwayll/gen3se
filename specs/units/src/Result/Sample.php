@@ -25,20 +25,25 @@ class Sample extends Test
     {
         $this
             ->given(
-                $filer = $this->createMockFiler(),
+                $filer = $this->createMockFiler('first', 'second'),
                 $option = $this->createMockOption(
                     null,
                     null,
-                    ['key' => 'data']
+                    [
+                        'key' => 'data',
+                        'secondeKey' => \uniqid(),
+                    ]
                 ),
                 $this->newTestedInstance()
             )
             ->if($this->testedInstance->registersTo($option, $filer))
             ->castToArray($this->testedInstance->dump())
-                ->castToArray[0]->isEqualTo($option->dataToArray())
+                ->castToArray['first']
+                    ->castToArray['second']->isEqualTo($option->dataToArray())
             ->if($this->testedInstance->registersTo($option, $filer))
-            ->castToArray($this->testedInstance->dump())
-                ->size->isEqualTo(2)
+            ->and($this->testedInstance->registersTo($option, $filer))
+            ->castToArray($this->testedInstance->dump()['first']['second'])
+                ->size->isEqualTo(3)
         ;
     }
 

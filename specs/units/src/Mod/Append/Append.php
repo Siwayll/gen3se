@@ -10,6 +10,9 @@ use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
+/**
+ * @ignore
+ */
 class Append extends Test
 {
     use OptionData;

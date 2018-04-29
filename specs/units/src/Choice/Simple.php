@@ -1,11 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units;
+namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
+use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
-class Choice extends Test
+class Simple extends Test
 {
     use MockOptionCollectionProvider;
 

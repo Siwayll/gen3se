@@ -2,13 +2,16 @@
 
 namespace Gen3se\Engine;
 
-use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollectionInterface;
-use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyCollectionOfOptions;
-use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
+use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollection;
 
 interface Choice
 {
     public function getName(): string;
 
-    public function getOptionCollection();
+    public function getOptionCollection(): OptionCollection;
+
+    /**
+     * Treats all the Steps with a clone of the Choice
+     */
+    public function treatsThis(Step ...$step): void;
 }

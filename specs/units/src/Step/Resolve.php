@@ -1,16 +1,25 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Choice;
+namespace Gen3se\Engine\Specs\Units\Step;
 
 use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
 use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Step;
 
-class Resolver extends Test
+class Resolve extends Test
 {
     use MockChoiceProvider;
     use MockChoiceProvider\Collection;
     use MockChoiceProvider\Option;
+
+    public function shouldBeAStep()
+    {
+        $this
+            ->testedClass
+                ->hasInterface(Step::class)
+        ;
+    }
 
     public function shouldTakeAChoiceAndSelectARandomOption()
     {
@@ -25,16 +34,15 @@ class Resolver extends Test
                 $choice = $this->createMockChoice(
                     null,
                     $collection
-                )
+                ),
+                $step = $this->newTestedInstance()
             )
-            ->object($this->newTestedInstance($choice))
+            ->if($step($choice))
             ->mock($choice)
                 ->call('getOptionCollection')->once()
             ->mock($collection)
                 ->call('getTotalWeight')->once()
                 ->call('findByPositionInStack')->once()
-            ->object($this->testedInstance->getPickedOption())
-                ->isEqualTo($option)
         ;
     }
 
@@ -53,7 +61,7 @@ class Resolver extends Test
                 )
             )
             ->KapowException(function () use ($choice) {
-                $this->newTestedInstance($choice);
+                ($this->newTestedInstance())($choice);
             })
             ->mock($choice)
                 ->call('getName')->once()

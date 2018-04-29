@@ -2,6 +2,6 @@ Feature: Resolve Scenario
   Resolve a complet scenario
 
   Scenario: Create a biscuit
-    Given the "biscuit" gen3rator
-    When I execute Gen3se
+    Given the "biscuit" bible
+    When I play "oneBiscuit" Scenario
     Then I should have a biscuit

@@ -6,6 +6,7 @@ use Gen3se\Engine\Choice;
 use Gen3se\Engine\Choice\Option\CollectionInterface as OptionCollectionInterface;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyCollectionOfOptions;
 use Gen3se\Engine\Exception\Choice\MustHaveNonEmptyName;
+use Gen3se\Engine\Step;
 
 class Simple implements Choice
 {
@@ -50,6 +51,14 @@ class Simple implements Choice
     public function getOptionCollection(): OptionCollectionInterface
     {
         return $this->optionCollection;
+    }
+
+    public function treatsThis(Step ...$step): void
+    {
+        $temporaryChoice = clone $this;
+        foreach ($step as $theStep) {
+            $theStep($temporaryChoice);
+        }
     }
 
     public function __clone()

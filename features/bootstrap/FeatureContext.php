@@ -4,20 +4,21 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Gen3se\Engine\Choice;
+use Gen3se\Engine\Choice\Simple as Choice;
 use Gen3se\Engine\Choice\Option\Simple as Option;
 use Gen3se\Engine\Choice\Option\Collection;
-use Gen3se\Engine\Choice\Provider;
-use Gen3se\Engine\DataExporter;
-use Gen3se\Engine\Engine;
-use Gen3se\Engine\Scenario;
+use Gen3se\Engine\Scenario\Simple as Scenario;
+use Gen3se\Engine\Bible\Simple as Bible;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext implements Context
 {
-    protected $choiceProvider;
+    /**
+     * @var Bible
+     */
+    protected $bible;
     protected $scenario;
     protected $resultData = null;
 
@@ -30,16 +31,15 @@ class FeatureContext implements Context
      */
     public function __construct()
     {
-        $this->scenario = new Scenario();
     }
 
     /**
-     * @Given the :arg1 gen3rator
+     * @Given the :arg1 bible
      */
-    public function theGen3rator($arg1)
+    public function theBible($arg1)
     {
-        $this->choiceProvider = (new Provider())
-            ->add(new Choice(
+        $this->bible = new Bible(
+            new Choice(
                 'cookie shape',
                 new Collection(
                     new Option('square', 100),
@@ -48,8 +48,8 @@ class FeatureContext implements Context
                     new Option('oval', 50),
                     new Option('star-shaped', 20)
                 )
-            ))
-            ->add(new Choice(
+            ),
+            new Choice(
                 'cookie flavor',
                 new Collection(
                     new Option('plain', 100),
@@ -58,34 +58,23 @@ class FeatureContext implements Context
                     new Option('butter', 50),
                     new Option('vanilla', 10)
                 )
-            ))
-            ->add(new Choice(
+            ),
+            new Choice(
                 'cookie word',
                 new Collection(
                     new Option('cookie', 100),
                     new Option('biscuit', 100)
                 )
-            ))
-        ;
-
-       $this->scenario
-           ->append('cookie shape')
-           ->append('cookie flavor')
-           ->append('cookie word')
-       ;
+            )
+        );
     }
 
     /**
-     * @When I execute Gen3se
+     * @When I play :scenarioName Scenario
      */
-    public function iExecuteGen3se()
+    public function iPlayScenario(string $scenarioName)
     {
-        $this->resultData = new DataExporter();
-        (new Engine(
-            $this->choiceProvider,
-            $this->scenario,
-            $this->resultData
-        ))->run();
+        $this->bible->play(new Scenario('cookie shape', 'cookie flavor', 'cookie word'));
     }
 
     /**

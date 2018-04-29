@@ -3,12 +3,14 @@
 namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
+use Gen3se\Engine\Specs\Units\Provider\Step as MockStepProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Siwayll\Kapow\Level;
 
 class Simple extends Test
 {
     use MockOptionCollectionProvider;
+    use MockStepProvider;
 
     protected function collectionProvider()
     {
@@ -68,6 +70,35 @@ class Simple extends Test
                 ->isCloneOf($this->testedInstance)
             ->object($clone->getOptionCollection())
                 ->isCloneOf($collection)
+        ;
+    }
+
+    public function shouldTreatsAllStepGiven()
+    {
+        $this
+            ->given(
+                $collection = $this->createMockOptionCollection(1),
+                $this->newTestedInstance('choice', $collection),
+                $stepOne = $this->createMockStep(
+                    $stepOneCallable = function () use (&$stepOneArguments) {
+                        $stepOneArguments = \func_get_args();
+                    }
+                ),
+                $stepTwo = $this->createMockStep(
+                    $stepTwoCallable = function () {
+                    }
+                )
+            )
+            ->if($this->testedinstance->treatsThis($stepOne, $stepTwo))
+            ->mock($stepOne)
+                ->call('__invoke')
+                    ->once()
+            ->mock($stepTwo)
+                ->call('__invoke')
+                    ->once()
+            ->array($stepOneArguments)
+                ->object[0]->isCloneOf($this->testedInstance)
+
         ;
     }
 }

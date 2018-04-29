@@ -6,6 +6,7 @@ use Gen3se\Engine\Choice\Data\Fil;
 use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
 use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\Result as MockResultProvider;
+use Gen3se\Engine\Specs\Units\Provider\Result\Filer as MockFilerProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Step;
 
@@ -14,6 +15,7 @@ class Resolve extends Test
     use MockChoiceProvider;
     use MockChoiceProvider\Collection;
     use MockChoiceProvider\Option;
+    use MockFilerProvider;
     use MockResultProvider;
 
     public function shouldBeAStep()
@@ -59,10 +61,11 @@ class Resolve extends Test
                     \rand(100, 3500),
                     $option
                 ),
+                $filer = $this->createMockFiler(),
                 $choice = $this->createMockChoice(
                     null,
                     $collection,
-                    new Fil('toto', 'tata')
+                    $filer
                 ),
                 $result = $this->createMockResult(),
                 $step = $this->newTestedInstance($result)
@@ -70,7 +73,31 @@ class Resolve extends Test
             ->if($step($choice))
             ->mock($result)
                 ->call('registersTo')
-//                    ->withArguments($option, 'fo')
+                    ->withArguments($option, $filer)
+                    ->once()
+        ;
+    }
+
+    public function shouldCreateASimpleFilerIfNoneIsSpecified()
+    {
+        $this
+            ->given(
+                $option = $this->createMockOption(),
+                $collection = $this->createMockOptionCollection(
+                    \rand(2, 15),
+                    \rand(100, 3500),
+                    $option
+                ),
+                $choice = $this->createMockChoice(
+                    null,
+                    $collection
+                ),
+                $result = $this->createMockResult(),
+                $step = $this->newTestedInstance($result)
+            )
+            ->if($step($choice))
+            ->mock($result)
+                ->call('registersTo')
                     ->once()
         ;
     }

@@ -4,17 +4,19 @@ namespace Gen3se\Engine\Bible;
 
 use Gen3se\Engine\Bible;
 use Gen3se\Engine\Choice;
+use Gen3se\Engine\Result\Sample;
 use Gen3se\Engine\Scenario as Scenario;
-use Gen3se\Engine\Step\Prepare;
 use Gen3se\Engine\Step\Resolve;
 use Siwayll\RumData\RumData;
 
 class Simple implements Bible
 {
     private $choiceList = [];
+    private $result;
 
     public function __construct(Choice ...$choices)
     {
+        $this->result = new Sample();
         foreach ($choices as $choice) {
             $this->add($choice);
         }
@@ -42,12 +44,12 @@ class Simple implements Bible
                 $this
                     ->findChoice($choiceName)
                     ->treatsThis(
-                        new Resolve()
+                        new Resolve($this->result)
                     )
                 ;
             }
         );
 
-        return new RumData();
+        return $this->result->dump();
     }
 }

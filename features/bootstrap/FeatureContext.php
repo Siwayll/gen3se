@@ -74,7 +74,7 @@ class FeatureContext implements Context
      */
     public function iPlayScenario(string $scenarioName)
     {
-        $this->bible->play(new Scenario('cookie shape', 'cookie flavor', 'cookie word'));
+        $this->resultData = $this->bible->play(new Scenario('cookie shape', 'cookie flavor', 'cookie word'));
     }
 
     /**

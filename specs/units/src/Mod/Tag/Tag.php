@@ -16,9 +16,9 @@ use Siwayll\Kapow\Level;
  */
 class Tag extends Test
 {
-    use DataTrait;
-    use MockOptionProvider;
-    use SimpleChoiceTrait;
+//    use DataTrait;
+//    use MockOptionProvider;
+//    use SimpleChoiceTrait;
 
     /**
      * @tags Mod

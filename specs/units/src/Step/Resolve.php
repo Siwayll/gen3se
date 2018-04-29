@@ -2,8 +2,10 @@
 
 namespace Gen3se\Engine\Specs\Units\Step;
 
+use Gen3se\Engine\Choice\Data\Fil;
 use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
 use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
+use Gen3se\Engine\Specs\Units\Provider\Result as MockResultProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Step;
 
@@ -12,6 +14,7 @@ class Resolve extends Test
     use MockChoiceProvider;
     use MockChoiceProvider\Collection;
     use MockChoiceProvider\Option;
+    use MockResultProvider;
 
     public function shouldBeAStep()
     {
@@ -35,7 +38,7 @@ class Resolve extends Test
                     null,
                     $collection
                 ),
-                $step = $this->newTestedInstance()
+                $step = $this->newTestedInstance($this->createMockResult())
             )
             ->if($step($choice))
             ->mock($choice)
@@ -43,6 +46,32 @@ class Resolve extends Test
             ->mock($collection)
                 ->call('getTotalWeight')->once()
                 ->call('findByPositionInStack')->once()
+        ;
+    }
+
+    public function shouldFilResultWithARandomSelectedOption()
+    {
+        $this
+            ->given(
+                $option = $this->createMockOption(),
+                $collection = $this->createMockOptionCollection(
+                    \rand(2, 15),
+                    \rand(100, 3500),
+                    $option
+                ),
+                $choice = $this->createMockChoice(
+                    null,
+                    $collection,
+                    new Fil('toto', 'tata')
+                ),
+                $result = $this->createMockResult(),
+                $step = $this->newTestedInstance($result)
+            )
+            ->if($step($choice))
+            ->mock($result)
+                ->call('registersTo')
+//                    ->withArguments($option, 'fo')
+                    ->once()
         ;
     }
 
@@ -61,7 +90,7 @@ class Resolve extends Test
                 )
             )
             ->KapowException(function () use ($choice) {
-                ($this->newTestedInstance())($choice);
+                ($this->newTestedInstance($this->createMockResult()))($choice);
             })
             ->mock($choice)
                 ->call('getName')->once()

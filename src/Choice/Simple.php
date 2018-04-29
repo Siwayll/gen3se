@@ -21,6 +21,11 @@ class Simple implements Choice
     protected $optionCollection;
 
     /**
+     * Specific data of the Choice
+     */
+    protected $data = [];
+
+    /**
      * Choice constructor.
      */
     public function __construct(string $choiceName, OptionCollectionInterface $optionCollection)
@@ -35,6 +40,21 @@ class Simple implements Choice
         }
 
         $this->optionCollection = $optionCollection;
+    }
+
+    public function add(Data $data): Choice
+    {
+        $this->data[] = $data;
+        return $this;
+    }
+
+    public function findData($interfaceName)
+    {
+        foreach ($this->data as $data) {
+            if (\in_array($interfaceName, \class_implements($data))) {
+                yield $data;
+            }
+        }
     }
 
     /**

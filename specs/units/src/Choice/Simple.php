@@ -4,13 +4,17 @@ namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
 use Gen3se\Engine\Specs\Units\Provider\Step as MockStepProvider;
+use Gen3se\Engine\Specs\Units\Provider\Choice\Data as MockChoiceDataProvider;
 use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Choice\Data;
 use Siwayll\Kapow\Level;
 
 class Simple extends Test
 {
     use MockOptionCollectionProvider;
     use MockStepProvider;
+    use MockChoiceDataProvider;
+
 
     protected function collectionProvider()
     {
@@ -99,6 +103,37 @@ class Simple extends Test
             ->array($stepOneArguments)
                 ->object[0]->isCloneOf($this->testedInstance)
 
+        ;
+    }
+
+    public function shouldAcceptData()
+    {
+        $this
+            ->given(
+                $collection = $this->createMockOptionCollection(1),
+                $this->newTestedInstance('choice', $collection),
+                $mockData = $this->createMockChoiceData()
+            )
+            ->object($this->testedInstance->add($mockData))
+                ->isTestedInstance()
+        ;
+    }
+
+    public function shouldFindDataByInterfaceName()
+    {
+        $this
+            ->given(
+                $collection = $this->createMockOptionCollection(1),
+                $mockData = $this->createMockChoiceData(),
+                ($this->newTestedInstance('choice', $collection))
+                    ->add($mockData)
+            )
+            ->generator($this->testedInstance->findData('foo'))
+                ->isEmpty()
+            ->generator($this->testedInstance->findData(Data::class))
+                ->hasSize(1)
+            ->generator($this->testedInstance->findData(Data::class))
+                ->yields->object->isEqualTo($mockData)
         ;
     }
 }

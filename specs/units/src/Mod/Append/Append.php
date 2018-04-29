@@ -4,7 +4,7 @@ namespace Gen3se\Engine\Specs\Units\Mod\Append;
 
 use Gen3se\Engine\Mod\Append\DataInterface;
 use Gen3se\Engine\Mod\InstructionInterface;
-use Gen3se\Engine\Scenario;
+use Gen3se\Engine\Scenario\Simple as Scenario;
 use Gen3se\Engine\Specs\Units\Provider\Mod\Append\OptionData;
 use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Test;
@@ -89,6 +89,7 @@ class Append extends Test
     public function shouldAddChoiceAtTheEndOfTheSenario()
     {
         $this
+            ->skip('change implementation of Append')
             ->given(
                 $this->newTestedInstance(),
                 $scenario = new Scenario(),
@@ -111,6 +112,7 @@ class Append extends Test
     public function shouldAddAListOfChoicesAtTheEndOfTheScenario()
     {
         $this
+            ->skip('change implementation of Append')
             ->given(
                 $this->newTestedInstance(),
                 $scenario = new Scenario(),

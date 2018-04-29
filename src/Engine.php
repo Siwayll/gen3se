@@ -33,7 +33,7 @@ class Engine
 
     public function __construct(
         ChoiceProviderInterface $choiceProvider,
-        ScenarioInterface $scenario,
+        Scenario $scenario,
         DataExporterInterface $dataExporter
     ) {
         $this->modList = new ModCollection();
@@ -59,7 +59,8 @@ class Engine
 
         $this
             ->saveInstructions($mod->getInstructions())
-            ->modList->add($mod)
+            ->modList
+                ->add($mod)
         ;
 
         return $this;
@@ -103,7 +104,7 @@ class Engine
     /**
      * Resolve all choices given by the specified scenario
      */
-    private function resolve(ScenarioInterface $scenario): self
+    private function resolve(Scenario $scenario): self
     {
         while ($scenario->hasNext()) {
             // get the Choice requested by the Scenario

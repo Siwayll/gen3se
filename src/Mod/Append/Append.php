@@ -9,7 +9,7 @@ use Gen3se\Engine\Mod\Instruction;
 use Gen3se\Engine\Mod\ModInterface;
 use Gen3se\Engine\Mod\NeedChoiceProviderInterface;
 use Gen3se\Engine\Mod\NeedScenarioInterface;
-use Gen3se\Engine\ScenarioInterface;
+use Gen3se\Engine\Scenario;
 
 /**
  * Mod who add "addAtTheEnd" instruction to Option
@@ -22,7 +22,7 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
     private $provider;
 
     /**
-     * @var ScenarioInterface
+     * @var Scenario
      */
     private $scenario;
 
@@ -47,7 +47,7 @@ class Append implements ModInterface, NeedChoiceProviderInterface, NeedScenarioI
         return $this;
     }
 
-    public function setScenario(ScenarioInterface $scenario): NeedScenarioInterface
+    public function setScenario(Scenario $scenario): NeedScenarioInterface
     {
         $this->scenario = $scenario;
         return $this;

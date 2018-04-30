@@ -42,12 +42,18 @@ class Simple implements Choice
         $this->optionCollection = $optionCollection;
     }
 
+    /**
+     * Add custom Data to the Choice
+     */
     public function add(Data $data): Choice
     {
         $this->data[] = $data;
         return $this;
     }
 
+    /**
+     * Get all the Data who implement $interfaceName
+     */
     public function findData($interfaceName)
     {
         foreach ($this->data as $data) {
@@ -73,11 +79,27 @@ class Simple implements Choice
         return $this->optionCollection;
     }
 
+    /**
+     * Process the steps sequentially
+     */
     public function treatsThis(Step ...$step): void
     {
         $temporaryChoice = clone $this;
+        $pickedOption = null;
         foreach ($step as $theStep) {
-            $theStep($temporaryChoice);
+            switch (true) {
+                case \in_array(Step\PostResolve::class, \class_implements($theStep)):
+                    /** @var Step\PostResolve */
+                    $theStep($temporaryChoice, $pickedOption);
+                    break;
+                case \in_array(Step\Resolve::class, \class_implements($theStep)):
+                    /** @var Step\Resolve */
+                    $pickedOption = $theStep($temporaryChoice);
+                    break;
+                case \in_array(Step\Primary::class, \class_implements($theStep)):
+                    /** @var Step\Primary */
+                    $theStep($temporaryChoice);
+            }
         }
     }
 

@@ -1,8 +1,7 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Step;
+namespace Gen3se\Engine\Specs\Units\Step\Resolve;
 
-use Gen3se\Engine\Choice\Data\Fil;
 use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
 use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Provider\Result as MockResultProvider;
@@ -10,7 +9,7 @@ use Gen3se\Engine\Specs\Units\Provider\Result\Filer as MockFilerProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Step;
 
-class Resolve extends Test
+class Simple extends Test
 {
     use MockChoiceProvider;
     use MockChoiceProvider\Collection;

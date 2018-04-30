@@ -84,10 +84,14 @@ qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls
 	./bin/phpcs specs
 	./bin/phpmd
 
+qualityCorrect: bin/phpcbf ## Automatic fixes quality errors
+	./bin/phpcbf src
+	./bin/phpcbf specs
+
 .PHONY: test
 test: bin/atoum bin/behat ## Launch tests
 	./bin/atoum
-	.bin/behat
+	./bin/behat
 
 .PHONY: help
 help: ## Display this help.

@@ -4,5 +4,4 @@ namespace Gen3se\Engine;
 
 interface Step
 {
-    public function __invoke(Choice $choice): void;
 }

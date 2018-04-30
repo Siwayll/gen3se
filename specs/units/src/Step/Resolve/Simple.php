@@ -4,7 +4,6 @@ namespace Gen3se\Engine\Specs\Units\Step\Resolve;
 
 use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
 use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
-use Gen3se\Engine\Specs\Units\Provider\Result as MockResultProvider;
 use Gen3se\Engine\Specs\Units\Provider\Result\Filer as MockFilerProvider;
 use Gen3se\Engine\Specs\Units\Test;
 use Gen3se\Engine\Step;
@@ -15,7 +14,6 @@ class Simple extends Test
     use MockChoiceProvider\Collection;
     use MockChoiceProvider\Option;
     use MockFilerProvider;
-    use MockResultProvider;
 
     public function shouldBeAStep()
     {
@@ -39,65 +37,15 @@ class Simple extends Test
                     null,
                     $collection
                 ),
-                $step = $this->newTestedInstance($this->createMockResult())
+                $step = $this->newTestedInstance()
             )
-            ->if($step($choice))
+            ->object($step($choice))
+                ->isEqualTo($option)
             ->mock($choice)
                 ->call('getOptionCollection')->once()
             ->mock($collection)
                 ->call('getTotalWeight')->once()
                 ->call('findByPositionInStack')->once()
-        ;
-    }
-
-    public function shouldFilResultWithARandomSelectedOption()
-    {
-        $this
-            ->given(
-                $option = $this->createMockOption(),
-                $collection = $this->createMockOptionCollection(
-                    \rand(2, 15),
-                    \rand(100, 3500),
-                    $option
-                ),
-                $filer = $this->createMockFiler(),
-                $choice = $this->createMockChoice(
-                    null,
-                    $collection,
-                    $filer
-                ),
-                $result = $this->createMockResult(),
-                $step = $this->newTestedInstance($result)
-            )
-            ->if($step($choice))
-            ->mock($result)
-                ->call('registersTo')
-                    ->withArguments($option, $filer)
-                    ->once()
-        ;
-    }
-
-    public function shouldCreateASimpleFilerIfNoneIsSpecified()
-    {
-        $this
-            ->given(
-                $option = $this->createMockOption(),
-                $collection = $this->createMockOptionCollection(
-                    \rand(2, 15),
-                    \rand(100, 3500),
-                    $option
-                ),
-                $choice = $this->createMockChoice(
-                    null,
-                    $collection
-                ),
-                $result = $this->createMockResult(),
-                $step = $this->newTestedInstance($result)
-            )
-            ->if($step($choice))
-            ->mock($result)
-                ->call('registersTo')
-                    ->once()
         ;
     }
 
@@ -116,7 +64,7 @@ class Simple extends Test
                 )
             )
             ->KapowException(function () use ($choice) {
-                ($this->newTestedInstance($this->createMockResult()))($choice);
+                ($this->newTestedInstance())($choice);
             })
             ->mock($choice)
                 ->call('getName')->once()

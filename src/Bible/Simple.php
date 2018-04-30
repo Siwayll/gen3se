@@ -6,6 +6,7 @@ use Gen3se\Engine\Bible;
 use Gen3se\Engine\Choice;
 use Gen3se\Engine\Result\Sample;
 use Gen3se\Engine\Scenario as Scenario;
+use Gen3se\Engine\Step\PostResolve\Fil;
 use Gen3se\Engine\Step\Resolve\Simple as Resolve;
 use Siwayll\RumData\RumData;
 
@@ -44,7 +45,8 @@ class Simple implements Bible
                 $this
                     ->findChoice($choiceName)
                         ->treatsThis(
-                            new Resolve($this->result)
+                            new Resolve(),
+                            new Fil($this->result)
                         )
                 ;
             }

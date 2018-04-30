@@ -10,28 +10,6 @@ use Gen3se\Engine\Step;
 
 class Simple implements Step\Resolve
 {
-    private $result;
-
-    public function __construct(Result $result)
-    {
-        $this->result = $result;
-    }
-
-    private function fillData(Choice $choice, Choice\Option $option): void
-    {
-        $isRegister = false;
-        foreach ($choice->findData(Result\Filer::class) as $filer) {
-            $this->result->registersTo($option, $filer);
-            $isRegister = true;
-        }
-
-        if ($isRegister === true) {
-            return;
-        }
-
-        $this->result->registersTo($option, new Choice\Data\Fil($choice->getName()));
-    }
-
     public function __invoke(Choice $choice): Choice\Option
     {
         $choiceOptions = $choice->getOptionCollection();
@@ -39,7 +17,6 @@ class Simple implements Step\Resolve
             $rand = new Rand(0, $choiceOptions->getTotalWeight());
             $rand->roll();
             $result = $choiceOptions->findByPositionInStack($rand->getResult());
-            $this->fillData($choice, $result);
         } catch (\Siwayll\Kapow\Exception $exception) {
             if ($exception instanceof ChoiceNameInterface) {
                 $exception->setChoiceName($choice->getName());

@@ -1,13 +1,14 @@
 <?php declare(strict_types = 1);
 
+namespace Gen3se\Engine\Specs\Features;
 
+use atoum\asserter;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Gen3se\Engine\Bible\Simple as Bible;
-use atoum\asserter;
 
-require_once __DIR__ . '/../../vendor/atoum/atoum/classes/autoloader.php';
+//require_once __DIR__ . '/../../vendor/atoum/atoum/classes/autoloader.php';
 
 /**
  * Defines application features from the specific context.
@@ -66,5 +67,4 @@ class FeatureContext implements Context
                 ->object[$depth]->isNotNull()
         ;
     }
-
 }

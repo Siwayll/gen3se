@@ -1,0 +1,7 @@
+default:
+  suites:
+    default:
+      paths:
+        - '%paths.base%/specs/features'
+      contexts:
+        - Gen3se\Engine\Specs\Features\FeatureContext

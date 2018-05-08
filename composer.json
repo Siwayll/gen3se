@@ -33,7 +33,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Gen3se\\Engine\\Specs\\Units\\": "./specs/units"
+      "Gen3se\\Engine\\Specs\\Units\\": "./specs/units",
+      "Gen3se\\Engine\\Specs\\Features\\": "./specs/features/bootstrap"
     }
   }
 }

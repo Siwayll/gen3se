@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-use Gen3se\Engine\Choice\Simple as Choice;
-use Gen3se\Engine\Choice\Option\Simple as Option;
-use Gen3se\Engine\Choice\Option\Collection;
 use Gen3se\Engine\Bible\Simple as Bible;
+use Gen3se\Engine\Choice\Option\Collection;
+use Gen3se\Engine\Choice\Option\Simple as Option;
+use Gen3se\Engine\Choice\Simple as Choice;
 
 return new Bible(
     new Choice(

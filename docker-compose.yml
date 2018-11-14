@@ -8,11 +8,10 @@ services:
             - .:/src
 
     composer:
-        image: composer:1.6.3
+        image: composer:1.7.3
         working_dir: /src
         volumes:
             - .:/src
         environment:
             - COMPOSER_CACHE_DIR=/.composer
             - COMPOSER_ALLOW_SUPERUSER=1
-              #- GIT_SSH_COMMAND=ssh -i ${SSH_KEY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no

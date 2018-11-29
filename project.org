@@ -1,0 +1,10 @@
+* Goal
+** Replay Choices
+*** without parameters edition
+*** or with (targeted edition)
+* Todo
+** Remove data from interfaces and create a special interface Data
+
+* Idea
+** Store resolvedChoices in Scenario (and rename it to Verset (or … ))
+

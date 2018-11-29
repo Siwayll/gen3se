@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Scenario;
+namespace Gen3se\Engine\Specs\Units\Basic;
 
 use Gen3se\Engine\Scenario as ScenarioInterface;
 use Gen3se\Engine\Specs\Units\Core\Test;
 
-class Simple extends Test
+class Scenario extends Test
 {
     public function shouldImplementScenarioInterface()
     {
@@ -34,10 +34,18 @@ class Simple extends Test
             ))
             ->array($arguments)
                 ->hasSize(4)
-                ->array[0]->isEqualTo([$choiceList[0]])
-                ->array[1]->isEqualTo([$choiceList[1]])
-                ->array[2]->isEqualTo([$choiceList[2]])
-                ->array[3]->isEqualTo([$choiceList[3]])
+                ->child[0](function ($child) use ($choiceList) {
+                    $child->contains($choiceList[0]);
+                })
+                ->child[1](function ($child) use ($choiceList) {
+                    $child->contains($choiceList[1]);
+                })
+                ->child[2](function ($child) use ($choiceList) {
+                    $child->contains($choiceList[2]);
+                })
+                ->child[3](function ($child) use ($choiceList) {
+                    $child->contains($choiceList[3]);
+                })
 
         ;
     }

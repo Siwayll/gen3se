@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Choice\Option;
+namespace Gen3se\Engine\Specs\Units\Basic;
 
 use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Choice\Option\Data\Simple as SimpleData;
@@ -9,7 +9,7 @@ use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option\Data as OptionDataProv
 use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
-class Simple extends Test
+class Option extends Test
 {
     use OptionDataProvider;
 
@@ -71,6 +71,34 @@ class Simple extends Test
             ->if($this->testedInstance->setWeight($newWeight))
             ->integer($this->testedInstance->getWeight())
                 ->isEqualTo($newWeight)
+        ;
+    }
+
+    public function shouldInformIfOptionIsSelectable(): void
+    {
+        $this
+            ->given(
+                $this->newTestedInstance('opt-1', 0)
+            )
+            ->boolean($this->testedInstance->isSelectable())
+                ->isFalse()
+
+            ->if($this->testedInstance->setWeight(255))
+            ->boolean($this->testedInstance->isSelectable())
+                ->isTrue()
+        ;
+    }
+
+    public function shouldIncrementGivenWeight(): void
+    {
+        $this
+            ->given(
+                $weight = 100,
+                $this->newTestedInstance('opt-1', 50)
+            )
+            ->if($this->testedInstance->incrementOfWeight($weight))
+            ->integer($weight)
+                ->isEqualTo(150)
         ;
     }
 

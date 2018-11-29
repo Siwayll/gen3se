@@ -5,6 +5,7 @@ doc/
 
 # application ignore #
 ######################
+tags
 composer.lock
 vendor/
 bin/

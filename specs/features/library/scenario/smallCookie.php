@@ -1,5 +1,3 @@
 <?php declare(strict_types = 1);
 
-use Gen3se\Engine\Scenario\Simple as Scenario;
-
-return new Scenario('cookie shape', 'cookie flavor', 'cookie word');
+return new \Gen3se\Engine\Basic\Scenario('cookie shape', 'cookie flavor', 'cookie word');

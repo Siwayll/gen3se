@@ -1,44 +1,44 @@
 <?php declare(strict_types = 1);
 
-/**
- * Chargement automatique des classes
- *
- * @author  Siwaÿll <sana.th.labs@gmail.com>
- * @license beerware http://wikipedia.org/wiki/Beerware
- */
-
 namespace Gen3se\Engine\Specs\Units;
 
+use Gen3se\Engine\Randomizer;
 use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 class Rand extends Test
 {
-    public function shouldBeConstructWithVariusParametrage()
+    public function shouldBeARandomizer(): void
     {
         $this
-            ->object($this->newTestedInstance())
-            ->object($this->newTestedInstance(0))
-            ->object($this->newTestedInstance(5, 15))
+            ->testedClass
+                ->hasInterface(Randomizer::class)
+        ;
+    }
 
+    public function shouldThrowAnExceptionWhenMinIsGreterThanMax(): void
+    {
+        $this
+            ->given($this->newTestedInstance())
             ->KapowException(function () {
-                $this->newTestedInstance(5, 3);
+                $this->testedInstance->rollForRange(3, 5);
             })
                 ->hasMessage('Min ({min}) must be inferior to Max ({max})')
                 ->hasKapowMessage('Min (5) must be inferior to Max (3)')
                 ->hasCode(Level::ERROR)
-
-            ->KapowException(function () {
-                $this->newTestedInstance(3);
-            })
-                ->hasKapowMessage('Min (3) must be inferior to Max (0)')
-                ->hasCode(Level::ERROR)
         ;
     }
 
-    /**
-     * @return array
-     */
+    public function shouldAcceptVariousParameters(): void
+    {
+        $this
+            ->if($this->newTestedInstance())
+            ->integer($this->testedInstance->rollforrange(10))
+                ->isGreaterThanOrEqualTo(0)
+                ->isLessThanOrEqualTo(10)
+        ;
+    }
+
     protected function minMaxProvider()
     {
         return [
@@ -50,20 +50,14 @@ class Rand extends Test
         ];
     }
 
-    /**
-     * @param int $min
-     * @param int $max
-     * @dataProvider minMaxProvider
-     */
+    /** @dataProvider minMaxProvider */
     public function shouldGetRandomIntegerBetweenMinAndMax(int $min, int $max)
     {
         $this
-            ->if($this->newTestedInstance($min, $max))
-            ->integer($this->testedInstance->roll())
+            ->if($this->newTestedInstance())
+            ->integer($this->testedInstance->rollForRange($max, $min))
                 ->isGreaterThanOrEqualTo($min)
                 ->isLessThanOrEqualTo($max)
-                ->isEqualTo($this->testedInstance->getResult())
-            ->dump($this->testedInstance->getResult())
         ;
     }
 }

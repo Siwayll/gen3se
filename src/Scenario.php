@@ -2,19 +2,17 @@
 
 namespace Gen3se\Engine;
 
+use Gen3se\Engine\Scenario\ScenarioExporter;
+
 interface Scenario
 {
-//    public function hasNext(): bool;
-//
-//    /**
-//     * Return the name of the next choice to resolve
-//     */
-//    public function next(): string;
-//
-//    /**
-//     * Simply add a choice name at the end of the list
-//     */
-//    public function append(string $choiceName): Scenario;
+    /**
+     * Read the Scenario and run the closure for each choice name in it
+     */
+    public function read(callable $reader): Scenario;
 
-    public function read(callable $runOnEachChoiceName): void;
+    /**
+     * Send Result data to the Exporter
+     */
+    public function export(ScenarioExporter $exporter): Scenario;
 }

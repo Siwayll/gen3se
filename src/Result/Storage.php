@@ -7,7 +7,7 @@ use Gen3se\Engine\Result;
 use Siwayll\RumData\Converter\FromArray;
 use Siwayll\RumData\RumData;
 
-class Sample implements Result
+class Storage
 {
     private $storage;
 

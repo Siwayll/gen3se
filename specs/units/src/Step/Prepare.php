@@ -10,6 +10,9 @@ use Gen3se\Engine\Specs\Units\Core\Test;
 use Gen3se\Engine\Step\IsPrepareReady;
 use Siwayll\Kapow\Level;
 
+/**
+ * @ignore
+ */
 class Prepare extends Test
 {
     use SimpleChoiceTrait;

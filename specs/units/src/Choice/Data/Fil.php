@@ -9,6 +9,7 @@ class Fil extends Test
 {
     public function shouldImplementChoiceDataInterface()
     {
+        $this->skip('Not implemented yet');
         $this
             ->testedClass
                 ->hasInterface(Data::class)
@@ -17,6 +18,7 @@ class Fil extends Test
 
     public function shouldReturnDepth()
     {
+        $this->skip('Not implemented yet');
         $this
             ->given(
                 $depth = [\uniqid(), \uniqid(), \uniqid()],

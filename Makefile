@@ -105,9 +105,13 @@ test: bin/atoum bin/behat ## Launch tests
 	./bin/atoum
 	./bin/behat
 
-.PHONY: test_watch
-test_watch: bin/atoum ## Watch specs/ & src/ php files and run atoum tests
+.PHONY: test_atoum_watch
+test_atoum_watch: bin/atoum ## Watch specs/ & src/ php files and run atoum tests
 	ag -l --php . | entr ./bin/atoum
+
+.PHONY: test_behat_watch
+test_behat_watch: bin/behat ## Watch specs/ & src/ php files and run behat tests
+	ag -l --php . | entr ./bin/behat --format progress
 
 .PHONY: help
 help: ## Display this help.

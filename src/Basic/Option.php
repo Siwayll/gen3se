@@ -1,12 +1,15 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Choice\Option;
+namespace Gen3se\Engine\Basic;
 
-use Gen3se\Engine\Choice\Option as Option;
+use Gen3se\Engine\Choice\Option as OptionInterface;
+use Gen3se\Engine\Choice\Option\CollectionInterface;
+use Gen3se\Engine\Choice\Panel;
+use Gen3se\Engine\Data;
 use Gen3se\Engine\Exception\Option\MustHaveNonEmptyName;
 use Gen3se\Engine\Exception\Option\MustHaveWeightGreaterThanZero;
 
-class Simple implements Option
+class Option implements OptionInterface
 {
     /**
      * Name of the option.
@@ -32,21 +35,12 @@ class Simple implements Option
     /**
      * Create a new Option with a name and a weight
      */
+//    public function __construct(int $weight, Data ...$data)
     public function __construct(string $name, int $weight)
     {
         $this->name = $this->controledNameValue($name);
-        $this->add(new Data\Text($this->name));
+        $this->add(new OptionInterface\Data\Text($this->name));
         $this->setWeight($weight);
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getWeight(): int
-    {
-        return $this->weight;
     }
 
     /**
@@ -55,13 +49,31 @@ class Simple implements Option
      * # Exceptions
      * If the new value is not a integer greater than zero.
      */
-    public function setWeight(int $value): Option
+    public function setWeight(int $value): OptionInterface
     {
         if ($value < 0) {
-            throw new MustHaveWeightGreaterThanZero($this->getName());
+            throw new MustHaveWeightGreaterThanZero($this->name);
         }
         $this->weight = $value;
         return $this;
+    }
+
+    public function isSelectable(): bool
+    {
+        if ($this->weight === 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public function incrementOfWeight(int &$weight): void
+    {
+        $weight += $this->weight;
+    }
+
+    public function signUpTo(Panel $panel): void
+    {
+        $panel->addOption($this->name, $this);
     }
 
     /**
@@ -80,7 +92,7 @@ class Simple implements Option
     /**
      * Add data to the option
      */
-    public function add(Data $data): Option
+    public function add(Data $data): OptionInterface
     {
         $this->data[] = $data;
         return $this;
@@ -99,7 +111,7 @@ class Simple implements Option
         return $arrayToReturn;
     }
 
-    public function findData($interface)
+    public function findData(string $interface): \Generator
     {
         foreach ($this->data as $data) {
             if (\in_array($interface, \class_implements($data))) {

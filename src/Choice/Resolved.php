@@ -2,6 +2,9 @@
 
 namespace Gen3se\Engine\Choice;
 
-interface Data
+use Gen3se\Engine\Choice;
+
+interface Resolved extends Choice
 {
+
 }

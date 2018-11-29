@@ -19,8 +19,8 @@ trait Option
 
         $mock = $this->newMockInstance(\Gen3se\Engine\Choice\Option::class);
 
-        $mock->getMockController()->getName = $name;
-        $mock->getMockController()->getWeight = $weight;
+//        $mock->getMockController()->getName = $name;
+//        $mock->getMockController()->getWeight = $weight;
         $mock->getMockController()->dataToArray = $data;
 
         return $mock;

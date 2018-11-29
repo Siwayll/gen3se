@@ -7,5 +7,7 @@ use Gen3se\Engine\Exception\ChoiceNameTrait;
 
 class ExceptionWithChoiceName extends \Siwayll\Kapow\Exception implements ChoiceNameInterface
 {
-    use ChoiceNameTrait;
+    public function setChoiceName(string $choiceName): void
+    {
+    }
 }

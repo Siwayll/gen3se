@@ -2,12 +2,14 @@
 
 namespace Gen3se\Engine\Choice\Option\Data;
 
-use Gen3se\Engine\Choice\Option\Data;
+use Gen3se\Engine\Data;
 
 class Simple implements Data
 {
+    /** @var mixed */
     private $value;
 
+    /** @var string */
     private $code;
 
     public function __construct(string $code, $value)

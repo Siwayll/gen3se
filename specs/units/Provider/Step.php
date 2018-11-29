@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Core\Provider;
 
 use Gen3se\Engine\Step\PostResolve;
-use Gen3se\Engine\Step\Primary;
+use Gen3se\Engine\Step\Prepare;
 use Gen3se\Engine\Step\Resolve;
 
 trait Step
@@ -20,7 +20,7 @@ trait Step
         $mock = $this->newMockInstance($stepInterfaceName);
 
         switch ($stepInterfaceName) {
-            case Primary::class:
+            case Prepare::class:
             case Resolve::class:
             case PostResolve::class:
                 // @todo add ctrl to $stepTreatment type

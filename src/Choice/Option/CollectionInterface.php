@@ -2,10 +2,9 @@
 
 namespace Gen3se\Engine\Choice\Option;
 
-use Gen3se\Engine\Choice\Option;
+use Gen3se\Engine\Randomizer;
 
 interface CollectionInterface extends \Countable
 {
-    public function getTotalWeight(): int;
-    public function findByPositionInStack(int $position): Option;
+    public function selectAnOption(Randomizer $randomizer): void;
 }

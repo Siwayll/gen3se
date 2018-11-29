@@ -5,7 +5,7 @@ namespace Gen3se\Engine;
 use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Result\Filer;
 
-interface Result
+interface Result extends Choice
 {
-    public function registersTo(Option $option, Filer $filer): void;
+    public function registersTo(Filer $filer): void;
 }

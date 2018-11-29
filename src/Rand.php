@@ -7,51 +7,17 @@ use Gen3se\Engine\Exception\Rand\MinMustBeInferiorToMax;
 /**
  * Random integer between min & max
  */
-class Rand
+class Rand implements Randomizer
 {
-    /**
-     * Result of the random generation
-     */
-    protected $result;
-
-    /**
-     * Minimum for the random generation
-     */
-    private $min = 0;
-
-    /**
-     * Maximum for the random generation
-     */
-    private $max = 0;
-
-
-    public function __construct(int $min = 0, int $max = 0)
+    public function rollForRange(int $max, int $min = 0): int
     {
-        $this->min = $min;
-        $this->max = $max;
-        $this->controlRange();
-    }
-
-    /**
-     * #exception
-     * if _min_ > _max_
-     */
-    private function controlRange()
-    {
-        if ($this->max < $this->min) {
-            throw new MinMustBeInferiorToMax($this->min, $this->max);
+        if ($max < $min) {
+            throw new MinMustBeInferiorToMax($min, $max);
         }
-    }
 
-    /**
-     * Generate a random integer between _min_ and _max_
-     */
-    public function roll(): int
-    {
-        $range = $this->max - $this->min;
+        $range = $max - $min;
         if ($range === 0) {
-            $this->result = $this->min;
-            return $this->result;
+            return $min;
         }
 
         $log = \log($range, 2);
@@ -67,15 +33,6 @@ class Rand
             $rnd = $rnd & $filter;
         } while ($rnd > $range);
 
-        $this->result = (int) $this->min + $rnd;
-        return $this->result;
-    }
-
-    /**
-     * Return the result of the random generation
-     */
-    public function getResult(): int
-    {
-        return $this->result;
+        return (int) $min + $rnd;
     }
 }

@@ -1,14 +1,15 @@
 <?php declare(strict_types = 1);
 
-use Gen3se\Engine\Bible\Simple as Bible;
-use Gen3se\Engine\Choice\Option\Collection;
-use Gen3se\Engine\Choice\Option\Simple as Option;
-use Gen3se\Engine\Choice\Simple as Choice;
+use Gen3se\Engine\Basic\Bible;
+use Gen3se\Engine\Basic\Choice;
+use Gen3se\Engine\Basic\Option;
+use Gen3se\Engine\Basic\Panel;
+use Gen3se\Engine\Choice\Name;
 
 return new Bible(
     new Choice(
-        'cookie shape',
-        new Collection(
+        new Name('cookie shape'),
+        new Panel(
             new Option('square', 100),
             new Option('rectangular', 100),
             new Option('round', 50),
@@ -17,8 +18,8 @@ return new Bible(
         )
     ),
     new Choice(
-        'cookie flavor',
-        new Collection(
+        new Name('cookie flavor'),
+        new Panel(
             new Option('plain', 100),
             new Option('chocolate', 100),
             new Option('sugar', 100),
@@ -27,8 +28,8 @@ return new Bible(
         )
     ),
     new Choice(
-        'cookie word',
-        new Collection(
+        new Name('cookie word'),
+        new Panel(
             new Option('cookie', 100),
             new Option('biscuit', 100)
         )

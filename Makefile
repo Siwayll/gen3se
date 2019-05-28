@@ -93,6 +93,10 @@ test: bin/atoum bin/behat ## Launch tests
 	./bin/atoum
 	./bin/behat
 
+.PHONY: test_watch
+test_watch: bin/atoum ## Watch specs/ & src/ php files and run atoum tests
+	ag -l --php . | entr ./bin/atoum
+
 .PHONY: help
 help: ## Display this help.
 	@printf "$$(cat $(MAKEFILE_LIST) | egrep -h '^[^:]+:[^#]+## .+$$' | sed -e 's/:[^#]*##/:/' -e 's/\(.*\):/\\033[92m\1\\033[0m:/' | sort -d | column -c2 -t -s :)\n"

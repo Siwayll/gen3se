@@ -78,13 +78,14 @@ doc: vendor bin/doc ## Render the doc
 vendorCorrectOwner:
 	$(call ownerCorrection, vendor)
 
-.PHONY: qualityCheck
-qualityCheck: bin/phpcs bin/phpmd ## Launch quality controls
+.PHONY: quality
+quality: bin/phpcs bin/phpmd ## Launch quality controls
 	./bin/phpcs -s src
 	./bin/phpcs specs
 	./bin/phpmd
 
-qualityCorrect: bin/phpcbf ## Automatic fixes quality errors
+.PHONY: quality_fix
+quality_fix: bin/phpcbf ## Automatic fixes quality errors
 	./bin/phpcbf src
 	./bin/phpcbf specs
 

@@ -7,4 +7,6 @@ script:
   - vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml src
   - vendor/bin/phpcs --encoding=UTF-8 --standard=check-style.xml specs
   - vendor/bin/phpmd ./src text ./phpmd.xml
+  - vendor/bin/phpstan analyse
   - php specs/units/runner.php
+  - vendor/bin/behat

@@ -38,6 +38,12 @@ bin/phpcbf: | bin
 	&& $(call export-file,env/bin.tpl,bin/phpcbf)
 	@$(call executable,bin/phpcbf)
 
+bin/phpstan: | bin vendor vendor/bin/phpstan
+	@export DOCKER_SERVICE="php-cli" \
+	&& export BINARY_OPTIONS="php -f vendor/bin/phpstan " \
+	&& $(call export-file,env/bin.tpl,bin/phpstan)
+	@$(call executable,bin/phpstan)
+
 bin/doc: | bin var/doc
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/kitab -- compile --configuration-file=.kitab.target.html.php --output-directory var/doc src " \
@@ -66,7 +72,7 @@ vendor: | bin/composer
 	$(call ownerCorrection, vendor)
 
 .PHONY: install
-install: vendor bin/atoum bin/behat bin/phpcs bin/phpmd bin/doc ## install dependencies and create binaries
+install: vendor bin/atoum bin/behat bin/phpcs bin/phpmd bin/phpstan bin/doc ## install dependencies and create binaries
 	@echo 'all good'
 
 .PHONY: doc
@@ -80,14 +86,19 @@ vendorCorrectOwner:
 
 .PHONY: quality
 quality: bin/phpcs bin/phpmd ## Launch quality controls
-	./bin/phpcs -s src
+	./bin/phpcs src
 	./bin/phpcs specs
 	./bin/phpmd
+	./bin/phpstan analyse
 
 .PHONY: quality_fix
 quality_fix: bin/phpcbf ## Automatic fixes quality errors
 	./bin/phpcbf src
 	./bin/phpcbf specs
+
+.PHONY: quality_watch
+quality_watch: bin/phpcs bin/phpmd bin/phpstan ## Watch specs/ & src/ php files and run quality controls
+	ag -l --php . | entr make quality
 
 .PHONY: test
 test: bin/atoum bin/behat ## Launch tests

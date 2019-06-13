@@ -5,8 +5,8 @@ namespace Gen3se\Engine\Specs\Units\Choice\Option;
 use Gen3se\Engine\Choice\Option\Data;
 use Gen3se\Engine\Choice\Option\Data\Simple as SimpleData;
 use Gen3se\Engine\Choice\Option\Data\Text;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as OptionDataProvider;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option\Data as OptionDataProvider;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 class Simple extends Test

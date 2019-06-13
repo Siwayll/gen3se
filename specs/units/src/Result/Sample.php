@@ -3,9 +3,9 @@
 namespace Gen3se\Engine\Specs\Units\Result;
 
 use Gen3se\Engine\Result;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
-use Gen3se\Engine\Specs\Units\Provider\Result\Filer as MockFilerProvider;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option as MockOptionProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Result\Filer as MockFilerProvider;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\RumData\Converter\FromArray;
 
 class Sample extends Test

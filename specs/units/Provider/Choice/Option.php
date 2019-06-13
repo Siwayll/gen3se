@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Provider\Choice;
+namespace Gen3se\Engine\Specs\Units\Core\Provider\Choice;
 
 use Gen3se\Engine\Choice\Option\Data;
 

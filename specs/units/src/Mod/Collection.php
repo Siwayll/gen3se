@@ -2,8 +2,8 @@
 
 namespace Gen3se\Engine\Specs\Units\Mod;
 
-use Gen3se\Engine\Specs\Units\Provider\ModCollectionTrait;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\ModCollectionTrait;
+use Gen3se\Engine\Specs\Units\Core\Test;
 
 class Collection extends Test
 {

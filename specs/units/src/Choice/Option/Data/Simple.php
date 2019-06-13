@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Choice\Option\Data;
 
 use Gen3se\Engine\Choice\Option\Data;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Test;
 
 class Simple extends Test
 {

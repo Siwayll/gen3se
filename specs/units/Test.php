@@ -1,17 +1,17 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units;
+namespace Gen3se\Engine\Specs\Units\Core;
 
 use mageekguy\atoum;
 use mageekguy\atoum\mock;
 
-abstract class Test extends atoum\spec
+abstract class Test extends atoum\bdd\spec
 {
     public function __construct(
-        ?adapter $adapter = null,
-        ?annotations\extractor $annotationExtractor = null,
-        ?asserter\generator $asserterGenerator = null,
-        ?test\assertion\manager $assertionManager = null,
+        ?atoum\adapter $adapter = null,
+        ?atoum\annotations\extractor $annotationExtractor = null,
+        ?atoum\asserter\generator $asserterGenerator = null,
+        ?atoum\test\assertion\manager $assertionManager = null,
         ?\closure $reflectionClassFactory = null
     ) {
         parent::__construct(

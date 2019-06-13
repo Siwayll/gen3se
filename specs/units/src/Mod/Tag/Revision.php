@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 
 use Gen3se\Engine\Choice\Option;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Test;
 
 /**
  * @ignore

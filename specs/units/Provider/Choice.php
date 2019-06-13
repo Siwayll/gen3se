@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Provider;
+namespace Gen3se\Engine\Specs\Units\Core\Provider;
 
 use Gen3se\Engine\Choice\Data;
 use Gen3se\Engine\Choice\Option\CollectionInterface;

@@ -3,7 +3,7 @@
 namespace Gen3se\Engine\Specs\Units\Mod\Tag\Option\Data\Simple;
 
 use Gen3se\Engine\Choice\Option\Data;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 /**

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Provider\Mod\Append;
+namespace Gen3se\Engine\Specs\Units\Core\Provider\Mod\Append;
 
 trait AddTag
 {

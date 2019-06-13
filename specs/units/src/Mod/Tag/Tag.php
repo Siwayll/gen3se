@@ -5,10 +5,10 @@ namespace Gen3se\Engine\Specs\Units\Mod\Tag;
 use Gen3se\Engine\Choice\Option;
 use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Mod\Tag\Option\Data\Tag as OptionDataTag;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
-use Gen3se\Engine\Specs\Units\Provider\Mod\Tag\DataTrait;
-use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option as MockOptionProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Mod\Tag\DataTrait;
+use Gen3se\Engine\Specs\Units\Core\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 /**

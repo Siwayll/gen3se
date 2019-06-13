@@ -3,10 +3,10 @@
 namespace Gen3se\Engine\Specs\Units\Step;
 
 use Gen3se\Engine\Mod\Collection as ModCollection;
-use Gen3se\Engine\Specs\Units\Provider\Choice as MockChoiceProvider;
-use Gen3se\Engine\Specs\Units\Provider\ModCollectionTrait;
-use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice as MockChoiceProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\ModCollectionTrait;
+use Gen3se\Engine\Specs\Units\Core\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 class Prepare extends Test

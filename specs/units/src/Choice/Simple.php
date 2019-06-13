@@ -3,11 +3,11 @@
 namespace Gen3se\Engine\Specs\Units\Choice;
 
 use Gen3se\Engine\Choice\Data;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Data as MockChoiceDataProvider;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
-use Gen3se\Engine\Specs\Units\Provider\Step as MockStepProvider;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Collection as MockOptionCollectionProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Data as MockChoiceDataProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option as MockOptionProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Step as MockStepProvider;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Gen3se\Engine\Step\PostResolve;
 use Gen3se\Engine\Step\Primary;
 use Gen3se\Engine\Step\Resolve;

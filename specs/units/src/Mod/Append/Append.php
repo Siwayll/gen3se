@@ -5,9 +5,9 @@ namespace Gen3se\Engine\Specs\Units\Mod\Append;
 use Gen3se\Engine\Mod\Append\DataInterface;
 use Gen3se\Engine\Mod\InstructionInterface;
 use Gen3se\Engine\Scenario\Simple as Scenario;
-use Gen3se\Engine\Specs\Units\Provider\Mod\Append\OptionData;
-use Gen3se\Engine\Specs\Units\Provider\SimpleChoiceTrait;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Mod\Append\OptionData;
+use Gen3se\Engine\Specs\Units\Core\Provider\SimpleChoiceTrait;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 /**

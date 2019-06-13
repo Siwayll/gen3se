@@ -2,8 +2,8 @@
 
 namespace Gen3se\Engine\Specs\Units\Choice\Option;
 
-use Gen3se\Engine\Specs\Units\Provider\Choice\Option as MockOptionProvider;
-use Gen3se\Engine\Specs\Units\Test;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option as MockOptionProvider;
+use Gen3se\Engine\Specs\Units\Core\Test;
 use Siwayll\Kapow\Level;
 
 class Collection extends Test

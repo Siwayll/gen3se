@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Units\Provider;
+namespace Gen3se\Engine\Specs\Units\Core\Provider;
 
 use Gen3se\Engine\Choice\Provider;
 use Gen3se\Engine\Choice\Simple as Choice;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Collection as MockOptionCollectionProvider;
-use Gen3se\Engine\Specs\Units\Provider\Choice\Option\Data as MockOptionDataProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Collection as MockOptionCollectionProvider;
+use Gen3se\Engine\Specs\Units\Core\Provider\Choice\Option\Data as MockOptionDataProvider;
 
 trait SimpleChoiceTrait
 {

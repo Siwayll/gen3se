@@ -20,25 +20,25 @@ var/%:
 bin:
 	@mkdir -p bin
 
-bin/phpmd: | bin
+bin/phpmd: | bin vendor
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/phpmd ./src text ./phpmd.xml" \
 	&& $(call export-file,env/bin.tpl,bin/phpmd)
 	@$(call executable,bin/phpmd)
 
-bin/phpcs: | bin
+bin/phpcs: | bin vendor
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/phpcs -- --encoding=UTF-8 --standard=check-style.xml " \
 	&& $(call export-file,env/bin.tpl,bin/phpcs)
 	@$(call executable,bin/phpcs)
 
-bin/phpcbf: | bin
+bin/phpcbf: | bin vendor
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/phpcbf -- --encoding=UTF-8 --standard=check-style.xml " \
 	&& $(call export-file,env/bin.tpl,bin/phpcbf)
 	@$(call executable,bin/phpcbf)
 
-bin/phpstan: | bin vendor vendor/bin/phpstan
+bin/phpstan: | bin vendor
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/phpstan " \
 	&& $(call export-file,env/bin.tpl,bin/phpstan)
@@ -55,13 +55,13 @@ bin/composer: | bin
 	&& $(call export-file,env/bin.tpl,bin/composer)
 	@$(call executable,bin/composer)
 
-bin/atoum: | bin
+bin/atoum: | bin vendor
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f specs/units/runner.php --" \
 	&& $(call export-file,env/bin.tpl,bin/atoum)
 	@$(call executable,bin/atoum)
 
-bin/behat: | bin
+bin/behat: | bin vendor
 	@export DOCKER_SERVICE="php-cli" \
 	&& export BINARY_OPTIONS="php -f vendor/bin/behat --" \
 	&& $(call export-file,env/bin.tpl,bin/behat)

@@ -6,22 +6,17 @@ use Gen3se\Engine\Mod\InstructionInterface;
 use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
 
-/**
- * Instruction already present
- */
 class InstructionAlreadyPresent extends \Siwayll\Kapow\Exception
 {
-    /**
-     * Message of the exception
-     */
-    public $message = 'Instruction "{newInstructionCode}" is already present';
-
-    public $code = Level::ERROR;
-
+    /** @var string */
     protected $newInstructionCode;
 
     public function __construct(string $newInstructionCode)
     {
+        parent::__construct(
+            'Instruction "{newInstructionCode}" is already present',
+            Level::ERROR
+        );
         $this->newInstructionCode = $newInstructionCode;
     }
 }

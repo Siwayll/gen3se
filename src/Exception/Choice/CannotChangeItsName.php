@@ -15,15 +15,12 @@ class CannotChangeItsName extends \Siwayll\Kapow\Exception
      */
     protected $optionName;
 
-    /**
-     * Message of the exception
-     */
-    public $message = 'Choice {optionName} cannot change its name';
-
-    public $code = Level::ERROR;
-
     public function __construct(string $optionName)
     {
+        parent::__construct(
+            'Choice {optionName} cannot change its name',
+            Level::ERROR
+        );
         $this->optionName = $optionName;
     }
 }

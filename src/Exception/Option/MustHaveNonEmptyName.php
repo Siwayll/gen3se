@@ -2,19 +2,15 @@
 
 namespace Gen3se\Engine\Exception\Option;
 
-/**
- * class Exception
- */
+use Siwayll\Kapow\Level;
+
 class MustHaveNonEmptyName extends \Exception
 {
-    public $message = 'Option must have a non-empty name';
-
-    public $code = 400;
-
-    /**
-     * OptionMustHaveNonEmptyName constructor.
-     */
     public function __construct()
     {
+        parent::__construct(
+            'Option must have a non-empty name',
+            Level::ERROR
+        );
     }
 }

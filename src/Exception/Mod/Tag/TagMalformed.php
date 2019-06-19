@@ -18,15 +18,12 @@ class TagMalformed extends \Siwayll\Kapow\Exception implements ChoiceNameInterfa
 
     protected $tag;
 
-    /**
-     * Message of the exception
-     */
-    public $message = 'The tag "{tag}" is invalid in {optionName} in {choiceName}';
-
-    public $code = Level::ERROR;
-
     public function __construct($tag)
     {
+        parent::__construct(
+            'The tag "{tag}" is invalid in {optionName} in {choiceName}',
+            Level::ERROR
+        );
         $this->tag = $tag;
     }
 }

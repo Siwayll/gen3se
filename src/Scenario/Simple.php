@@ -14,6 +14,9 @@ class Simple implements Scenario
     public function __construct(?string ...$choiceName)
     {
         foreach ($choiceName as $name) {
+            if (!\is_string($name)) {
+                continue;
+            }
             $this->append($name);
         }
     }

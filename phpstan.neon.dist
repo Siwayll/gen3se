@@ -6,3 +6,7 @@ parameters:
 
     level: 'max'
 
+    ignoreErrors:
+        - '#Call to an undefined method Gen3se\\Engine\\Specs\\Units\\[a-zA-Z\\]+::(given|newTestedInstance|newMockInstance|exception|object|if)\(\)\.#'
+        - '#Access to an undefined property Gen3se\\Engine\\Specs\\Units\\[a-zA-Z\\]+::\$tested(Instance|Class)\.#'
+        - '#Access to private property \$mockGenerator of parent class mageekguy\\atoum\\test\.#'

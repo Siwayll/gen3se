@@ -2,20 +2,15 @@
 
 namespace Gen3se\Engine\Exception\Choice;
 
-/**
- * Class ChoiceMustHaveNonEmptyName
- * @package Gen3se\Engine\Exception
- */
+use Siwayll\Kapow\Level;
+
 class MustHaveNonEmptyName extends \Exception
 {
-    public $message = 'Choice must have a non-empty name';
-
-    public $code = 400;
-
-    /**
-     * ChoiceMustHaveNonEmptyName constructor.
-     */
     public function __construct()
     {
+        parent::__construct(
+            'Choice must have a non-empty name',
+            Level::ERROR
+        );
     }
 }

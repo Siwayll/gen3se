@@ -59,7 +59,11 @@ class Rand
         $bits = (int) $log + 1;
         $filter = (int) (1 << $bits) - 1;
         do {
-            $rnd = \hexdec(\bin2hex(\openssl_random_pseudo_bytes($bytes)));
+            $randomPseudoBytes = \openssl_random_pseudo_bytes($bytes);
+            if ($randomPseudoBytes === false) {
+                throw new \RuntimeException('openssl_random_pseudo_bytes failed');
+            }
+            $rnd = \hexdec(\bin2hex($randomPseudoBytes));
             $rnd = $rnd & $filter;
         } while ($rnd > $range);
 

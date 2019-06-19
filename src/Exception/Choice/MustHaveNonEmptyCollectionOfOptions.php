@@ -3,33 +3,19 @@
 namespace Gen3se\Engine\Exception\Choice;
 
 use Siwayll\Kapow\Exception;
+use Siwayll\Kapow\Level;
 
-/**
- * Class ChoiceMustHaveNonEmptyCollectionOfOptions
- * @package Gen3se\Engine\Exception
- */
 class MustHaveNonEmptyCollectionOfOptions extends \Siwayll\Kapow\Exception
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $choiceName;
 
-    /**
-     * @var string
-     */
-    public $message = 'Choice {choiceName} must have a non-empty collection of Option';
-
-    /**
-     * @var int
-     */
-    public $code = 400;
-
-    /**
-     * ChoiceMustHaveNonEmptyCollectionOfOptions constructor.
-     */
     public function __construct(string $choiceName)
     {
+        parent::__construct(
+            'Choice {choiceName} must have a non-empty collection of Option',
+            Level::ERROR
+        );
         $this->choiceName = $choiceName;
     }
 }

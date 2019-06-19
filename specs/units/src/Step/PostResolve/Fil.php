@@ -2,7 +2,6 @@
 
 namespace Gen3se\Engine\Specs\Units\Step\PostResolve;
 
-use Gen3se\Engine\Specs\Units\Exception\ExceptionWithChoiceName;
 use Gen3se\Engine\Specs\Units\Core\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Core\Provider\Result as MockResultProvider;
 use Gen3se\Engine\Specs\Units\Core\Provider\Result\Filer as MockFilerProvider;

@@ -2,42 +2,20 @@
 
 namespace Gen3se\Engine\Exception\Rand;
 
-use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
 
-/**
- * Class MinMustBeInferiorToMax
- * @package Gen3se\Engine\Exception\Rand
- */
 class MinMustBeInferiorToMax extends \Siwayll\Kapow\Exception
 {
-    /**
-     * @var string
-     */
     protected $min;
 
-    /**
-     * @var string
-     */
     protected $max;
 
-    /**
-     * @var string
-     */
-    public $message = 'Min ({min}) must be inferior to Max ({max})';
-
-    /**
-     * @var int
-     */
-    public $code = Level::ERROR;
-
-    /**
-     * MinMustBeInferiorToMax constructor.
-     * @param int $min
-     * @param int $max
-     */
     public function __construct(int $min, int $max)
     {
+        parent::__construct(
+            'Min ({min}) must be inferior to Max ({max})',
+            Level::ERROR
+        );
         $this->min = (string) $min;
         $this->max = (string) $max;
     }

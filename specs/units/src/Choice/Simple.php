@@ -100,7 +100,7 @@ class Simple extends Test
                     }
                 )
             )
-            ->if($this->testedinstance->treatsThis($stepOne, $stepTwo))
+            ->if($this->testedInstance->treatsThis($stepOne, $stepTwo))
             ->mock($stepOne)
                 ->call('__invoke')
                     ->once()
@@ -127,7 +127,7 @@ class Simple extends Test
                     }
                 )
             )
-            ->if($this->testedinstance->treatsThis($stepOne))
+            ->if($this->testedInstance->treatsThis($stepOne))
             ->mock($stepOne)
                 ->call('__invoke')->once()
             ->array($stepOneArguments)
@@ -156,7 +156,7 @@ class Simple extends Test
                     }
                 )
             )
-            ->if($this->testedinstance->treatsThis($stepResolve, $stepPostResolve))
+            ->if($this->testedInstance->treatsThis($stepResolve, $stepPostResolve))
             ->mock($stepResolve)
                 ->call('__invoke')->once()
             ->array($stepPostResolveArguments)

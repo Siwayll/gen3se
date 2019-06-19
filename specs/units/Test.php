@@ -12,7 +12,7 @@ abstract class Test extends atoum\bdd\spec
         ?atoum\annotations\extractor $annotationExtractor = null,
         ?atoum\asserter\generator $asserterGenerator = null,
         ?atoum\test\assertion\manager $assertionManager = null,
-        ?\closure $reflectionClassFactory = null
+        ?\Closure $reflectionClassFactory = null
     ) {
         parent::__construct(
             $adapter,

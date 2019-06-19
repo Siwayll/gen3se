@@ -9,24 +9,18 @@ use Gen3se\Engine\Exception\OptionNameTrait;
 use Siwayll\Kapow\Exception;
 use Siwayll\Kapow\Level;
 
-/**
- * Revision value is invalid
- */
 class RevisionIsInvalid extends \Siwayll\Kapow\Exception implements ChoiceNameInterface, OptionNameInterface
 {
     use ChoiceNameTrait, OptionNameTrait;
 
     protected $revisionValue;
 
-    /**
-     * Message of the exception
-     */
-    public $message = 'The revision "{revisionValue}" is invalid in {optionName} in {choiceName}';
-
-    public $code = Level::ERROR;
-
     public function __construct($revisionValue)
     {
+        parent::__construct(
+            'The revision "{revisionValue}" is invalid in {optionName} in {choiceName}',
+            Level::ERROR
+        );
         $this->revisionValue = (string) $revisionValue;
     }
 }

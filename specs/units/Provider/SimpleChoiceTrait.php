@@ -68,17 +68,4 @@ trait SimpleChoiceTrait
 
         return $choice;
     }
-
-    /**
-     * Get a Provider with simple choices
-     */
-    protected function getProviderWithSimpleChoices(): Provider
-    {
-        $provider = new Provider();
-        $provider
-            ->add($this->getEyeColorChoice())
-            ->add($this->getHairColorChoice())
-        ;
-        return $provider;
-    }
 }

@@ -2,25 +2,18 @@
 
 namespace Gen3se\Engine\Exception\Option;
 
-use Siwayll\Kapow\Exception;
+use Siwayll\Kapow\Level;
 
-/**
- * Class OptionNotFound
- * @package Gen3se\Engine\Exception
- */
 class NotFound extends \Siwayll\Kapow\Exception
 {
     protected $optionName;
 
-    public $message = 'Option {optionName} not found';
-
-    public $code = 400;
-
-    /**
-     * OptionMustHaveNonEmptyName constructor.
-     */
     public function __construct(string $optionName)
     {
+        parent::__construct(
+            'Option {optionName} not found',
+            Level::ERROR
+        );
         $this->optionName = $optionName;
     }
 }

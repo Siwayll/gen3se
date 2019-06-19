@@ -7,6 +7,7 @@ use Gen3se\Engine\Specs\Units\Core\Provider\Choice as MockChoiceProvider;
 use Gen3se\Engine\Specs\Units\Core\Provider\ModCollectionTrait;
 use Gen3se\Engine\Specs\Units\Core\Provider\SimpleChoiceTrait;
 use Gen3se\Engine\Specs\Units\Core\Test;
+use Gen3se\Engine\Step\IsPrepareReady;
 use Siwayll\Kapow\Level;
 
 class Prepare extends Test
@@ -47,7 +48,7 @@ class Prepare extends Test
 
     protected function createMockModPrepareReady()
     {
-        $mock = new \mock\Gen3se\Engine\Step\IsPrepareReady();
+        $mock = $this->newMockInstance(IsPrepareReady::class);
         $mock->getMockController()->isUpForStep = function ($name) {
             if ($name === \Gen3se\Engine\Step\Prepare::STEP_NAME) {
                 return true;

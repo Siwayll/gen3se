@@ -88,16 +88,16 @@ class Simple implements Choice
         $pickedOption = null;
         foreach ($step as $theStep) {
             switch (true) {
-                case \in_array(Step\PostResolve::class, \class_implements($theStep)):
-                    /** @var Step\PostResolve */
+                case $theStep instanceof Step\PostResolve:
+                    if ($pickedOption === null) {
+                        throw new \RuntimeException();
+                    }
                     $theStep($temporaryChoice, $pickedOption);
                     break;
-                case \in_array(Step\Resolve::class, \class_implements($theStep)):
-                    /** @var Step\Resolve */
+                case $theStep instanceof Step\Resolve:
                     $pickedOption = $theStep($temporaryChoice);
                     break;
-                case \in_array(Step\Primary::class, \class_implements($theStep)):
-                    /** @var Step\Primary */
+                case $theStep instanceof Step\Primary:
                     $theStep($temporaryChoice);
             }
         }

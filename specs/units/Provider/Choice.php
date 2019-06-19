@@ -2,6 +2,7 @@
 
 namespace Gen3se\Engine\Specs\Units\Core\Provider;
 
+use Gen3se\Engine\Choice as ChoiceMock;
 use Gen3se\Engine\Choice\Data;
 use Gen3se\Engine\Choice\Option\CollectionInterface;
 
@@ -14,7 +15,7 @@ trait Choice
     ) {
         $name = $name ?? \uniqid();
 
-        $mock = new \mock\Gen3se\Engine\Choice();
+        $mock = $this->newMockInstance(ChoiceMock::class);
         $mock->getMockController()->getName = $name;
         $mock->getMockController()->findData = $data;
         if ($collection !== null) {

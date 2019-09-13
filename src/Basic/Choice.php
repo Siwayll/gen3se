@@ -62,7 +62,7 @@ class Choice implements ChoiceInterface
 
     private function extractMethodName(string $stage): string
     {
-        return \lcfirst(\substr($stage, strrpos($stage, '\\') + 1));
+        return \lcfirst(\substr($stage, \strrpos($stage, '\\') + 1));
     }
 
     private function applySteps($steps, string $stage, ...$arguments): void
@@ -86,7 +86,7 @@ class Choice implements ChoiceInterface
                 $steps,
                 Step\Prepare::class,
                 [
-                    $panel
+                    $panel,
                     // add a clone of all precedents Panels (read Only)
                 ]
             );

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Features;
+namespace Gen3se\Engine\Specs\Integration;
 
 use Gen3se\Engine\Choice\Exporter\Result;
 use Gen3se\Engine\Choice\Name;

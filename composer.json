@@ -36,7 +36,7 @@
     "psr-4": {
       "Gen3se\\Engine\\Specs\\Units\\": "./specs/units/src",
       "Gen3se\\Engine\\Specs\\Units\\Core\\": "./specs/units",
-      "Gen3se\\Engine\\Specs\\Features\\": "./specs/features/bootstrap"
+      "Gen3se\\Engine\\Specs\\Integration\\": "./specs/integration"
     }
   }
 }

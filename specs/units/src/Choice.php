@@ -24,14 +24,18 @@ abstract class Choice extends Test
     use MockChoiceDataProvider;
     use MockChoiceProvider;
 
+
     /**
      * @tags AngryPath
      */
-    public function shouldBeAChoice(): void
+    final public function shouldBeAChoice(): void
     {
         $this
             ->testedClass
-                ->hasInterface(\Gen3se\Engine\Choice::class)
+            ->hasInterface(
+                \Gen3se\Engine\Choice::class,
+                'A Choice must implement the \Gen3se\Engine\Choice interface.'
+            )
         ;
     }
 
@@ -153,7 +157,7 @@ abstract class Choice extends Test
         ;
     }
 
-    public function shouldBeResolvable()
+    final public function shouldBeResolvable()
     {
         $this
             ->given(
@@ -164,10 +168,15 @@ abstract class Choice extends Test
             )
             ->if($this->testedInstance->resolve($randomize))
             ->mock($panel)
-                ->call('copy')->once()
-                ->call('selectAnOption')->withIdenticalArguments($randomize)->never()
+                ->call('copy')
+                    ->once('A Panel must be copied befor serve to resolve Choice.')
+                ->call('selectAnOption')
+                    ->withIdenticalArguments($randomize)
+                        ->never('Is alway the Panel\'s copy that serve to resolve the Choice.')
             ->mock($panelCopy)
-                ->call('selectAnOption')->withIdenticalArguments($randomize)->once()
+                ->call('selectAnOption')
+                    ->withIdenticalArguments($randomize)
+                        ->once()
         ;
     }
 

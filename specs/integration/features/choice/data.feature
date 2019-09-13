@@ -8,7 +8,7 @@ Feature: Add custom data to Choice
         | triangle | 100    |
         | square   | 100    |
 
-  @happyPath
+  @happyPath @d_data
   Scenario: Add a data
     Given The Data "custom" "value" with code "cusD"
     When I add the Data "cusD" to "shape"

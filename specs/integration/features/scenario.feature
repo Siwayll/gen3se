@@ -14,7 +14,7 @@ Feature: Use an Oracle
 # genre, à l'ajout du choix, on peux passer des données suplémentaires
   Background:
     Given the "gender" Choice
-        | name     | weight | tag | resolve_next |
+        | name     | weight | tag | next         |
         | masculin | 400    | +♂  |              |
         | feminin  | 400    | +♀  |              |
         | plus     | 50     |     | gender_more  |
@@ -27,7 +27,7 @@ Feature: Use an Oracle
         | esoterique   | 5      |
         | fluide       | 100    |
     And the "folk" Choice
-        | name         | weight | resolve_next     |
+        | name         | weight | next             |
         | Hoszuhu      | 100    | hoszuhu_name     |
         | Mérovingien  | 100    | merovingien_name |
         | AuFant Rhuul | 100    | aufantrhuul_name |

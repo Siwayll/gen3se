@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Gen3se\Engine\Specs\Features;
+namespace Gen3se\Engine\Specs\Integration\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
@@ -9,6 +9,9 @@ use Gen3se\Engine\Basic\Bible;
 use Gen3se\Engine\Basic\Option;
 use Gen3se\Engine\Basic\Panel;
 use Gen3se\Engine\Choice;
+use Gen3se\Engine\Data\Next;
+use Gen3se\Engine\Specs\Integration\AssertResultExporter;
+use Gen3se\Engine\Specs\Integration\ControlledRandomizer;
 use mageekguy\atoum\asserter;
 
 /**
@@ -69,7 +72,13 @@ class FeatureContext implements Context
         $this->lastChoiceName = $choiceName;
         $options = [];
         foreach ($table as $row) {
-            $options[] = new Option($row['name'], (int) $row['weight']);
+            $option = new Option($row['name'], (int) $row['weight']);
+            if (isset($row['next']) && !empty($row['next'])) {
+                $choiceNames = \explode(',', $row['next']);
+                $option->add(new Next(...$choiceNames));
+            }
+
+            $options[] = $option;
         }
         $this->choices[$choiceName] = new \Gen3se\Engine\Basic\Choice(
             new Choice\Name($choiceName),
@@ -89,10 +98,7 @@ class FeatureContext implements Context
      */
     public function iResolveIt($choiceName): void
     {
-        if ($choiceName === 'it') {
-            $choiceName = $this->lastChoiceName;
-        }
-        $this->choices[$choiceName]->resolve($this->randomizer);
+        $this->pickChoice($choiceName)->resolve($this->randomizer);
     }
 
     /**
@@ -100,12 +106,9 @@ class FeatureContext implements Context
      */
     public function iResolveTimes($choiceName, $number): void
     {
-        if ($choiceName === 'it') {
-            $choiceName = $this->lastChoiceName;
-        }
         $counter = 0;
         do {
-            $this->choices[$choiceName]->resolve($this->randomizer);
+            $this->pickChoice($choiceName)->resolve($this->randomizer);
             $counter++;
         } while ($counter < $number);
     }
@@ -115,11 +118,8 @@ class FeatureContext implements Context
      */
     public function iShouldHaveOption($numberOfOptions, $choiceName): void
     {
-        if ($choiceName === 'it') {
-            $choiceName = $this->lastChoiceName;
-        }
         $exporter = new AssertResultExporter();
-        $this->choices[$choiceName]->exportResult($exporter);
+        $this->pickChoice($choiceName)->exportResult($exporter);
 
         $this->assert->integer($exporter->countOptions())->isEqualTo($numberOfOptions);
     }
@@ -188,10 +188,7 @@ class FeatureContext implements Context
      */
     public function iAddTheDataTo($dataCode, $choiceName): void
     {
-        if ($choiceName === 'it') {
-            $choiceName = $this->lastChoiceName;
-        }
-        $this->choices[$choiceName]->add($this->data[$dataCode]);
+        $this->pickChoice($choiceName)->add($this->data[$dataCode]);
     }
 
     /**
@@ -199,11 +196,8 @@ class FeatureContext implements Context
      */
     public function iShouldHaveDataWhenExportDataFrom($dataCode, $choiceName): void
     {
-        if ($choiceName === 'it') {
-            $choiceName = $this->lastChoiceName;
-        }
         $exporter = new AssertResultExporter();
-        $this->choices[$choiceName]->exportResult($exporter);
+        $this->pickChoice($choiceName)->exportResult($exporter);
 
         foreach ($exporter->getData() as $data) {
             if ($data === $this->data[$dataCode]) {
@@ -217,15 +211,15 @@ class FeatureContext implements Context
     /**
      * @Then Exported :dataCode from :choiceName should have to value
      */
-    public function exportedDataFromChoiceShouldHaveValue(string $dataCode, string $choiceName, PyStringNode $exportedValue): void
-    {
-//        var_dump(unserialize($exportedValue->getRaw()));
-        if ($choiceName === 'it') {
-            $choiceName = $this->lastChoiceName;
-        }
+    public function exportedDataFromChoiceShouldHaveValue(
+        string $dataCode,
+        string $choiceName,
+        PyStringNode $exportedValue
+    ): void {
         $exporter = new AssertResultExporter();
-        $this->choices[$choiceName]->exportResult($exporter);
+        $this->pickChoice($choiceName)->exportResult($exporter);
 
+        //throw new \Exception(\sprintf('"%s" is not present in the exported data of "%s"', $dataCode, $choiceName));
     }
 
     /**
@@ -233,7 +227,7 @@ class FeatureContext implements Context
      */
     public function theOracleWhoResolveTimesTheBible($oracleCode, $number, $bibleCode)
     {
-        throw new PendingException();
+        throw new \Gen3se\Engine\Specs\Integration\Context\PendingException();
     }
 
     /**
@@ -241,7 +235,7 @@ class FeatureContext implements Context
      */
     public function iAskTheOracle($oracleCode)
     {
-        throw new PendingException();
+        throw new \Gen3se\Engine\Specs\Integration\Context\PendingException();
     }
 
     /**
@@ -249,6 +243,23 @@ class FeatureContext implements Context
      */
     public function theOracleShouldHave($oracleCode, $number, $item)
     {
-        throw new PendingException();
+        throw new \Gen3se\Engine\Specs\Integration\Context\PendingException();
+    }
+
+    /**
+     * Pick a Choice in already defined Choices
+     * Could set 'it' as name to get the last declared Choice
+     */
+    private function pickChoice(string $choiceName): Choice
+    {
+        if ($choiceName === 'it') {
+            $choiceName = $this->lastChoiceName;
+        }
+
+        if (!isset($this->choices[$choiceName])) {
+            throw new \RuntimeException(\sprintf('The choice *%s* is not defined', $choiceName));
+        }
+
+        return $this->choices[$choiceName];
     }
 }
